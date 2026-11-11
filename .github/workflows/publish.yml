@@ -1,6 +1,6 @@
 name: Publish the book
 
-# Renders the Quarto book (HTML, DOCX, PDF via Typst) and publishes it to
+# Renders the Quarto book (HTML, and PDF via Typst) and publishes it to
 # the gh-pages branch, which GitHub Pages serves.
 on:
   push:
@@ -30,13 +30,8 @@ jobs:
         with:
           version: 1.11.9
 
-      - name: Render HTML, DOCX and PDF
+      - name: Render HTML and PDF
         run: quarto render
-
-      # pandoc leaves the Word table of contents as an empty field that only a
-      # field update fills; Google Docs and Word on the web never fill it.
-      - name: Fill the Word table of contents with linked entries
-        run: python3 tools/docx_toc.py _book/*.docx
 
       - uses: quarto-dev/quarto-actions/publish@v2
         with:
