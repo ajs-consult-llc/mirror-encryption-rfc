@@ -35,7 +35,7 @@ class RoundTrip(unittest.TestCase):
     def test_figures_round_trip(self) -> None:
         text = "x\n&#91;embedded content: a diagram · 3 parties\\]\ny"
         swapped = rfcsync.to_figures(text)
-        self.assertIn("![a diagram · 3 parties](figures/a-diagram-3-parties.png)", swapped)
+        self.assertIn("![a diagram · 3 parties](../figures/a-diagram-3-parties.png)", swapped)
         self.assertEqual(rfcsync.to_placeholders(swapped), text)
 
     def test_headings_shift_outside_fences_only(self) -> None:
