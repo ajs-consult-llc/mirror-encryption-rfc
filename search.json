@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Mirror Encryption: Security Architecture",
     "section": "",
-    "text": "Nov 11, 2026 · @aaron soellinger\nA request for comments (RFC) on encrypting private data mirrors so that only the user-approved devices and AIs can read them.",
+    "text": "Secure Message Mirror: your messages, encrypted under your key, readable only by the readers you approve\n\n\n\n\n\n\n\n\nRequest for comments. Round 1 is open until 11 December 2026, 23:59 UTC.\n\n\n\nWhat this is. A proposed security architecture for a private mirror of a person’s messages: a database that only the readers the user chooses, including their AI assistants, can search. AJS Consult LLC publishes it for open review.\nHow to take part\n\nRead it. Start with the executive summary. The download button in the menu gives a PDF.\nComment. In the review copy, signed in to a Google account. Its link is posted on the Updates page when the round opens. How submissions work.\nFollow the review. Updates: sign up by email, use the feed, or watch on GitHub.\nFound a security problem in the running service? Email aaron@matterboard.ai with SECURITY in the subject. Never post it in a comment.\n\n\n\n\nRound 1\n\n\n\n\n\nOpens\n11 November 2026\n\n\nComments close\n11 December 2026, 23:59 UTC\n\n\nDecisions published\nBy 25 December 2026\n\n\n\n\nNov 11, 2026 · @aaron soellinger\nA request for comments (RFC) on encrypting private data mirrors so that only the user-approved devices and AIs can read them.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.html</span>"
     ]
@@ -24,7 +24,7 @@
     "href": "updates.html#follow-the-review",
     "title": "Updates",
     "section": "",
-    "text": "By email. Email sign-up opens shortly.\nBy feed. releases.atom, in any feed reader.\nOn GitHub. Watch the repository, then choose Custom and Releases.",
+    "text": "By email. Sign up for review-window notices: when a round opens, its midpoint, when it closes, and when decisions are published.\nBy feed. releases.atom, in any feed reader.\nOn GitHub. Watch the repository, then choose Custom and Releases.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Updates</span>"
     ]
