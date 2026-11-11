@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9. Protocol flows – Mirror Encryption: Security Architecture</title>
+<title>Appendix A — Appendix A. Single or multi-tenant – Security Reference Architecture for AI-optimized Data Mirrors</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/11-10-searching-encrypted-data.html" rel="next">
-<link href="../chapters/09-8-key-management-lifecycle.html" rel="prev">
+<link href="../chapters/11-questions-for-reviewers.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -76,17 +75,21 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<meta property="og:title" content="9. Protocol flows – Mirror Encryption: Security Architecture">
+<meta property="og:title" content="Appendix A — Appendix A. Single or multi-tenant – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/enrollment-sequence-4-parties-built-vs-proposed.png">
-<meta property="og:site_name" content="Mirror Encryption: Security Architecture">
-<meta property="og:image:height" content="982">
-<meta property="og:image:width" content="1344">
-<meta name="twitter:title" content="9. Protocol flows – Mirror Encryption: Security Architecture">
+<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
+<meta property="og:site_name" content="Security Reference Architecture for AI-optimized Data Mirrors">
+<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1200">
+<meta name="twitter:title" content="Appendix A — Appendix A. Single or multi-tenant – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/enrollment-sequence-4-parties-built-vs-proposed.png">
+<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -99,7 +102,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/10-9-protocol-flows.html"><span class="chapter-title">9. Protocol flows</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -114,10 +117,10 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Mirror Encryption: Security Architecture</a> 
+      <a href="../">Security Reference Architecture for AI-optimized Data Mirrors</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="../Mirror-Encryption--Security-Architecture.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../Security-Reference-Architecture-for-AI-optimized-Data-Mirrors.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -140,97 +143,57 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/01-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
+  <a href="../chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Document control</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/02-1-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Document control</span></a>
+  <a href="../chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/03-2-scope.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. Scope</span></a>
+  <a href="../chapters/03-contents.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contents</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/04-3-system-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. System overview</span></a>
+  <a href="../chapters/04-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it defends against</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/05-4-threat-model.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. Threat model</span></a>
+  <a href="../chapters/05-system-requirements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">System Requirements</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/06-5-security-goals-and-non-goals.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. Security goals and non-goals</span></a>
+  <a href="../chapters/06-the-design-on-one-page.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The design on one page</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/07-6-cryptographic-inventory.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6. Cryptographic inventory</span></a>
+  <a href="../chapters/07-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How it works</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/08-7-key-hierarchy.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. Key hierarchy</span></a>
+  <a href="../chapters/08-latency-budget.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Latency budget</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/09-8-key-management-lifecycle.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. Key management lifecycle</span></a>
+  <a href="../chapters/09-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it does not protect</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/10-9-protocol-flows.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">9. Protocol flows</span></a>
+  <a href="../chapters/10-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisions made to simplify</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/11-10-searching-encrypted-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Searching encrypted data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/12-11-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11. Performance</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/13-12-security-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12. Security analysis</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/14-13-residual-risks-and-known-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">13. Residual risks and known limitations</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/15-14-verification-and-transparency.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">14. Verification and transparency</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/16-15-implementation-status-and-roadmap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">15. Implementation status and roadmap</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/17-16-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">16. Questions for reviewers</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/18-17-vulnerability-disclosure.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">17. Vulnerability disclosure</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/19-18-references-and-glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18. References and glossary</span></a>
+  <a href="../chapters/11-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Questions for reviewers</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -241,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/20-appendix-a-submission-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Submission process</span></a>
+  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a>
   </div>
 </li>
       </ul>
@@ -251,28 +214,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#enrollment-the-clients-first-run" id="toc-enrollment-the-clients-first-run" class="nav-link active" data-scroll-target="#enrollment-the-clients-first-run">9.1 Enrollment: the client’s first run</a></li>
-  <li><a href="#opening-the-web-board" id="toc-opening-the-web-board" class="nav-link" data-scroll-target="#opening-the-web-board">9.2 Opening the web board</a></li>
-  <li><a href="#connecting-an-ai-assistant-oauth-2.1" id="toc-connecting-an-ai-assistant-oauth-2.1" class="nav-link" data-scroll-target="#connecting-an-ai-assistant-oauth-2.1">9.3 Connecting an AI assistant (OAuth 2.1)</a></li>
-  <li><a href="#an-ai-asks-a-question" id="toc-an-ai-asks-a-question" class="nav-link" data-scroll-target="#an-ai-asks-a-question">9.4 An AI asks a question</a></li>
-  <li><a href="#arrivals-while-nobody-is-calling" id="toc-arrivals-while-nobody-is-calling" class="nav-link" data-scroll-target="#arrivals-while-nobody-is-calling">9.5 Arrivals while nobody is calling</a></li>
-  <li><a href="#debug-access" id="toc-debug-access" class="nav-link" data-scroll-target="#debug-access">9.6 Debug access</a></li>
-  <li><a href="#a-lost-device-and-a-new-one" id="toc-a-lost-device-and-a-new-one" class="nav-link" data-scroll-target="#a-lost-device-and-a-new-one">9.7 A lost device, and a new one</a></li>
-  <li><a href="#disconnect-sign-out-delete" id="toc-disconnect-sign-out-delete" class="nav-link" data-scroll-target="#disconnect-sign-out-delete">9.8 Disconnect, sign out, delete</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/10-9-protocol-flows.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/10-9-protocol-flows.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">9. Protocol flows</span></h1>
+<h1 class="title">Appendix A — Appendix A. Single or multi-tenant</h1>
 </div>
 
 
@@ -289,153 +239,84 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The eight flows below are the whole proposal: in each, K is unwrapped only inside a request that presents a holder’s secret. Notation is from section 6. Steps marked “built” run that way today.</p>
-<section id="enrollment-the-clients-first-run" class="level2">
-<h2 class="anchored" data-anchor-id="enrollment-the-clients-first-run">9.1 Enrollment: the client’s first run</h2>
-<ol type="1">
-<li>Client → Server: sign in with Google or an emailed code. Built.</li>
-<li>Server → client: device token Tₘ. The server stores SHA-256(Tₘ). Built.</li>
-<li>Client: generates K, an X25519 keypair (pk, sk), and the device’s unlock secret sₘ.</li>
-<li>Client: stores K, Tₘ and sₘ in the OS keystore.</li>
-<li>Client → Server: Cₘ = Wrap(HKDF(sₘ), K), pk, and sk encrypted under K.</li>
-<li>Server: stores them. K, sk and sₘ never leave the device in the clear.</li>
-</ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/enrollment-sequence-4-parties-built-vs-proposed.png" class="img-fluid figure-img"></p>
-<figcaption>enrollment sequence · 4 parties, built vs proposed</figcaption>
-</figure>
+<p>For stored data the choice barely matters, because each user’s rows are locked under that user’s own key. It matters for the server’s memory, for cost, and for who can see metadata.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>One shared database</th>
+<th>One database per user</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stored data</td>
+<td>Isolated by each user’s key: another user’s rows, served by mistake, do not decrypt</td>
+<td>The same, plus physical separation</td>
+</tr>
+<tr class="even">
+<td>A compromised server</td>
+<td>Sees what every active user’s requests decrypt while it is compromised</td>
+<td>Sees one user’s</td>
+</tr>
+<tr class="odd">
+<td>Metadata: counts, sizes, times</td>
+<td>Visible to the operator. Per-user tag keys stop matching across users.</td>
+<td>Visible to whoever runs it</td>
+</tr>
+<tr class="even">
+<td>Deleting a user</td>
+<td>Delete their copies of the account key and their rows</td>
+<td>Delete the database</td>
+</tr>
+<tr class="odd">
+<td>Cost and operations</td>
+<td>One database to run</td>
+<td>One per user</td>
+</tr>
+</tbody>
+</table>
+<!-- diagram: shared vs dedicated · 3 users -->
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">flowchart TB
+  accTitle: Keys isolate stored data either way, and separate instances contain a breach
+  accDescr: Each user's key stays on their desktop in both designs, and colours mark whose key locks which rows. With one shared database, users A, B and C, holding keys A, B and C, all use one shared server, which opens key A, B or C inside each user's request, and one shared database with row-level security, where user A's rows are locked under key A, user B's under key B and user C's under key C. A server breach sees every active user's requests. There is one system to run, and metadata is visible to the operator. With one instance per user, user A uses server A, which holds key A only, and database A, which holds user A's rows under key A, and the same for users B and C. A server breach sees one user's requests. There is one system per user to run and pay for.
+  subgraph shared["One shared database"]
+    direction TB
+    SA["User A&lt;br/&gt;holds key A"]:::a --&gt; SS
+    SB["User B&lt;br/&gt;holds key B"]:::b --&gt; SS
+    SC["User C&lt;br/&gt;holds key C"]:::c --&gt; SS
+    SS["One shared server&lt;br/&gt;opens key A, B or C inside each user's request"] --&gt; SD
+    SD[("One shared database, with row-level security&lt;br/&gt;User A's rows, locked under key A&lt;br/&gt;User B's rows, locked under key B&lt;br/&gt;User C's rows, locked under key C")]
+  end
+  subgraph dedicated["One instance per user"]
+    direction TB
+    UA["User A&lt;br/&gt;holds key A"]:::a --&gt; VA["Server A&lt;br/&gt;key A only"] --&gt; BA[("Database A&lt;br/&gt;user A's rows under key A")]:::a
+    UB["User B&lt;br/&gt;holds key B"]:::b --&gt; VB["Server B&lt;br/&gt;key B only"] --&gt; BB[("Database B&lt;br/&gt;user B's rows under key B")]:::b
+    UC["User C&lt;br/&gt;holds key C"]:::c --&gt; VC["Server C&lt;br/&gt;key C only"] --&gt; BC[("Database C&lt;br/&gt;user C's rows under key C")]:::c
+  end
+  classDef a stroke:#2f6fd0,fill:#e3edfb,color:#1f2933
+  classDef b stroke:#e0663a,fill:#fbe9e2,color:#1f2933
+  classDef c stroke:#2a9d6f,fill:#e0f3ea,color:#1f2933
+</pre>
 </div>
-<p>The first three messages run today; everything below the line is proposed. K is created on the device, and only locked copies cross to the server.</p>
-</section>
-<section id="opening-the-web-board" class="level2">
-<h2 class="anchored" data-anchor-id="opening-the-web-board">9.2 Opening the web board</h2>
-<ol type="1">
-<li>Client → Server: request a connect code, presenting Tₘ and sₘ. Built, without sₘ.</li>
-<li>Server → client: a 60-second, single-use connect code. Built.</li>
-<li>Client: opens the browser with the code in the URL fragment. Built.</li>
-<li>Browser → Server: redeem the code, from a trusted Origin. Built.</li>
-<li>Server: makes the session’s secret sₑ and its copy Cₑ.</li>
-<li>Server → Browser: an HttpOnly session cookie carrying Tₑ and sₑ.</li>
-</ol>
-<p>Whether Cₑ is made at step 2 or step 5 is open (question 6). Made at step 5, a code that expires unused leaves no copy behind, but the code must then carry a secret that opens K.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/opening-the-board-3-parties-6-steps.png" class="img-fluid figure-img"></p>
-<figcaption>opening the board · 3 parties, 6 steps</figcaption>
-</figure>
+<p></p></figure><p></p>
 </div>
-<p>The device vouches for the browser with a one-use code; the browser then holds its own secret in an HttpOnly cookie.</p>
-</section>
-<section id="connecting-an-ai-assistant-oauth-2.1" class="level2">
-<h2 class="anchored" data-anchor-id="connecting-an-ai-assistant-oauth-2.1">9.3 Connecting an AI assistant (OAuth 2.1)</h2>
-<ol type="1">
-<li>AI → Server: dynamic client registration, then a redirect to <code>/authorize</code> with a PKCE S256 challenge. Built.</li>
-<li>User, signed in on the board, approves on the consent page. Built.</li>
-<li>Server: unwraps K through the session’s copy, makes sₐ for the AI, stores Cₐ.</li>
-<li>Server → AI: an authorization code, 300 seconds, single use. Built.</li>
-<li>AI → Server: <code>/token</code> with the code and the PKCE verifier. Built.</li>
-<li>Server → AI: an access token and a refresh token, each carrying sₐ.</li>
-<li>On renewal, AI → Server: <code>/token</code> with the refresh token, which carries sₐ, so Cₐ stays openable (question 7).</li>
-</ol>
-<p>Today the redirect allowlist admits Claude, ChatGPT and loopback clients only.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/connecting-an-ai-4-parties-oauth-2-1-with-pkce.png" class="img-fluid figure-img"></p>
-<figcaption>connecting an AI · 4 parties, OAuth 2.1 with PKCE</figcaption>
-</figure>
 </div>
-<p>The copy is made inside the user’s signed-in session, so approving the AI is the only step the user takes.</p>
-</section>
-<section id="an-ai-asks-a-question" class="level2">
-<h2 class="anchored" data-anchor-id="an-ai-asks-a-question">9.4 An AI asks a question</h2>
-<ol type="1">
-<li>AI → Server: an MCP call, <code>Authorization: Bearer</code> carrying Tₐ and sₐ. Built, without sₐ.</li>
-<li>Server: finds the holder by SHA-256(Tₐ), and its copy Cₐ. Built, without Cₐ.</li>
-<li>Server: K = Unwrap(HKDF(sₐ), Cₐ), held in a request-scoped context. A route that needs K and lacks it fails; it never falls back to plaintext.</li>
-<li>Server → Postgres: look up the query’s keyed tags in the GIN index (section 10).</li>
-<li>Postgres → Server: candidate rows, still ciphertext.</li>
-<li>Server: decrypts only the candidates, runs the real regex, and returns the answer.</li>
-<li>The request ends. K and the plaintext are dropped; nothing is written or logged in the clear.</li>
-</ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/an-ai-asks-3-parties-one-request.png" class="img-fluid figure-img"></p>
-<figcaption>an AI asks · 3 parties, one request</figcaption>
-</figure>
 </div>
-<p>Only the candidate rows are decrypted, and K is dropped when the request ends.</p>
-</section>
-<section id="arrivals-while-nobody-is-calling" class="level2">
-<h2 class="anchored" data-anchor-id="arrivals-while-nobody-is-calling">9.5 Arrivals while nobody is calling</h2>
-<ol type="1">
-<li>Slack sync, the inbound email webhook or the Telegram bot → Server: a new message. Built.</li>
-<li>Server: seals it to pk with HPKE and stores the sealed record. The plaintext exists in memory only while it is sealed.</li>
-<li>On the next holder’s call, the server unwraps K, decrypts sk, opens the sealed records, tags them and re-encrypts them under K.</li>
-</ol>
-<p>The arrivals queue, which runs on Google Pub/Sub in development, carries message ids only, never content.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/arrivals-4-parties-seal-now-open-later.png" class="img-fluid figure-img"></p>
-<figcaption>arrivals · 4 parties, seal now, open later</figcaption>
-</figure>
-</div>
-<p>New mail keeps arriving without the server ever holding K; it waits sealed until a holder calls.</p>
-</section>
-<section id="debug-access" class="level2">
-<h2 class="anchored" data-anchor-id="debug-access">9.6 Debug access</h2>
-<ol type="1">
-<li>User, signed in (the session holds K) → Server: turn on Debug access, with an end time and an optional reason.</li>
-<li>Server: Cₛ = RSA-OAEP(support public key, K), stored with its expiry.</li>
-<li>Support staff, with the IAM role and two-step sign-in → Server: a support request.</li>
-<li>Server → Cloud KMS: decrypt Cₛ. KMS → Server: K, for that request. Cloud Audit Logs records the call.</li>
-<li>Server → User: the use appears in the user’s list, read from the audit log.</li>
-<li>At the end time, or when the user turns it off, the server deletes Cₛ.</li>
-</ol>
-<p>Cloud KMS does not know the end time; the server enforces it by deleting the copy (question 8).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/debug-access-4-parties-user-granted-and-logged.png" class="img-fluid figure-img"></p>
-<figcaption>Debug access · 4 parties, user-granted and logged</figcaption>
-</figure>
-</div>
-<p>Support has no copy until the user turns access on, and the KMS audit log records each use.</p>
-</section>
-<section id="a-lost-device-and-a-new-one" class="level2">
-<h2 class="anchored" data-anchor-id="a-lost-device-and-a-new-one">9.7 A lost device, and a new one</h2>
-<ol type="1">
-<li>User, on the board → Server: remove the lost device. The server deletes Cₘ and revokes Tₘ.</li>
-<li>New device → Server: sign in and ask to join. The new device shows a short code.</li>
-<li>User, on an existing holder: compares the code and approves.</li>
-<li>Server: makes a copy for the new device under its own new secret.</li>
-<li>If no holder is left, the mirror cannot be read. The new device makes a new K and refills the mirror from the original sources.</li>
-</ol>
-<p>How a second device joins, and whether it also keeps K locally, is not specified yet (question 4).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/a-lost-device-and-a-new-one-3-parties.png" class="img-fluid figure-img"></p>
-<figcaption>a lost device, and a new one · 3 parties</figcaption>
-</figure>
-</div>
-<p>Revoking a device is deleting one copy; a new device needs approval from a holder the user still has.</p>
-</section>
-<section id="disconnect-sign-out-delete" class="level2">
-<h2 class="anchored" data-anchor-id="disconnect-sign-out-delete">9.8 Disconnect, sign out, delete</h2>
-<ul>
-<li>Disconnect an AI: delete Cₐ, and revoke its access and refresh tokens.</li>
-<li>Sign out on the device: revoke Tₘ and the board sessions it opened, and delete their copies.</li>
-<li>Delete the account: delete every copy and every row. The Vault deletes K from the Keychain. Backups still hold locked copies until they expire, within 30 days, so a holder secret that survives the deletion could open them until then.</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figures/disconnect-sign-out-delete-3-parties.png" class="img-fluid figure-img"></p>
-<figcaption>disconnect, sign out, delete · 3 parties</figcaption>
-</figure>
-</div>
-<p>Every exit works by deleting the live copies of K. Backups keep older copies until they expire, within 30 days.</p>
+<p>The recommendation is one codebase that runs either way. Shared by default, with row-level security in the database as a second line behind the keys. A dedicated instance, run by the operator or by the user, for anyone who wants the smaller blast radius. The keys stay with the user in both.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -916,14 +797,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/09-8-key-management-lifecycle.html" class="pagination-link" aria-label="8. Key management lifecycle">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">8. Key management lifecycle</span></span>
+      <a href="../chapters/11-questions-for-reviewers.html" class="pagination-link" aria-label="Questions for reviewers">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Questions for reviewers</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/11-10-searching-encrypted-data.html" class="pagination-link" aria-label="10. Searching encrypted data">
-        <span class="nav-page-text"><span class="chapter-title">10. Searching encrypted data</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -931,4 +809,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/10-9-protocol-flows.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/10-9-protocol-flows.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/12-appendix-a-single-or-multi-tenant.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/12-appendix-a-single-or-multi-tenant.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>

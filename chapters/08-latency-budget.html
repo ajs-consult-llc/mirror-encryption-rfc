@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6. Cryptographic inventory – Mirror Encryption: Security Architecture</title>
+<title>Latency budget – Security Reference Architecture for AI-optimized Data Mirrors</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/08-7-key-hierarchy.html" rel="next">
-<link href="../chapters/06-5-security-goals-and-non-goals.html" rel="prev">
+<link href="../chapters/09-what-it-does-not-protect.html" rel="next">
+<link href="../chapters/07-how-it-works.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -76,15 +76,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<meta property="og:title" content="6. Cryptographic inventory – Mirror Encryption: Security Architecture">
+<meta property="og:title" content="Latency budget – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
-<meta property="og:site_name" content="Mirror Encryption: Security Architecture">
+<meta property="og:site_name" content="Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="6. Cryptographic inventory – Mirror Encryption: Security Architecture">
+<meta name="twitter:title" content="Latency budget – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,7 +103,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/07-6-cryptographic-inventory.html"><span class="chapter-title">6. Cryptographic inventory</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/08-latency-budget.html"><span class="chapter-title">Latency budget</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -114,10 +118,10 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Mirror Encryption: Security Architecture</a> 
+      <a href="../">Security Reference Architecture for AI-optimized Data Mirrors</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="../Mirror-Encryption--Security-Architecture.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../Security-Reference-Architecture-for-AI-optimized-Data-Mirrors.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -140,97 +144,57 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/01-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
+  <a href="../chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Document control</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/02-1-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Document control</span></a>
+  <a href="../chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/03-2-scope.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. Scope</span></a>
+  <a href="../chapters/03-contents.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contents</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/04-3-system-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. System overview</span></a>
+  <a href="../chapters/04-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it defends against</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/05-4-threat-model.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. Threat model</span></a>
+  <a href="../chapters/05-system-requirements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">System Requirements</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/06-5-security-goals-and-non-goals.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. Security goals and non-goals</span></a>
+  <a href="../chapters/06-the-design-on-one-page.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The design on one page</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/07-6-cryptographic-inventory.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">6. Cryptographic inventory</span></a>
+  <a href="../chapters/07-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How it works</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/08-7-key-hierarchy.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. Key hierarchy</span></a>
+  <a href="../chapters/08-latency-budget.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Latency budget</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/09-8-key-management-lifecycle.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. Key management lifecycle</span></a>
+  <a href="../chapters/09-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it does not protect</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/10-9-protocol-flows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. Protocol flows</span></a>
+  <a href="../chapters/10-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisions made to simplify</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/11-10-searching-encrypted-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Searching encrypted data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/12-11-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11. Performance</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/13-12-security-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12. Security analysis</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/14-13-residual-risks-and-known-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">13. Residual risks and known limitations</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/15-14-verification-and-transparency.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">14. Verification and transparency</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/16-15-implementation-status-and-roadmap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">15. Implementation status and roadmap</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/17-16-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">16. Questions for reviewers</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/18-17-vulnerability-disclosure.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">17. Vulnerability disclosure</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/19-18-references-and-glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18. References and glossary</span></a>
+  <a href="../chapters/11-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Questions for reviewers</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -241,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/20-appendix-a-submission-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Submission process</span></a>
+  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a>
   </div>
 </li>
       </ul>
@@ -259,7 +223,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">6. Cryptographic inventory</span></h1>
+<h1 class="title"><span class="chapter-title">Latency budget</span></h1>
 </div>
 
 
@@ -276,150 +240,35 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Every primitive is a published standard from a maintained library: the platform’s native cryptography library on the device, and pyca/cryptography (Python 3.11) on the server. Nothing is a custom construction except the search tags in section 10.</p>
-<p><strong>Notation used from here on.</strong> K is an account’s key. For a holder h, Tₕ is its token, sₕ its unlock secret, and Cₕ its locked copy of K. A holder presents Tₕ and sₕ together. The server stores SHA-256(Tₕ) and Cₕ, never Tₕ, sₕ or K.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Purpose</th>
-<th>Primitive</th>
-<th>Parameters</th>
-<th>Library</th>
-<th>Standard</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Account key K</td>
-<td>Random generation</td>
-<td>256 bits</td>
-<td>Platform cryptography library</td>
-<td>—</td>
-<td>Proposed</td>
-</tr>
-<tr class="even">
-<td>Content in Postgres</td>
-<td>AES-256-GCM</td>
-<td>96-bit random nonce, 128-bit tag; associated data binds account, table, column and row</td>
-<td>pyca/cryptography</td>
-<td>NIST SP 800-38D</td>
-<td>Proposed</td>
-</tr>
-<tr class="odd">
-<td>Files in Cloud Storage</td>
-<td>AES-256-GCM, chunked stream</td>
-<td>Per-chunk nonce and position; chunk size open</td>
-<td>pyca/cryptography</td>
-<td>NIST SP 800-38D</td>
-<td>Proposed</td>
-</tr>
-<tr class="even">
-<td>Unlock secret sₕ</td>
-<td>Random generation</td>
-<td>256 bits</td>
-<td>Platform cryptography library; Python <code>secrets</code></td>
-<td>—</td>
-<td>Proposed</td>
-</tr>
-<tr class="odd">
-<td>Key-encryption key for Cₕ</td>
-<td>HKDF-SHA256</td>
-<td>IKM sₕ; info names the holder and the version</td>
-<td>pyca/cryptography</td>
-<td>RFC 5869</td>
-<td>Proposed</td>
-</tr>
-<tr class="even">
-<td>Locked copy Cₕ</td>
-<td>AES-256 key wrap with padding</td>
-<td>256-bit key-encryption key</td>
-<td>pyca/cryptography</td>
-<td>RFC 5649</td>
-<td>Proposed</td>
-</tr>
-<tr class="odd">
-<td>Holder lookup</td>
-<td>SHA-256 of Tₕ</td>
-<td>Unsalted: Tₕ is 240 random bits</td>
-<td>Python <code>hashlib</code></td>
-<td>FIPS 180-4</td>
-<td>Built</td>
-</tr>
-<tr class="even">
-<td>Search and identity tag keys</td>
-<td>HKDF-SHA256</td>
-<td>IKM K; one info label per purpose</td>
-<td>pyca/cryptography</td>
-<td>RFC 5869</td>
-<td>Proposed</td>
-</tr>
-<tr class="odd">
-<td>Search and identity tags</td>
-<td>HMAC-SHA256, truncated</td>
-<td>64 bits</td>
-<td>Python <code>hmac</code></td>
-<td>RFC 2104</td>
-<td>Proposed</td>
-</tr>
-<tr class="even">
-<td>Sealed arrivals</td>
-<td>HPKE, base mode</td>
-<td>DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, AES-256-GCM</td>
-<td>Open (question 9)</td>
-<td>RFC 9180, RFC 7748</td>
-<td>Proposed</td>
-</tr>
-<tr class="odd">
-<td>Support copy of K</td>
-<td>RSA-OAEP</td>
-<td>4096-bit key, SHA-256, in a Cloud KMS HSM</td>
-<td>Cloud KMS</td>
-<td>RFC 8017</td>
-<td>Proposed</td>
-</tr>
-<tr class="even">
-<td>AI authorization</td>
-<td>OAuth 2.1 with PKCE</td>
-<td>S256 challenge; authorization code 300 s, single use</td>
-<td>Server’s own</td>
-<td>RFC 7636, RFC 9700</td>
-<td>Built</td>
-</tr>
-<tr class="odd">
-<td>Google grants, today</td>
-<td>Fernet (AES-128-CBC with HMAC-SHA256)</td>
-<td>One key for all accounts</td>
-<td>pyca/cryptography</td>
-<td>Fernet spec</td>
-<td>Built; replaced by K for source tokens</td>
-</tr>
-<tr class="even">
-<td>Release signing</td>
-<td>Sigstore cosign, Rekor log</td>
-<td>—</td>
-<td>Sigstore</td>
-<td>SLSA</td>
-<td>Proposed</td>
-</tr>
-<tr class="odd">
-<td>Server attestation</td>
-<td>AMD SEV-SNP confidential VM</td>
-<td>Image digest in the attestation</td>
-<td>Google Confidential Space</td>
-<td>—</td>
-<td>Proposed</td>
-</tr>
-</tbody>
-</table>
+<p>Encryption costs the answer well under a second: the mirror’s whole share is targeted at 0.4 seconds, inside a 1-second budget, so most of the 10 seconds belongs to the AI.</p>
+<!-- diagram: latency budget · targets at the 95th percentile, not measurements -->
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">gantt
+  accTitle: Encryption adds well under a second, and the answer lands inside the 10-second budget
+  accDescr: Question to first response is 7.4 seconds at the 95th percentile, of which the mirror is 0.405 seconds. These are targets, not measurements. The AI provider reads the question and calls the mirror in an assumed 3 seconds. The mirror then takes 0.405 seconds of its 1-second budget: 0.2 seconds for the request to the server and back over the network, 0.005 seconds on the server to find the token and unlock the key, 0.1 seconds in the database to look up the query's tags, and 0.1 seconds on the server to decrypt and check 200 candidates. The AI provider then writes the first words from the results in an assumed 4 seconds, so the first response arrives at 7.4 seconds, inside the 10-second budget.
+  title Question to first response, 7.4 s of a 10 s budget (targets, not measurements)
+  dateFormat x
+  axisFormat %S.%L s
+  section AI provider, assumed
+  Read the question and call the mirror (3 s)        : 0, 3000
+  Write the first words from the results (4 s)       : 3405, 7405
+  section Mirror, 0.405 s of a 1 s budget
+  Request to the server and back (network, 0.2 s)    : 3000, 3200
+  Find the token and unlock the key (server, 0.005 s) : 3200, 3205
+  Look up the query's tags (database, 0.1 s)         : 3205, 3305
+  Decrypt and check 200 candidates (server, 0.1 s)   : 3305, 3405
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>These are targets, not measurements. Before launch they are measured on a synthetic account the size of the largest real one, about 1.6 million messages. A new message is searchable once its upload completes; the target is under 2 seconds from arriving on the desktop.</p>
 
 
 
@@ -902,13 +751,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/06-5-security-goals-and-non-goals.html" class="pagination-link" aria-label="5. Security goals and non-goals">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">5. Security goals and non-goals</span></span>
+      <a href="../chapters/07-how-it-works.html" class="pagination-link" aria-label="How it works">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">How it works</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/08-7-key-hierarchy.html" class="pagination-link" aria-label="7. Key hierarchy">
-        <span class="nav-page-text"><span class="chapter-title">7. Key hierarchy</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/09-what-it-does-not-protect.html" class="pagination-link" aria-label="What it does not protect">
+        <span class="nav-page-text"><span class="chapter-title">What it does not protect</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -917,4 +766,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/07-6-cryptographic-inventory.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/07-6-cryptographic-inventory.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/08-latency-budget.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/08-latency-budget.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>

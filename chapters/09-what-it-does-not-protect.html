@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10. Searching encrypted data – Mirror Encryption: Security Architecture</title>
+<title>What it does not protect – Security Reference Architecture for AI-optimized Data Mirrors</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/12-11-performance.html" rel="next">
-<link href="../chapters/10-9-protocol-flows.html" rel="prev">
+<link href="../chapters/10-decisions-made-to-simplify.html" rel="next">
+<link href="../chapters/08-latency-budget.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -78,13 +78,13 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="10. Searching encrypted data – Mirror Encryption: Security Architecture">
+<meta property="og:title" content="What it does not protect – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
-<meta property="og:site_name" content="Mirror Encryption: Security Architecture">
+<meta property="og:site_name" content="Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="10. Searching encrypted data – Mirror Encryption: Security Architecture">
+<meta name="twitter:title" content="What it does not protect – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/11-10-searching-encrypted-data.html"><span class="chapter-title">10. Searching encrypted data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/09-what-it-does-not-protect.html"><span class="chapter-title">What it does not protect</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -114,10 +114,10 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Mirror Encryption: Security Architecture</a> 
+      <a href="../">Security Reference Architecture for AI-optimized Data Mirrors</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="../Mirror-Encryption--Security-Architecture.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../Security-Reference-Architecture-for-AI-optimized-Data-Mirrors.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -140,97 +140,57 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/01-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
+  <a href="../chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Document control</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/02-1-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Document control</span></a>
+  <a href="../chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/03-2-scope.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. Scope</span></a>
+  <a href="../chapters/03-contents.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contents</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/04-3-system-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. System overview</span></a>
+  <a href="../chapters/04-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it defends against</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/05-4-threat-model.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. Threat model</span></a>
+  <a href="../chapters/05-system-requirements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">System Requirements</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/06-5-security-goals-and-non-goals.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. Security goals and non-goals</span></a>
+  <a href="../chapters/06-the-design-on-one-page.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The design on one page</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/07-6-cryptographic-inventory.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6. Cryptographic inventory</span></a>
+  <a href="../chapters/07-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How it works</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/08-7-key-hierarchy.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. Key hierarchy</span></a>
+  <a href="../chapters/08-latency-budget.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Latency budget</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/09-8-key-management-lifecycle.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. Key management lifecycle</span></a>
+  <a href="../chapters/09-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">What it does not protect</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/10-9-protocol-flows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. Protocol flows</span></a>
+  <a href="../chapters/10-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisions made to simplify</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/11-10-searching-encrypted-data.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">10. Searching encrypted data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/12-11-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11. Performance</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/13-12-security-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12. Security analysis</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/14-13-residual-risks-and-known-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">13. Residual risks and known limitations</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/15-14-verification-and-transparency.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">14. Verification and transparency</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/16-15-implementation-status-and-roadmap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">15. Implementation status and roadmap</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/17-16-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">16. Questions for reviewers</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/18-17-vulnerability-disclosure.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">17. Vulnerability disclosure</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/19-18-references-and-glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18. References and glossary</span></a>
+  <a href="../chapters/11-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Questions for reviewers</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -241,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/20-appendix-a-submission-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Submission process</span></a>
+  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a>
   </div>
 </li>
       </ul>
@@ -259,7 +219,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">10. Searching encrypted data</span></h1>
+<h1 class="title"><span class="chapter-title">What it does not protect</span></h1>
 </div>
 
 
@@ -276,60 +236,69 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Search runs over keyed 64-bit trigram tags, so the database index never holds plaintext. The price is a leakage profile, listed below, and it is the design’s main weakness against a storage thief (A1).</p>
-<p><strong>Construction</strong></p>
-<ol type="1">
-<li>kₛ = HKDF-SHA256(K, info = “search”, version). A separate key, kᵢ, is derived the same way for identity tags.</li>
-<li>For each indexed field (message text, sender, sender name, chat name, participants, alias names), every distinct three-character fragment t gives the tag trunc₆₄(HMAC-SHA256(kₛ, field ‖ t)).</li>
-<li>A row’s tags are stored as a <code>bigint[]</code> column with a GIN index. They replace today’s pg_trgm indexes.</li>
-<li>A query’s regex is reduced to the fragments any match must contain, the approach of Russ Cox’s trigram index. Those fragments become tags, and the GIN index returns candidate rows.</li>
-<li>The server decrypts the candidates and runs the real regex. A truncation collision only adds a false candidate, which this check removes.</li>
-<li>A pattern with no required fragment, such as <code>.*</code>, falls back to a bounded scan of the most recent rows.</li>
-<li>Handles, addresses and names are normalized and tagged under kᵢ, so conversations and the people graph can be grouped without plaintext.</li>
-</ol>
-<p><strong>What an adversary with the database learns</strong></p>
+<p>This is encryption controlled by the user’s keys, not end-to-end encryption: the server decrypts inside each approved request. The limits follow.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Leak</th>
-<th>Who sees it</th>
-<th>Severity</th>
+<th>Limit</th>
+<th>Consequence</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Each row’s number of distinct fragments, roughly its length</td>
-<td>A1, A2</td>
-<td>Low</td>
+<td>The server holds the account key and the results while it answers</td>
+<td>A compromised server can capture the account key from any approved request. That one key opens the whole mirror, past and future, until the key is rotated. Proving which code the server runs (attestation) would close this; it is not in this design.</td>
 </tr>
 <tr class="even">
-<td>Which rows of one account share a fragment</td>
-<td>A1, A2</td>
-<td>Medium. Frequency analysis and known plaintext can recover common fragments: see the leakage-abuse and inference attacks in section 18.</td>
+<td>AI providers see what they retrieve</td>
+<td>Their handling of results is outside this design</td>
 </tr>
 <tr class="odd">
-<td>Which tags a live query touched (the access pattern)</td>
-<td>Anyone watching the database while queries run</td>
-<td>Medium</td>
+<td>Search tags reveal which messages share a fragment</td>
+<td>The tags are deterministic and overlap, so a thief of the database may recover text from fragment frequencies alone, and more with some known plaintext (question 1). Sizes and times are visible too.</td>
 </tr>
 <tr class="even">
-<td>Timestamps, row counts, sizes</td>
-<td>A1, A2</td>
-<td>Low to medium</td>
+<td>A stolen token works until it is revoked</td>
+<td>Expiry limits the damage (question 4)</td>
 </tr>
 <tr class="odd">
-<td>Anything across accounts</td>
-<td>Nobody</td>
-<td>None: the tag keys differ per account</td>
+<td>Malware on the desktop sees everything</td>
+<td>The desktop holds the account key</td>
+</tr>
+<tr class="even">
+<td>Backups keep deleted copies until they expire</td>
+<td>A revoked token can still open its copy in a backup taken earlier, for up to 30 days</td>
+</tr>
+<tr class="odd">
+<td>Revoking one holder is access control, not erasure</td>
+<td>Other copies of the same key remain, and a holder that paired its token with a copy of the database keeps the key. Only deleting every copy, or rotating the key, erases.</td>
+</tr>
+<tr class="even">
+<td>Every token opens the whole account key</td>
+<td>What a holder may do (read only, one source, approve others) is enforced by the server’s rules, not by cryptography</td>
+</tr>
+<tr class="odd">
+<td>Tokens, queries and results are plaintext in the server’s memory</td>
+<td>They must be kept out of logs, traces and error reports. Whatever ends TLS in front of the server sees tokens too. Mitigation: the implementation’s source code is published, and automated tests plant marker values in tokens, queries and results and fail if a marker reaches a log, a trace, an error report or stored data. Publishing the source shows what the code does; proving that the running server is that code is what attestation would add (question 7).</td>
+</tr>
+<tr class="even">
+<td>The mirror is only as fresh as the desktop</td>
+<td>While the desktop is off or asleep, nothing new is collected</td>
+</tr>
+<tr class="odd">
+<td>Search needs a fixed fragment of three or more characters</td>
+<td>A query without one cannot use the index. It must be refused, or answered by decrypting every row.</td>
+</tr>
+<tr class="even">
+<td>Attachments are encrypted by the storage service, not on the desktop</td>
+<td>The storage service sees each file in the clear while it handles an upload or a read. At rest, a file opens only with the storage key, which is derived from the account key inside an approved request. The bucket’s access policy stays as a second line.</td>
 </tr>
 </tbody>
 </table>
-<p>A concrete case: a thief who also knows a newsletter that an account received can mark that newsletter’s tags and look for them in the account’s other rows. Section 16, question 5, asks whether padding or bucketing the tag sets is worth its cost.</p>
 
 
 
@@ -812,13 +781,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/10-9-protocol-flows.html" class="pagination-link" aria-label="9. Protocol flows">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">9. Protocol flows</span></span>
+      <a href="../chapters/08-latency-budget.html" class="pagination-link" aria-label="Latency budget">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Latency budget</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/12-11-performance.html" class="pagination-link" aria-label="11. Performance">
-        <span class="nav-page-text"><span class="chapter-title">11. Performance</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/10-decisions-made-to-simplify.html" class="pagination-link" aria-label="Decisions made to simplify">
+        <span class="nav-page-text"><span class="chapter-title">Decisions made to simplify</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -827,4 +796,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/11-10-searching-encrypted-data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/11-10-searching-encrypted-data.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/09-what-it-does-not-protect.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/09-what-it-does-not-protect.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>

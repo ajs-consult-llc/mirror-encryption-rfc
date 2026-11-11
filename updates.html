@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Updates – Mirror Encryption: Security Architecture</title>
+<title>Updates – Security Reference Architecture for AI-optimized Data Mirrors</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapters/01-executive-summary.html" rel="next">
+<link href="./chapters/01-document-control.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -78,13 +78,13 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Updates – Mirror Encryption: Security Architecture">
+<meta property="og:title" content="Updates – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
-<meta property="og:site_name" content="Mirror Encryption: Security Architecture">
+<meta property="og:site_name" content="Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="Updates – Mirror Encryption: Security Architecture">
+<meta name="twitter:title" content="Updates – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -114,10 +114,10 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Mirror Encryption: Security Architecture</a> 
+      <a href="./">Security Reference Architecture for AI-optimized Data Mirrors</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="./Mirror-Encryption--Security-Architecture.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="./Security-Reference-Architecture-for-AI-optimized-Data-Mirrors.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -140,97 +140,57 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/01-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
+  <a href="./chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Document control</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/02-1-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Document control</span></a>
+  <a href="./chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/03-2-scope.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. Scope</span></a>
+  <a href="./chapters/03-contents.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contents</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/04-3-system-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. System overview</span></a>
+  <a href="./chapters/04-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it defends against</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/05-4-threat-model.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. Threat model</span></a>
+  <a href="./chapters/05-system-requirements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">System Requirements</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/06-5-security-goals-and-non-goals.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. Security goals and non-goals</span></a>
+  <a href="./chapters/06-the-design-on-one-page.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The design on one page</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/07-6-cryptographic-inventory.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6. Cryptographic inventory</span></a>
+  <a href="./chapters/07-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How it works</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/08-7-key-hierarchy.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. Key hierarchy</span></a>
+  <a href="./chapters/08-latency-budget.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Latency budget</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/09-8-key-management-lifecycle.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. Key management lifecycle</span></a>
+  <a href="./chapters/09-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it does not protect</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/10-9-protocol-flows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. Protocol flows</span></a>
+  <a href="./chapters/10-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisions made to simplify</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/11-10-searching-encrypted-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Searching encrypted data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/12-11-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11. Performance</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/13-12-security-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12. Security analysis</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/14-13-residual-risks-and-known-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">13. Residual risks and known limitations</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/15-14-verification-and-transparency.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">14. Verification and transparency</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/16-15-implementation-status-and-roadmap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">15. Implementation status and roadmap</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/17-16-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">16. Questions for reviewers</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/18-17-vulnerability-disclosure.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">17. Vulnerability disclosure</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapters/19-18-references-and-glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18. References and glossary</span></a>
+  <a href="./chapters/11-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Questions for reviewers</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -241,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/20-appendix-a-submission-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Submission process</span></a>
+  <a href="./chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a>
   </div>
 </li>
       </ul>
@@ -784,8 +744,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/01-executive-summary.html" class="pagination-link" aria-label="Executive summary">
-        <span class="nav-page-text"><span class="chapter-title">Executive summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapters/01-document-control.html" class="pagination-link" aria-label="Document control">
+        <span class="nav-page-text"><span class="chapter-title">Document control</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

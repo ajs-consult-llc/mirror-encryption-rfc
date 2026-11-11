@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>15. Implementation status and roadmap – Mirror Encryption: Security Architecture</title>
+<title>System Requirements – Security Reference Architecture for AI-optimized Data Mirrors</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/17-16-questions-for-reviewers.html" rel="next">
-<link href="../chapters/15-14-verification-and-transparency.html" rel="prev">
+<link href="../chapters/06-the-design-on-one-page.html" rel="next">
+<link href="../chapters/04-what-it-defends-against.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -78,13 +78,13 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="15. Implementation status and roadmap – Mirror Encryption: Security Architecture">
+<meta property="og:title" content="System Requirements – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
-<meta property="og:site_name" content="Mirror Encryption: Security Architecture">
+<meta property="og:site_name" content="Security Reference Architecture for AI-optimized Data Mirrors">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="15. Implementation status and roadmap – Mirror Encryption: Security Architecture">
+<meta name="twitter:title" content="System Requirements – Security Reference Architecture for AI-optimized Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/ai-optimized-data-mirror-social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/16-15-implementation-status-and-roadmap.html"><span class="chapter-title">15. Implementation status and roadmap</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/05-system-requirements.html"><span class="chapter-title">System Requirements</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -114,10 +114,10 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Mirror Encryption: Security Architecture</a> 
+      <a href="../">Security Reference Architecture for AI-optimized Data Mirrors</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="../Mirror-Encryption--Security-Architecture.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../Security-Reference-Architecture-for-AI-optimized-Data-Mirrors.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -140,97 +140,57 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/01-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
+  <a href="../chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Document control</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/02-1-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Document control</span></a>
+  <a href="../chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/03-2-scope.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. Scope</span></a>
+  <a href="../chapters/03-contents.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contents</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/04-3-system-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. System overview</span></a>
+  <a href="../chapters/04-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it defends against</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/05-4-threat-model.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. Threat model</span></a>
+  <a href="../chapters/05-system-requirements.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">System Requirements</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/06-5-security-goals-and-non-goals.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. Security goals and non-goals</span></a>
+  <a href="../chapters/06-the-design-on-one-page.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The design on one page</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/07-6-cryptographic-inventory.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6. Cryptographic inventory</span></a>
+  <a href="../chapters/07-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How it works</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/08-7-key-hierarchy.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. Key hierarchy</span></a>
+  <a href="../chapters/08-latency-budget.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Latency budget</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/09-8-key-management-lifecycle.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. Key management lifecycle</span></a>
+  <a href="../chapters/09-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it does not protect</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/10-9-protocol-flows.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. Protocol flows</span></a>
+  <a href="../chapters/10-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisions made to simplify</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/11-10-searching-encrypted-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Searching encrypted data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/12-11-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11. Performance</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/13-12-security-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12. Security analysis</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/14-13-residual-risks-and-known-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">13. Residual risks and known limitations</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/15-14-verification-and-transparency.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">14. Verification and transparency</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/16-15-implementation-status-and-roadmap.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">15. Implementation status and roadmap</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/17-16-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">16. Questions for reviewers</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/18-17-vulnerability-disclosure.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">17. Vulnerability disclosure</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/19-18-references-and-glossary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18. References and glossary</span></a>
+  <a href="../chapters/11-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Questions for reviewers</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -241,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/20-appendix-a-submission-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Submission process</span></a>
+  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a>
   </div>
 </li>
       </ul>
@@ -259,7 +219,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">15. Implementation status and roadmap</span></h1>
+<h1 class="title"><span class="chapter-title">System Requirements</span></h1>
 </div>
 
 
@@ -276,170 +236,48 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>None of the twenty pieces below is built. They group into roughly ten pull requests, and client-only accounts switch first.</p>
+<p>The design exists to meet five requirements, and nothing in it serves anything else.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>#</th>
-<th>Group</th>
-<th>Piece</th>
-<th>What it does</th>
-<th>Technology</th>
+<th>Requirement</th>
+<th>How the design meets it</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>Keys and tokens</td>
-<td>Account key</td>
-<td>Made by the client on first run and kept in the OS keystore; one per account</td>
-<td>Native client code, platform cryptography library, OS keystore</td>
+<td>R1</td>
+<td>The user controls the keys</td>
+<td>The account key is made on the user’s desktop. A reader or writer gets access only when the user approves it, and loses it when the user revokes it.</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>Keys and tokens</td>
-<td>Locked copies</td>
-<td>One copy per holder, in a table listing its holder, creation time and expiry</td>
-<td>HKDF-SHA256, AES key wrap (RFC 5649)</td>
+<td>R2</td>
+<td>The desktop sync app collects and pushes messages in real time, encrypted from the source</td>
+<td>The app encrypts each message under a content key derived from the account key, and computes its search tags, before it uploads. The server never receives plaintext from the app. Attachments are the exception (see Decisions made to simplify).</td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td>Keys and tokens</td>
-<td>Tokens that carry the secret</td>
-<td>Device tokens, OAuth tokens and the board’s session cookie each carry their holder’s secret; the server keeps only a hash</td>
-<td>OAuth 2.1, SHA-256</td>
+<td>R3</td>
+<td>Data is secure at rest in the database</td>
+<td>The database holds ciphertext, keyed tags and token hashes. Nothing in it opens without a token.</td>
 </tr>
 <tr class="even">
-<td>4</td>
-<td>Keys and tokens</td>
-<td>Request key context</td>
-<td>Opens K once per request and holds it only for that request; a route that needs K and lacks it fails, never falling back to plaintext</td>
-<td>FastAPI dependency, contextvars</td>
+<td>R4</td>
+<td>Approved readers and writers can search, retrieve and update in near real time</td>
+<td>Each holds a token that opens its own copy of the account key for one request. A message is searchable as soon as it is stored.</td>
 </tr>
 <tr class="odd">
-<td>5</td>
-<td>Storage</td>
-<td>Encrypted column type</td>
-<td>One column type for text and JSON, on every content column, bound to account, table, column and row</td>
-<td>SQLAlchemy TypeDecorator, AES-256-GCM</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>Storage</td>
-<td>Content coverage test</td>
-<td>Reads the models and fails if any content column is stored in the clear, so a column added later cannot slip through</td>
-<td>Static (AST) test</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Storage</td>
-<td>Encrypted files</td>
-<td>Attachments, contact photos and uploads encrypted before upload, in chunks for large files</td>
-<td>Cloud Storage, streaming AES-256-GCM</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>Search</td>
-<td>Keyed search tags</td>
-<td>Replace today’s trigram indexes (section 10)</td>
-<td>HMAC-SHA256, Postgres GIN</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Search</td>
-<td>Query planner</td>
-<td>Regex to required fragments, candidate lookup, decrypt and recheck, bounded fallback scan</td>
-<td>Python regex parser</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>Search</td>
-<td>Keyed identity tags</td>
-<td>Handles, addresses and names matched by keyed tag, so grouping and the people graph keep working</td>
-<td>HMAC-SHA256</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>No request open</td>
-<td>Sealed arrivals</td>
-<td>Slack sync, inbound email and the Telegram bot seal each arrival to the account’s public key</td>
-<td>HPKE (RFC 9180), X25519</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>No request open</td>
-<td>Key-gated jobs</td>
-<td>Work that needs content runs only inside a request that holds K</td>
-<td>The existing job runner</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>No request open</td>
-<td>Locked source tokens</td>
-<td>Google and Slack tokens wrapped under K</td>
-<td>AES key wrap</td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>Access and cutover</td>
-<td>Debug access</td>
-<td>The Settings control, the support key, an expiry, revocation, and a list of every use shown to the user</td>
-<td>Cloud KMS HSM, RSA-OAEP, Cloud Audit Logs</td>
-</tr>
-<tr class="odd">
-<td>15</td>
-<td>Access and cutover</td>
-<td>Operator routes</td>
-<td>Admin export and raw SQL routes need a key like everything else, and return ciphertext without one</td>
-<td>Existing routes</td>
-</tr>
-<tr class="even">
-<td>16</td>
-<td>Access and cutover</td>
-<td>Backfill and cutover</td>
-<td>At each device’s next check-in: encrypt existing rows, build tags, then drop the plaintext columns and old indexes</td>
-<td>Alembic, a batch job</td>
-</tr>
-<tr class="odd">
-<td>17</td>
-<td>Access and cutover</td>
-<td>Public documents</td>
-<td>The privacy policy, terms, and the key-custody statements</td>
-<td>Documents</td>
-</tr>
-<tr class="even">
-<td>18</td>
-<td>Portability</td>
-<td>Written wire format</td>
-<td>Versioned envelopes for locked copies, content, sealed arrivals and tag derivation, with test vectors every client must pass</td>
-<td>A specification</td>
-</tr>
-<tr class="odd">
-<td>19</td>
-<td>Portability</td>
-<td>One shared core library</td>
-<td>The cryptography written once, so a client on another platform writes only its key storage</td>
-<td>Rust, with Swift, C# and Linux bindings</td>
-</tr>
-<tr class="even">
-<td>20</td>
-<td>Portability</td>
-<td>Device enrollment</td>
-<td>A second device, on any platform, joins through an existing holder (question 4)</td>
-<td>—</td>
+<td>R5</td>
+<td>Under 10 seconds from a user’s question to the AI’s first response</td>
+<td>The mirror’s share is budgeted at 1 second at the 95th percentile. The rest belongs to the AI.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Why client-only accounts go first.</strong> The server already does no background AI work for them, so it reads their content only inside a request or an upload. Accounts that use the board’s background features follow once question 12 is settled.</p>
-<p><strong>Other platforms.</strong> The server never knows what kind of device a holder is, so a client on another platform producing the same bytes is one more holder. Only key storage differs: Credential Manager or DPAPI with a TPM on Windows, and the Secret Service with TPM2 sealing on Linux. Linux desktop keyrings are often readable by any process in the session, so a Linux client needs TPM sealing or a passphrase to match the guarantee of the other platforms.</p>
-<p><strong>Fixes to today’s code.</strong> Writing this document surfaced weaknesses in today’s token handling that would undercut the design. They are being fixed before any piece above is built. Under coordinated disclosure, each is listed in the revision history once its fix ships.</p>
 
 
 
@@ -922,13 +760,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/15-14-verification-and-transparency.html" class="pagination-link" aria-label="14. Verification and transparency">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">14. Verification and transparency</span></span>
+      <a href="../chapters/04-what-it-defends-against.html" class="pagination-link" aria-label="What it defends against">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">What it defends against</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/17-16-questions-for-reviewers.html" class="pagination-link" aria-label="16. Questions for reviewers">
-        <span class="nav-page-text"><span class="chapter-title">16. Questions for reviewers</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/06-the-design-on-one-page.html" class="pagination-link" aria-label="The design on one page">
+        <span class="nav-page-text"><span class="chapter-title">The design on one page</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -937,4 +775,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/16-15-implementation-status-and-roadmap.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/16-15-implementation-status-and-roadmap.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/05-system-requirements.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/05-system-requirements.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
