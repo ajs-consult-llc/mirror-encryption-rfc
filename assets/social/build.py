@@ -65,17 +65,15 @@ def grid(x0: int, rows: list[list[str]]) -> str:
 def svg() -> str:
     left_x, right_x = 110, 1200 - 110 - (3 * TILE + 2 * GAP)
     left_mid, right_mid = left_x + (3 * TILE + 2 * GAP) // 2, right_x + (3 * TILE + 2 * GAP) // 2
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Secure Message Mirror, a request for comments: your data, encrypted with your key, readable only by the AI you approve">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Secure Message Mirror RFC, a request for comments: your data, encrypted with your key, readable only by the AI you approve">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
       <path d="M0 0L10 5L0 10z" fill="{ACCENT}"/>
     </marker>
   </defs>
   <g font-family="{FONT}">
-    <rect x="467" y="56" width="64" height="30" rx="15" fill="{ACCENT}"/>
-    <text x="499" y="77" text-anchor="middle" font-size="15" font-weight="700" letter-spacing="2" fill="#ffffff">RFC</text>
-    <text x="543" y="77" font-size="17" font-weight="600" fill="{ACCENT}">Request for comments</text>
-    <text x="600" y="142" text-anchor="middle" font-size="48" font-weight="700" fill="{INK}">Secure Message Mirror</text>
+    <text x="600" y="78" text-anchor="middle" font-size="16" font-weight="700" letter-spacing="3" fill="{ACCENT}">REQUEST FOR COMMENTS</text>
+    <text x="600" y="142" text-anchor="middle" font-size="48" font-weight="700" fill="{INK}">Secure Message Mirror RFC</text>
     <text x="600" y="184" text-anchor="middle" font-size="22" fill="{MUTED}">Encrypted with your key. Readable only by the AI you approve.</text>
 
     {grid(left_x, LEFT)}
