@@ -60,6 +60,8 @@ def landing(s: dict, submission_page: str | None) -> str:
     return "\n".join([
         LANDING_START,
         "",
+        "![Secure Message Mirror: your messages, encrypted under your key, readable only by the readers you approve](assets/social/secure-message-mirror.png)",
+        "",
         "::: {.callout-note appearance=\"simple\"}",
         f"**Request for comments. Round {s['round']} is open until {s['closes']}.**",
         ":::",

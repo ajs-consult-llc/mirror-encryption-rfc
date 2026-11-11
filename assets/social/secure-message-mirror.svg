@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Secure Message Mirror: your messages, encrypted under your key, readable only by the readers you approve">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1824"/>
+      <stop offset="1" stop-color="#15293d"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d3851"/>
+      <stop offset="1" stop-color="#11253a"/>
+    </linearGradient>
+    <clipPath id="mirror-clip"><rect x="440" y="200" width="320" height="320" rx="26"/></clipPath>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#6fb3e0"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#d9725f"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="72" y="98" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#eef3f8">Secure Message Mirror</text>
+  <text x="72" y="142" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" fill="#9fb3c6">Private to everyone except the readers you choose.</text>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+    <!-- Column captions -->
+    <text x="72" y="198" font-size="14" letter-spacing="2" font-weight="600" fill="#6f8aa3">YOUR SOURCES</text>
+    <text x="880" y="198" font-size="14" letter-spacing="2" font-weight="600" fill="#6f8aa3">READERS YOU APPROVE</text>
+
+    <!-- Sources -->
+    <g fill="#15283a" stroke="#2c4a63" stroke-width="1.5">
+      <rect x="72" y="214" width="230" height="64" rx="14"/>
+      <rect x="72" y="300" width="230" height="64" rx="14"/>
+      <rect x="72" y="386" width="230" height="64" rx="14"/>
+    </g>
+    <g fill="none" stroke="#eef3f8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="92" y="233" width="36" height="26" rx="4"/>
+      <polyline points="93,236 110,249 127,236"/>
+      <rect x="92" y="318" width="36" height="24" rx="7"/>
+      <path d="M100 342 v8 l8 -8"/>
+      <rect x="92" y="404" width="36" height="30" rx="4"/>
+      <line x1="92" y1="414" x2="128" y2="414"/>
+      <line x1="101" y1="399" x2="101" y2="408"/>
+      <line x1="119" y1="399" x2="119" y2="408"/>
+    </g>
+    <g font-size="22" fill="#eef3f8">
+      <text x="146" y="254">Mail</text>
+      <text x="146" y="340">Chats</text>
+      <text x="146" y="426">Calendars</text>
+    </g>
+
+    <!-- Into the mirror: encrypted before upload -->
+    <g fill="none" stroke="#6fb3e0" stroke-width="2.5" opacity="0.9">
+      <path d="M302 246 C 372 246, 378 330, 436 330" marker-end="url(#arrow)"/>
+      <path d="M302 332 C 372 332, 378 360, 436 360" marker-end="url(#arrow)"/>
+      <path d="M302 418 C 372 418, 378 390, 436 390" marker-end="url(#arrow)"/>
+    </g>
+    <text x="371" y="476" text-anchor="middle" font-size="15" fill="#9fb3c6">encrypted</text>
+    <text x="371" y="496" text-anchor="middle" font-size="15" fill="#9fb3c6">before upload</text>
+
+    <!-- The mirror -->
+    <rect x="440" y="200" width="320" height="320" rx="26" fill="url(#glass)" stroke="#6fb3e0" stroke-width="2.5"/>
+    <g clip-path="url(#mirror-clip)" fill="#ffffff">
+      <polygon points="560,200 640,200 500,520 420,520" opacity="0.06"/>
+      <polygon points="660,200 684,200 544,520 520,520" opacity="0.05"/>
+    </g>
+    <!-- Lock -->
+    <path d="M584 266 v-14 a16 16 0 0 1 32 0 v14" fill="none" stroke="#eef3f8" stroke-width="6" stroke-linecap="round"/>
+    <rect x="572" y="264" width="56" height="42" rx="9" fill="#eef3f8"/>
+    <circle cx="600" cy="281" r="5.5" fill="#12263a"/>
+    <rect x="597.5" y="281" width="5" height="13" rx="2" fill="#12263a"/>
+    <!-- The user's key -->
+    <g fill="none" stroke="#e0b45c" stroke-width="6" stroke-linecap="round">
+      <circle cx="660" cy="285" r="12"/>
+      <line x1="672" y1="285" x2="712" y2="285"/>
+      <line x1="703" y1="285" x2="703" y2="296"/>
+      <line x1="693" y1="285" x2="693" y2="294"/>
+    </g>
+    <text x="600" y="342" text-anchor="middle" font-size="18" font-weight="600" fill="#e0b45c">Locked with your key</text>
+    <!-- Ciphertext -->
+    <g font-family="Menlo, SFMono-Regular, Consolas, monospace" font-size="17" fill="#6f8aa3" text-anchor="middle">
+      <text x="600" y="384">a8f3 9c1e 47b2 d0e5</text>
+      <text x="600" y="410">7e21 c4a9 0f6d 3b8e</text>
+      <text x="600" y="436">e59c 12af 8d07 64c3</text>
+      <text x="600" y="462">0b4e f7a1 29d8 c6e0</text>
+    </g>
+    <text x="600" y="500" text-anchor="middle" font-size="20" font-weight="600" fill="#eef3f8">Your encrypted mirror</text>
+
+    <!-- Out to approved readers -->
+    <g fill="none" stroke="#6fb3e0" stroke-width="2.5" opacity="0.9">
+      <path d="M760 330 C 822 330, 818 246, 876 246" marker-end="url(#arrow)"/>
+      <path d="M760 360 C 822 360, 818 332, 876 332" marker-end="url(#arrow)"/>
+      <path d="M760 390 C 822 390, 818 418, 876 418" marker-end="url(#arrow)"/>
+    </g>
+    <text x="820" y="456" text-anchor="middle" font-size="15" fill="#9fb3c6">each with</text>
+    <text x="820" y="474" text-anchor="middle" font-size="15" fill="#9fb3c6">its own key</text>
+
+    <!-- Readers -->
+    <g fill="#15283a" stroke="#2c4a63" stroke-width="1.5">
+      <rect x="880" y="214" width="258" height="64" rx="14"/>
+      <rect x="880" y="300" width="258" height="64" rx="14"/>
+      <rect x="880" y="386" width="258" height="64" rx="14"/>
+    </g>
+    <path d="M918 230 C920 242 922 244 934 246 C922 248 920 250 918 262 C916 250 914 248 902 246 C914 244 916 242 918 230 Z" fill="#eef3f8"/>
+    <g fill="none" stroke="#eef3f8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="900" y="318" width="36" height="28" rx="4"/>
+      <line x1="900" y1="326" x2="936" y2="326"/>
+      <rect x="904" y="402" width="28" height="20" rx="3"/>
+      <path d="M898 426 h40 l-4 6 h-32 z"/>
+    </g>
+    <g fill="#eef3f8"><circle cx="905" cy="322" r="1.5"/><circle cx="910" cy="322" r="1.5"/><circle cx="915" cy="322" r="1.5"/></g>
+    <g font-size="20" fill="#eef3f8">
+      <text x="950" y="253">AI assistants</text>
+      <text x="950" y="339">Web board</text>
+      <text x="950" y="425">Your devices</text>
+    </g>
+    <!-- A key on each approved reader -->
+    <g fill="none" stroke="#e0b45c" stroke-width="3" stroke-linecap="round">
+      <circle cx="1100" cy="246" r="6"/><line x1="1106" y1="246" x2="1122" y2="246"/><line x1="1117" y1="246" x2="1117" y2="252"/>
+      <circle cx="1100" cy="332" r="6"/><line x1="1106" y1="332" x2="1122" y2="332"/><line x1="1117" y1="332" x2="1117" y2="338"/>
+      <circle cx="1100" cy="418" r="6"/><line x1="1106" y1="418" x2="1122" y2="418"/><line x1="1117" y1="418" x2="1117" y2="424"/>
+    </g>
+
+    <!-- Everyone else -->
+    <path d="M760 492 C 822 492, 818 532, 876 532" fill="none" stroke="#d9725f" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#arrow-red)"/>
+    <rect x="880" y="500" width="258" height="64" rx="14" fill="none" stroke="#d9725f" stroke-width="1.5" stroke-dasharray="6 5"/>
+    <circle cx="918" cy="532" r="13" fill="none" stroke="#d9725f" stroke-width="2.5"/>
+    <line x1="909" y1="523" x2="927" y2="541" stroke="#d9725f" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="950" y="530" font-size="20" fill="#eef3f8">Everyone else</text>
+    <text x="950" y="551" font-size="15" fill="#d9a395">sees ciphertext only</text>
+
+    <!-- Footer -->
+    <text x="72" y="596" font-size="17" fill="#6f8aa3">Request for comments · ajs-consult-llc.github.io/mirror-encryption-rfc</text>
+  </g>
+</svg>

@@ -1,5 +1,7 @@
 # Mirror Encryption: Security Architecture
 
+![Secure Message Mirror](assets/social/secure-message-mirror.png)
+
 A request for comments on encrypting private data mirrors so that only the devices and AIs a
 user approves can read them. Owned by AJS Consult LLC; edited by Aaron Soellinger; licensed
 CC BY 4.0.

@@ -4,6 +4,8 @@
 project:
   type: book
   output-dir: _book
+  resources:
+    - assets/social/secure-message-mirror.png
 
 book:
   title: "Mirror Encryption: Security Architecture"
@@ -14,6 +16,11 @@ book:
   repo-url: https://github.com/ajs-consult-llc/mirror-encryption-rfc
   repo-actions: [edit, issue, source]
   search: true
+  site-url: https://ajs-consult-llc.github.io/mirror-encryption-rfc/
+  image: assets/social/secure-message-mirror.png
+  open-graph: true
+  twitter-card:
+    card-style: summary_large_image
   downloads: [pdf]
   chapters:
     - index.qmd
