@@ -20,7 +20,7 @@ from pathlib import Path
 from announce import TALLY, Config, call, secret
 
 NAME = "Mirror Encryption RFC: review updates"  # the form's name inside Tally
-DOC_TITLE = "Mirror Encryption: Security Architecture"
+DOC_TITLE = "Mirror Encryption: Security Architecture (RFC)"
 # The graphic, from a commit in the public repository: pinned, so the link cannot break.
 IMAGE_URL = ("https://raw.githubusercontent.com/ajs-consult-llc/mirror-encryption-rfc/"
              "db85aa6057fbaa3e9b6fd6c4bfb764522305a604/assets/social/secure-message-mirror-banner.png")

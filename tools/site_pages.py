@@ -60,7 +60,10 @@ def landing(s: dict, submission_page: str | None) -> str:
     return "\n".join([
         LANDING_START,
         "",
-        "![Secure Message Mirror: your messages, encrypted under your key, readable only by the readers you approve](assets/social/secure-message-mirror.png)",
+        # The white version, marked as the page's link preview: Quarto would otherwise send the first
+        # image on the page, and a transparent preview looks broken on dark-mode feeds.
+        "![Secure Message Mirror RFC: your data, encrypted with your key, readable only by the AI you approve]"
+        "(assets/social/secure-message-mirror-social.png){.preview-image}",
         "",
         "::: {.callout-note appearance=\"simple\"}",
         f"**Request for comments. Round {s['round']} is open until {s['closes']}.**",
