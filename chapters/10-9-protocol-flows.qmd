@@ -11,7 +11,7 @@ The eight flows below are the whole proposal: in each, K is unwrapped only insid
 5. Client → Server: Cₘ = Wrap(HKDF(sₘ), K), pk, and sk encrypted under K.
 6. Server: stores them. K, sk and sₘ never leave the device in the clear.
 
-![enrollment sequence · 4 parties, built vs proposed](figures/enrollment-sequence-4-parties-built-vs-proposed.png)
+![enrollment sequence · 4 parties, built vs proposed](../figures/enrollment-sequence-4-parties-built-vs-proposed.png)
 
 The first three messages run today; everything below the line is proposed. K is created on the device, and only locked copies cross to the server.
 
@@ -26,7 +26,7 @@ The first three messages run today; everything below the line is proposed. K is 
 
 Whether Cₑ is made at step 2 or step 5 is open (question 6). Made at step 5, a code that expires unused leaves no copy behind, but the code must then carry a secret that opens K.
 
-![opening the board · 3 parties, 6 steps](figures/opening-the-board-3-parties-6-steps.png)
+![opening the board · 3 parties, 6 steps](../figures/opening-the-board-3-parties-6-steps.png)
 
 The device vouches for the browser with a one-use code; the browser then holds its own secret in an HttpOnly cookie.
 
@@ -42,7 +42,7 @@ The device vouches for the browser with a one-use code; the browser then holds i
 
 Today the redirect allowlist admits Claude, ChatGPT and loopback clients only.
 
-![connecting an AI · 4 parties, OAuth 2.1 with PKCE](figures/connecting-an-ai-4-parties-oauth-2-1-with-pkce.png)
+![connecting an AI · 4 parties, OAuth 2.1 with PKCE](../figures/connecting-an-ai-4-parties-oauth-2-1-with-pkce.png)
 
 The copy is made inside the user’s signed-in session, so approving the AI is the only step the user takes.
 
@@ -56,7 +56,7 @@ The copy is made inside the user’s signed-in session, so approving the AI is t
 6. Server: decrypts only the candidates, runs the real regex, and returns the answer.
 7. The request ends. K and the plaintext are dropped; nothing is written or logged in the clear.
 
-![an AI asks · 3 parties, one request](figures/an-ai-asks-3-parties-one-request.png)
+![an AI asks · 3 parties, one request](../figures/an-ai-asks-3-parties-one-request.png)
 
 Only the candidate rows are decrypted, and K is dropped when the request ends.
 
@@ -68,7 +68,7 @@ Only the candidate rows are decrypted, and K is dropped when the request ends.
 
 The arrivals queue, which runs on Google Pub/Sub in development, carries message ids only, never content.
 
-![arrivals · 4 parties, seal now, open later](figures/arrivals-4-parties-seal-now-open-later.png)
+![arrivals · 4 parties, seal now, open later](../figures/arrivals-4-parties-seal-now-open-later.png)
 
 New mail keeps arriving without the server ever holding K; it waits sealed until a holder calls.
 
@@ -83,7 +83,7 @@ New mail keeps arriving without the server ever holding K; it waits sealed until
 
 Cloud KMS does not know the end time; the server enforces it by deleting the copy (question 8).
 
-![Debug access · 4 parties, user-granted and logged](figures/debug-access-4-parties-user-granted-and-logged.png)
+![Debug access · 4 parties, user-granted and logged](../figures/debug-access-4-parties-user-granted-and-logged.png)
 
 Support has no copy until the user turns access on, and the KMS audit log records each use.
 
@@ -97,7 +97,7 @@ Support has no copy until the user turns access on, and the KMS audit log record
 
 How a second device joins, and whether it also keeps K locally, is not specified yet (question 4).
 
-![a lost device, and a new one · 3 parties](figures/a-lost-device-and-a-new-one-3-parties.png)
+![a lost device, and a new one · 3 parties](../figures/a-lost-device-and-a-new-one-3-parties.png)
 
 Revoking a device is deleting one copy; a new device needs approval from a holder the user still has.
 
@@ -107,6 +107,6 @@ Revoking a device is deleting one copy; a new device needs approval from a holde
 - Sign out on the device: revoke Tₘ and the board sessions it opened, and delete their copies.
 - Delete the account: delete every copy and every row. The Vault deletes K from the Keychain. Backups still hold locked copies until they expire, within 30 days, so a holder secret that survives the deletion could open them until then.
 
-![disconnect, sign out, delete · 3 parties](figures/disconnect-sign-out-delete-3-parties.png)
+![disconnect, sign out, delete · 3 parties](../figures/disconnect-sign-out-delete-3-parties.png)
 
 Every exit works by deleting the live copies of K. Backups keep older copies until they expire, within 30 days.
