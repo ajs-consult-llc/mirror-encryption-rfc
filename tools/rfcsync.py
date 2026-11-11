@@ -38,6 +38,8 @@ import re
 import sys
 from pathlib import Path
 
+from site_pages import strip_landing  # the landing block is the site's, never the doc's
+
 ROOT = Path(__file__).resolve().parent.parent
 CHAPTERS = ROOT / "chapters"
 FIGURES = ROOT / "figures"
@@ -191,7 +193,7 @@ def book_title() -> str:
 
 def join() -> str:
     """Rebuild the export's exact text from ``index.qmd`` and the chapters."""
-    opening = INDEX.read_text(encoding="utf-8")
+    opening = strip_landing(INDEX.read_text(encoding="utf-8"))
     if not opening.startswith(INDEX_MARK + "\n"):
         raise ValueError("index.qmd lost its generated first line")
     opening = opening[len(INDEX_MARK) + 1:]

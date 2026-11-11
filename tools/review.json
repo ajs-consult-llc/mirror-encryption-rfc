@@ -1,0 +1,12 @@
+{
+  "repo": "ajs-consult-llc/mirror-encryption-rfc",
+  "owner": "AJS Consult LLC",
+  "round": 1,
+  "opens": "11 November 2026",
+  "closes": "11 December 2026, 23:59 UTC",
+  "decisions_by": "25 December 2026",
+  "comment_url": null,
+  "signup_url": null,
+  "signup_verifies_email": false,
+  "security_contact": "aaron@matterboard.ai"
+}

@@ -28,8 +28,8 @@ jobs:
       - name: Run the sync tool's tests
         run: python3 -m unittest discover -s tests -v
 
-      - name: Write the Updates page from the releases
-        run: python3 tools/updates_page.py
+      - name: Write the landing block and the Updates page
+        run: python3 tools/site_pages.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
