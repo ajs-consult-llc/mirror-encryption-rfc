@@ -2,94 +2,94 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/index.html</loc>
-    <lastmod>2026-11-11T21:16:48.976Z</lastmod>
+    <lastmod>2026-11-11T21:19:42.804Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/updates.html</loc>
-    <lastmod>2026-11-11T21:16:48.976Z</lastmod>
+    <lastmod>2026-11-11T21:19:42.803Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/01-executive-summary.html</loc>
-    <lastmod>2026-11-11T21:16:48.363Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.941Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/02-1-document-control.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/03-2-scope.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/04-3-system-overview.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/05-4-threat-model.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/06-5-security-goals-and-non-goals.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/07-6-cryptographic-inventory.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/08-7-key-hierarchy.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/09-8-key-management-lifecycle.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/10-9-protocol-flows.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/11-10-searching-encrypted-data.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/12-11-performance.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/13-12-security-analysis.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/14-13-residual-risks-and-known-limitations.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/15-14-verification-and-transparency.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/16-15-implementation-status-and-roadmap.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/17-16-questions-for-reviewers.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/18-17-vulnerability-disclosure.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/19-18-references-and-glossary.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/20-appendix-a-submission-process.html</loc>
-    <lastmod>2026-11-11T21:16:48.364Z</lastmod>
+    <lastmod>2026-11-11T21:19:41.942Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/Mirror-Encryption--Security-Architecture.pdf</loc>
-    <lastmod>2026-11-11T21:17:07.378Z</lastmod>
+    <lastmod>2026-11-11T21:20:16.549Z</lastmod>
   </url>
 </urlset>
