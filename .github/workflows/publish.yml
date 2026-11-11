@@ -37,6 +37,14 @@ jobs:
         with:
           version: 1.11.9
 
+      # The repository keeps ```mermaid, which GitHub draws on its own pages. Quarto draws
+      # ```{mermaid}, so the build copy is switched over here and never committed.
+      - name: Mermaid blocks become Quarto diagrams
+        run: sed -i 's/^```mermaid$/```{mermaid}/' index.md chapters/*.md
+
+      - name: A headless browser, to draw the diagrams in the PDF
+        run: quarto install chrome-headless-shell --no-prompt || quarto install chromium --no-prompt
+
       - name: Render HTML and PDF
         run: quarto render
 

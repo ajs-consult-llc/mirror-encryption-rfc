@@ -1,0 +1,10 @@
+sequenceDiagram
+  accTitle: Deleting copies is how access ends
+  accDescr: Delete. The user revokes a token, or deletes the account. The server deletes that token's hash and copy, or every copy and row. Backups keep old copies until they expire, up to 30 days. If every holder is lost, the next desktop makes a new account key and collects again.
+  participant U as User
+  participant S as Server
+  participant DB as Database
+  U->>S: revoke a token, or delete the account
+  S->>DB: delete the hash and copy, or every copy and row
+  Note over S,DB: Backups keep old copies until they expire, up to 30 days.
+  Note over U: If every holder is lost, the next desktop makes a new account key and collects again.

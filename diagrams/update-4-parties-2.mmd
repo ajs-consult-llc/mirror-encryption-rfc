@@ -1,0 +1,11 @@
+sequenceDiagram
+  accTitle: A writer's change is encrypted on the server and seen on the next read
+  accDescr: Update. A reader or writer sends a change with its token, such as an AI tool call or a web-app edit. The server unlocks the account key, encrypts the change, recomputes its tags and stores it. On any reader's next request, the server returns the updated message.
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  R->>S: a change with its token, an AI tool call or a web-app edit
+  Note over S: unlock the account key, encrypt the change, recompute its tags
+  S->>DB: store it
+  R->>S: any reader's next request
+  S-->>R: the updated message
