@@ -23,7 +23,7 @@ NAME = "AI-Optimized Data Mirror RFC: review updates"  # the form's name inside 
 DOC_TITLE = "Security Reference Architecture for AI-Optimized Data Mirrors (RFC)"
 # The graphic, from a commit in the public repository: pinned, so the link cannot break.
 IMAGE_URL = ("https://raw.githubusercontent.com/ajs-consult-llc/mirror-encryption-rfc/"
-             "db85aa6057fbaa3e9b6fd6c4bfb764522305a604/assets/social/secure-message-mirror-banner.png")
+             "e3fd25115ec63dcd060164b381367d11e47ace58/assets/social/ai-optimized-data-mirror-banner.png")
 IMAGE_ALT = ("AI-Optimized Data Mirror: your data, encrypted with your key, readable only by the AI "
              "you approve.")
 LABEL = "Get review updates by email"
@@ -53,7 +53,7 @@ def blocks(site_url: str) -> list[dict]:
                f'<a href="{site_url}">Read the RFC</a>')
     return [
         block("FORM_TITLE", "TEXT", {"html": DOC_TITLE, "title": NAME, "button": {"label": BUTTON}}),
-        block("IMAGE", "IMAGE", {"images": [{"name": "secure-message-mirror-banner.png", "url": IMAGE_URL}],
+        block("IMAGE", "IMAGE", {"images": [{"name": "ai-optimized-data-mirror-banner.png", "url": IMAGE_URL}],
                                  "hasAltText": True, "altText": IMAGE_ALT}),
         block("TEXT", "TEXT", {"html": details}),
         block("TITLE", "QUESTION", {"html": LABEL}),
