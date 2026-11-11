@@ -189,7 +189,7 @@ def email_html(cfg: Config, title: str, body_html: str, release_url: str) -> str
         f"<p><a href=\"{release_url}\">Read it on GitHub</a> · <a href=\"{cfg.site_url}\">The RFC</a></p>"
         "<hr style=\"border:0;border-top:1px solid #d9e0e7\">"
         "<p style=\"font-size:12px;color:#5f7183\">You get this because you signed up for review-window "
-        "notices for the Mirror Encryption RFC. Your address is used for nothing else and never shared. "
+        "notices for the AI-Optimized Data Mirror RFC. Your address is used for nothing else and never shared. "
         f"<a href=\"{UNSUBSCRIBE}\">Unsubscribe</a>.</p></div>"
     )
 

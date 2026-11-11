@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Draw the Secure Message Mirror graphic and render it.
+"""Draw the AI-Optimized Data Mirror graphic and render it.
 
     python3 assets/social/build.py
 
 Writes, next to this file:
-  secure-message-mirror.svg         the vector source, transparent
-  secure-message-mirror.png         1200x630, transparent: the site and the sign-up form
-  secure-message-mirror-social.png  1200x630 on white: the link preview (a transparent preview
+  ai-optimized-data-mirror.svg         the vector source, transparent
+  ai-optimized-data-mirror.png         1200x630, transparent: the site and the sign-up form
+  ai-optimized-data-mirror-social.png  1200x630 on white: the link preview (a transparent preview
                                     can look broken on dark-mode feeds)
-  secure-message-mirror-banner.png  1200x290, transparent: only the diagram band, for the sign-up
+  ai-optimized-data-mirror-banner.png  1200x290, transparent: only the diagram band, for the sign-up
                                     form, which already shows the title and must fit one screen
 
 Needs rsvg-convert (brew install librsvg). One accent colour, gold only for the user's key.
@@ -65,15 +65,15 @@ def grid(x0: int, rows: list[list[str]]) -> str:
 def svg() -> str:
     left_x, right_x = 110, 1200 - 110 - (3 * TILE + 2 * GAP)
     left_mid, right_mid = left_x + (3 * TILE + 2 * GAP) // 2, right_x + (3 * TILE + 2 * GAP) // 2
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Secure Message Mirror RFC, a request for comments: your data, encrypted with your key, readable only by the AI you approve">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="AI-Optimized Data Mirror RFC, a security reference architecture open for comment: your data, encrypted with your key, readable only by the AI you approve">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
       <path d="M0 0L10 5L0 10z" fill="{ACCENT}"/>
     </marker>
   </defs>
   <g font-family="{FONT}">
-    <text x="600" y="78" text-anchor="middle" font-size="16" font-weight="700" letter-spacing="3" fill="{ACCENT}">REQUEST FOR COMMENTS</text>
-    <text x="600" y="142" text-anchor="middle" font-size="48" font-weight="700" fill="{INK}">Secure Message Mirror RFC</text>
+    <text x="600" y="78" text-anchor="middle" font-size="16" font-weight="700" letter-spacing="3" fill="{ACCENT}">SECURITY REFERENCE ARCHITECTURE</text>
+    <text x="600" y="142" text-anchor="middle" font-size="48" font-weight="700" fill="{INK}">AI-Optimized Data Mirror RFC</text>
     <text x="600" y="184" text-anchor="middle" font-size="22" fill="{MUTED}">Encrypted with your key. Readable only by the AI you approve.</text>
 
     {grid(left_x, LEFT)}
@@ -113,15 +113,15 @@ def render(src: Path, out: str, height: int, extra: list[str]) -> None:
 
 def main() -> None:
     full = svg()
-    src = HERE / "secure-message-mirror.svg"
+    src = HERE / "ai-optimized-data-mirror.svg"
     src.write_text(full, encoding="utf-8")
-    render(src, "secure-message-mirror.png", 630, [])
-    render(src, "secure-message-mirror-social.png", 630, ["--background-color=white"])
+    render(src, "ai-optimized-data-mirror.png", 630, [])
+    render(src, "ai-optimized-data-mirror-social.png", 630, ["--background-color=white"])
     # The banner is the same drawing, framed to the diagram band: one source, so it cannot drift.
-    banner = HERE / "secure-message-mirror-banner.svg"
+    banner = HERE / "ai-optimized-data-mirror-banner.svg"
     banner.write_text(full.replace('width="1200" height="630" viewBox="0 0 1200 630"',
                                    'width="1200" height="290" viewBox="0 214 1200 290"', 1), encoding="utf-8")
-    render(banner, "secure-message-mirror-banner.png", 290, [])
+    render(banner, "ai-optimized-data-mirror-banner.png", 290, [])
     print("wrote the svg sources and the full, social and banner PNGs")
 
 
