@@ -23,16 +23,12 @@ NAME = "Mirror Encryption RFC: review updates"  # the form's name inside Tally
 DOC_TITLE = "Mirror Encryption: Security Architecture"
 # The graphic, from a commit in the public repository: pinned, so the link cannot break.
 IMAGE_URL = ("https://raw.githubusercontent.com/ajs-consult-llc/mirror-encryption-rfc/"
-             "8181fb3145e7326e5ad4c7df6047d872dbceb32f/assets/social/secure-message-mirror.png")
+             "db85aa6057fbaa3e9b6fd6c4bfb764522305a604/assets/social/secure-message-mirror-banner.png")
 IMAGE_ALT = ("Secure Message Mirror: your messages, encrypted under your key, readable only by "
              "the readers you approve. Everyone else sees ciphertext only.")
-SIGNUP_HEADING = "Get review updates"
-INTRO = ("We'll email you only when something happens: a review round opens, reaches its midpoint, "
-         "closes, or its decisions are published. A handful of emails in all.")
-LABEL = "Your email"
+LABEL = "Get review updates by email"
 CONSENT = "Yes, send me review updates"
-SMALL_PRINT = ("Used only for these updates. Never shared. Deleted when the review ends. "
-               "Every email has an unsubscribe link.")
+SMALL_PRINT = "Only for review updates. Never shared. Unsubscribe anytime."
 BUTTON = "Keep me posted"
 STYLES = {
     "theme": "CUSTOM",
@@ -49,19 +45,16 @@ def block(kind: str, group: str, payload: dict) -> dict:
 
 
 def blocks(site_url: str) -> list[dict]:
+    """Short enough to fit one laptop screen: title, banner, one paragraph, the sign-up."""
     review = json.loads(REVIEW.read_text(encoding="utf-8"))
-    details = (f"A proposed security architecture for a private mirror of a person's messages: a "
-               f"database that only the readers the user chooses, including their AI assistants, can "
-               f"search. {review['owner']} publishes it for open review. Round {review['round']} is open "
-               f"until {review['closes']}.")
+    details = (f"A request for comments (RFC) on a security architecture for a private mirror of "
+               f"people's messages, open for public comment until {review['closes']}. "
+               f'<a href="{site_url}">Read the RFC</a>')
     return [
         block("FORM_TITLE", "TEXT", {"html": DOC_TITLE, "title": NAME, "button": {"label": BUTTON}}),
-        block("TEXT", "TEXT", {"html": details}),
-        block("TEXT", "TEXT", {"html": f'<a href="{site_url}">Read the document</a>'}),
-        block("IMAGE", "IMAGE", {"images": [{"name": "secure-message-mirror.png", "url": IMAGE_URL}],
+        block("IMAGE", "IMAGE", {"images": [{"name": "secure-message-mirror-banner.png", "url": IMAGE_URL}],
                                  "hasAltText": True, "altText": IMAGE_ALT}),
-        block("HEADING_2", "HEADING_2", {"html": SIGNUP_HEADING}),
-        block("TEXT", "TEXT", {"html": INTRO}),
+        block("TEXT", "TEXT", {"html": details}),
         block("TITLE", "QUESTION", {"html": LABEL}),
         block("INPUT_EMAIL", "INPUT_EMAIL", {"isRequired": True, "placeholder": "name@example.com",
                                              "requireVerification": False}),
