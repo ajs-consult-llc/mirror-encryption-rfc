@@ -24,12 +24,12 @@ Claude Doc ──export──▶ tools/rfcsync.py split ──▶ chapters/*.qmd
 
 | Path | What it is |
 | --- | --- |
-| `chapters/*.qmd`, `index.qmd` | The document, one chapter per section of the doc. Written by `split`. |
-| `figures/*.png` | The diagrams, captured from the doc. Named after each diagram's caption. |
+| `index.md`, `chapters/*.md` | The document as plain Markdown, one chapter per section of the doc. Written by `split`. GitHub shows each as a page. |
+| `diagrams/*.mmd` | The diagrams, as Mermaid text with an accessible title and description. `split` places each in its chapter; GitHub draws them. Edit diagrams here, never inside a chapter. |
 | `_quarto.yml` | Book configuration, generated from `tools/_quarto.template.yml` by `split`. |
 | `.sync/base.md` | The last export: the merge base for bringing GitHub changes back to the doc. |
-| `.sync/widgets.json` | The doc's diagrams, by caption, with their ids in the doc. |
-| `tools/rfcsync.py` | `split`, `join`, `check`, `plan`, `decode`, `figure`. Standard library only. |
+| `.sync/widgets.json` | Which diagram in the doc each `.mmd` file mirrors. |
+| `tools/rfcsync.py` | `split`, `join`, `check`, `plan`, `decode`. Standard library only. |
 | `.claude/skills/rfc-sync/` | The procedure a Claude session follows for each direction. |
 | `SUBMISSIONS.md` | The log of official submissions and what was decided. |
 

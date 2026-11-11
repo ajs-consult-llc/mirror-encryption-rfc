@@ -1,39 +1,26 @@
-# Mirror Encryption: Security Architecture
+# Security Reference Architecture for AI-optimized Data Mirrors
 
 Nov 11, 2026 · @aaron soellinger
 
-A request for comments (RFC) on encrypting private data mirrors so that only the user-approved devices and AIs can read them.
+A request for comments (RFC) on encrypting private data mirrors so that a copy of the stored data is useless on its own, and the data opens only while a device or AI the user approved is making a request.
 
-## Executive summary
-
-Today, AI assistants connect directly to a user's private correspondence via a variety of partially and fully supported, secure (and insecure) connectors.  Under this status quo, AI providers are empowered to act as fiduciary over this data, to the end of enabling bleeding edge automation and research capabilities to their users.  Simply put, users should not need to sign over their data ownership rights in exchange for access to the best AIs.  This document proposes a security architecture for a messaging mirror that can be securely, safely and privately operated by the user themselves or by a trusted 3rd party.
-
-**The problem.** Data ownership is one of the biggest impediments to the proliferation of beneficial AI, especially in security, safety and privacy critical industries.  Many individuals and organizations are unwilling to cede their data rights to AI companies.  There currently exists no end-to-end security reference architecture to enable individuals or organizations to securely, safely and privately host their own data mirrors in a way that is integrated and compatible with AI assistants.&#32;
-
-**The alternative.** Without a community effort to develop a security, privacy and safety standard around private data, the most likely outcome is for AIs to continue centralizing power using this strategy.  Private 3rd party companies hosting closed source messaging mirrors require the user to trust that bond.  The technical requirements of building such data management systems require seasoned, credentialed software engineering veterans.  Vibe-coded systems from novices don't cut it.&#32;&#32;
-
-**Why this document.** I am an engineer with more than 15 years in industry and independent research in machine learning. For the last six months I have worked on delivering AI to businesses safely, securely and privately, and I built a system that does it over a customer's own messages. Every customer contract turns on the same question: how is their data protected? The industry would benefit from answering that question once, together. This document is my steel-man architecture, the strongest version I can make, for others to attack and improve.
-
-**What is asked of you.** Attack the design. The threat model (section 4), the search leakage (section 10) and the fourteen open questions (section 16) matter most.
-
-## 1. Document control
-
-This is version 0.1, a request for comments. It is owned by its author personally, not by the company that runs the service.
+## Document control
 
 | Field | Value |
 | --- | --- |
-| Status | Request for comments. A design proposal: nothing in sections 6 to 10 is built. |
+| Status | Request for comments. A design proposal. |
 | Version | 0.1, 11 November 2026 |
 | Owner and editor | Owned by AJS Consult LLC, © 2026 AJS Consult LLC. Edited by Aaron Soellinger. |
-| Interests | The editor founded and owns AJS Consult LLC, which owns the brands PRCVD.AI, a machine learning consultancy, and MatterBoard, a safe, secure and private messaging mirror optimized for AI tool use. The system this document describes is MatterBoard's, so the company and the editor have a financial interest in it.  AJS Consult LLC is actively engaged in commercial programs to safely, securely and privately manage data in AI pipelines. |
-| How it was written | Drafted with help from Claude, an AI model, from a read of the product's source code on 11 November 2026. The author is responsible for every claim in it. |
 | License | CC BY 4.0. You may share, quote and adapt it, with credit to AJS Consult LLC. |
+| Maintained by | [Aaron Soellinger](https://www.linkedin.com/in/aaronsoellinger/),&#32; |
+| How it was written | Drafted from a read of private source code on 11 November 2026. Manually reviewed, the author is personally responsible for every claim in it. |
 | Commitment | Nothing here commits AJS Consult LLC until it ships and the company's privacy policy says so. |
 | Version of record | The copy at this address. Each revision is dated and listed below, and earlier versions stay readable in the document's history. |
+| Disclosures | The editor founded and owns AJS Consult LLC, which owns the brands PRCVD.AI, a machine learning consultancy, and MatterBoard, a safe, secure and private messaging mirror optimized for AI tool use.  AJS Consult LLC is actively engaged in commercial programs to safely, securely and privately manage data in AI pipelines for security, privacy and safety critical industries. |
 
-**Comments.** Anyone may comment, on any part of this document. Your comments stay yours. By posting one, you let the author use the idea without obligation or payment, and you are credited by name if you ask. Please leave out confidential information and anything about other people.
+**Comments.** **Anyone** may and should comment, on any part of this document. Your comments stay yours. By posting one, you let the author use the idea without obligation or payment, and you are credited by name if you ask. Please leave out confidential information and anything about other people.
 
-**Security problems in the running service** go privately to the contact in section 17, never in a comment here.
+**Security problems in the running service** go privately to the contact in section 17 of the v0.1 tab, never in a comment here.
 
 Open question: the date the comment period closes.
 
@@ -41,520 +28,315 @@ Open question: the date the comment period closes.
 | --- | --- | --- |
 | 0.1 | 11 November 2026 | Initial commit. |
 
-## 2. Scope
+### Submission phases
 
-This document covers the server-side copy of each account's data, which the service calls the mirror, and every credential that can open it.
+Review runs in rounds. Each round is seven days, six for review and one for editing, and the rounds repeat until every comment is addressed.
 
-**The system.** The client, a desktop app, reads the user's mail, messages, calendars, contacts and files on the device and uploads a copy to the server: the mirror. AI assistants the user connects, today Claude and ChatGPT, query the mirror over MCP. A web board shows it in a browser. The server also fetches Slack itself, receives inbound email, and runs a Telegram bot.
+1. **Review, 6 days.** The current version is open, and anyone may comment on any part of it.
+2. **Editing, 1 day.** No new comments are taken. The editor addresses every comment in its own thread: accepted and changed, declined with a reason, or carried into Questions for reviewers.
+3. **New version.** The revised version is published and added to the version table above, with what changed. The next review opens on it.
 
-| In scope | What it covers |
-| --- | --- |
-| Content at rest | Messages, chats, contacts, calendar events, attachments, contact photos and uploads, plus records derived from them (triage, matters, people, traces) |
-| Keys and tokens | The account key, its locked copies, every token a holder presents, and the source tokens for Google and Slack |
-| Access paths | The client, AI assistants over MCP and OAuth 2.1, the web board, and company support |
-| Search | Matching and regex search over encrypted content |
-| Backups | Cloud SQL point-in-time recovery and daily backups |
+A comment that arrives on an editing day counts toward the next round. The rounds end when a review closes with no new comments and none left unaddressed; that version is then marked final.
 
-**Built today versus proposed.** Today the mirror's content is stored in plaintext columns in Cloud SQL (Postgres 15) and objects in Cloud Storage, under Google's default encryption at rest. All traffic uses TLS. Tokens are stored as SHA-256 hashes. Google grants are encrypted with one server-wide key. Today, the service's administrators can read or change any account's mirror through the service's own routes, and the service keeps no audit record of which administrator did so. Everything in sections 6 to 10 is proposed and not built.
-
-**Phasing.** Accounts that use only the client switch first. The server does no background AI work for them (triage, filing, briefs), so it reads their content only while answering a request or taking an upload. Accounts that use the web board's background features follow once section 16's questions on them are settled.
-
-**Out of scope:** the security of the user's device beyond the client's use of the OS keystore; what AI providers do with answers they receive; the original sources (Gmail, Microsoft 365, iMessage, WhatsApp, Slack, Telegram); transport security beyond requiring TLS; and availability.
-
-## 3. System overview
-
-The server holds K only inside a request that presents a holder's token and secret. Storage, backups and logs hold ciphertext, keyed tags and token hashes.
-
-&#91;embedded content: system overview · 4 holders, 4 stores, 8 trust boundaries\]
-
-The server is a FastAPI application on Python 3.11, on Google Cloud, behind TLS. Dashed parts exist only while the user has Debug access on.
-
-## 4. Threat model
-
-The design defends stored data against anyone who does not hold a token, the operator included. It does not defend data in server memory during an authorized request until verification level 3 (section 14).
-
-**Assets**
-
-| Asset | Where it lives |
-| --- | --- |
-| Message content: text, subjects, attachments | Postgres, Cloud Storage, backups |
-| Contacts and the identity graph: handles, addresses, names, aliases | Postgres |
-| Calendar events | Postgres |
-| Source tokens: Google refresh token, Slack tokens | Postgres |
-| The account key and its locked copies | The device's OS keystore; locked copies in Postgres |
-| Holder tokens: device, access, refresh, session, personal access | Each holder; only hashes on the server |
-| Metadata: timestamps, sizes, counts, which rows share a search fragment | Postgres |
-
-**Adversaries**
-
-| # | Adversary | Capabilities | Outcome under this design |
-| --- | --- | --- | --- |
-| A1 | Storage thief | Reads Cloud SQL, a database dump, a backup or a storage bucket | Ciphertext, keyed tags and token hashes. Learns metadata and tag overlap (section 10). |
-| A2 | Curious or compelled operator | Operator staff with database and admin access who do not change the code | Ciphertext, unless the user has turned on Debug access. Every support use is logged by Cloud KMS and shown to the user. |
-| A3 | Compromised server or malicious code change | Runs code on the server while requests are served | Sees the key and plaintext of every account that makes a request while it is present. Not defended until level 3. |
-| A4 | Token thief | Steals one holder's token from an AI provider, a browser or a device | That holder's access, until the token is revoked or expires. |
-| A5 | Another user of the service | Authenticated to a different account | Ciphertext that does not decrypt under their key, even if a bug serves them another account's rows. |
-| A6 | AI provider | Receives what it asks for | Sees those answers. A non-goal (section 5). |
-| A7 | Lawful demand served on the operator | Compels data the company holds | Ciphertext, unless a holder is calling or Debug access is on. A compelled code change is A3. |
-| A8 | Malware on the user's device | Runs as the user | Has the key. Out of scope. |
-
-**Trust assumptions**
-
-- The device is not compromised when the client first runs, and the OS keystore protects the key at rest.
-- The Cloud KMS HSM never releases the support key's private half.
-- Google Cloud's infrastructure does not attack the running server. Level 3 removes this assumption for the server.
-- AES-256-GCM, HKDF-SHA256, HMAC-SHA256, X25519 and RSA-OAEP are secure at the parameters in section 6.
-- Every connection uses TLS 1.2 or later.
-- The account holder, signed in, is the person who approves a new AI on the consent page.
-
-## 5. Security goals and non-goals
-
-This is server-side encryption under keys the user's holders control. It is not end-to-end encryption: the server decrypts, in memory, for each authorized request.
-
-**Goals**
-
-| # | Goal | Where it is met |
-| --- | --- | --- |
-| G1 | Without a holder's token, stored content, contacts and calendars are ciphertext to everyone, operator staff and anyone with the database, backups or storage included. | Sections 6, 7, 10 |
-| G2 | Each holder has its own locked copy. Revoking a holder deletes one row and ends its access at once. | Sections 7, 8 |
-| G3 | Support can read an account only after the user turns on Debug access. It is time-limited, revocable, logged by a party other than the operator, and every use is shown to the user. | Section 9.6 |
-| G4 | The operator cannot re-read the user's original sources: the Google and Slack tokens are locked under the account key. | Section 8 |
-| G5 | Deleting the account deletes every live copy of the key, and the Vault deletes K from the Keychain. Backups keep locked copies until they expire, within 30 days. | Section 9.8 |
-| G6 | One account's ciphertext and tags cannot be read or matched with another account's keys. | Sections 6, 10 |
-| G7 | An authorized AI's answer costs about what it costs today. | Section 11 |
-| G8 | People outside the company can check the code, the build and, at level 3, the running server. | Section 14 |
-
-**Non-goals**
-
-| # | Not promised | Why |
-| --- | --- | --- |
-| N1 | Protecting plaintext in server memory during an authorized request from a compromised server | Needs attestation, level 3 |
-| N2 | Controlling what an AI provider does with an answer | Outside the operator's control |
-| N3 | Hiding metadata: timestamps, sizes, counts, access times, and which rows share a keyed fragment | Needed for search and ordering (section 10) |
-| N4 | Protecting backups taken before cutover | They expire within 30 days |
-| N5 | Defending against malware on the user's device | The device holds the key |
-| N6 | Keeping the mirror readable if every holder is lost | No recovery key exists. The mirror refills from the original sources. |
-
-## 6. Cryptographic inventory
-
-Every primitive is a published standard from a maintained library: the platform's native cryptography library on the device, and pyca/cryptography (Python 3.11) on the server. Nothing is a custom construction except the search tags in section 10.
-
-**Notation used from here on.** K is an account's key. For a holder h, Tₕ is its token, sₕ its unlock secret, and Cₕ its locked copy of K. A holder presents Tₕ and sₕ together. The server stores SHA-256(Tₕ) and Cₕ, never Tₕ, sₕ or K.
-
-| Purpose | Primitive | Parameters | Library | Standard | Status |
-| --- | --- | --- | --- | --- | --- |
-| Account key K | Random generation | 256 bits | Platform cryptography library | — | Proposed |
-| Content in Postgres | AES-256-GCM | 96-bit random nonce, 128-bit tag; associated data binds account, table, column and row | pyca/cryptography | NIST SP 800-38D | Proposed |
-| Files in Cloud Storage | AES-256-GCM, chunked stream | Per-chunk nonce and position; chunk size open | pyca/cryptography | NIST SP 800-38D | Proposed |
-| Unlock secret sₕ | Random generation | 256 bits | Platform cryptography library; Python `secrets` | — | Proposed |
-| Key-encryption key for Cₕ | HKDF-SHA256 | IKM sₕ; info names the holder and the version | pyca/cryptography | RFC 5869 | Proposed |
-| Locked copy Cₕ | AES-256 key wrap with padding | 256-bit key-encryption key | pyca/cryptography | RFC 5649 | Proposed |
-| Holder lookup | SHA-256 of Tₕ | Unsalted: Tₕ is 240 random bits | Python `hashlib` | FIPS 180-4 | Built |
-| Search and identity tag keys | HKDF-SHA256 | IKM K; one info label per purpose | pyca/cryptography | RFC 5869 | Proposed |
-| Search and identity tags | HMAC-SHA256, truncated | 64 bits | Python `hmac` | RFC 2104 | Proposed |
-| Sealed arrivals | HPKE, base mode | DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, AES-256-GCM | Open (question 9) | RFC 9180, RFC 7748 | Proposed |
-| Support copy of K | RSA-OAEP | 4096-bit key, SHA-256, in a Cloud KMS HSM | Cloud KMS | RFC 8017 | Proposed |
-| AI authorization | OAuth 2.1 with PKCE | S256 challenge; authorization code 300 s, single use | Server's own | RFC 7636, RFC 9700 | Built |
-| Google grants, today | Fernet (AES-128-CBC with HMAC-SHA256) | One key for all accounts | pyca/cryptography | Fernet spec | Built; replaced by K for source tokens |
-| Release signing | Sigstore cosign, Rekor log | — | Sigstore | SLSA | Proposed |
-| Server attestation | AMD SEV-SNP confidential VM | Image digest in the attestation | Google Confidential Space | — | Proposed |
-
-## 7. Key hierarchy
-
-One account key, K, encrypts everything, and each holder reaches it only through a copy wrapped under its own secret.
-
-&#91;embedded content: key hierarchy · 4 holders, 1 account key, 4 things it opens\]
-
-Deleting a copy revokes one holder. A personal access token, when built, is one more holder in the top row.
-
-## 8. Key management lifecycle
-
-Every credential that can reach K follows the phases of NIST SP 800-57 Part 1, below. Revoking any holder is deleting one row. Rows describe the proposal; the token formats marked built exist today.
-
-| Credential | Generated | Stored | Distributed | Used | Rotated | Revoked and destroyed |
-| --- | --- | --- | --- | --- | --- | --- |
-| Account key K | The client's first run, with the platform's cryptography library | OS keystore, the source of truth, bound to this device and readable only while it is unlocked. The server holds only locked copies. | Never in the clear; only as locked copies | Server memory, for one request; derives the tag keys | Open (question 3) | Account deletion deletes every live copy, and the Vault deletes K from the Keychain; backups age out within 30 days. Losing every holder makes the mirror unreadable. |
-| Locked copy Cₕ and unlock secret sₕ | When a holder is admitted: sign-in, AI consent, a board session, Debug access, a personal access token | Cₕ in Postgres with its holder, creation time and expiry. sₕ only inside the holder's token. | sₕ travels with every request | HKDF(sₕ) unwraps Cₕ for that request | With the holder's token: a new secret re-wraps the copy | Deleting Cₕ ends that holder's access at once. A backup taken earlier still holds it until the backup expires. |
-| X25519 keypair | With K, on the device | Public half in Postgres, in the clear. Private half encrypted under K. | Public half to every producer that seals arrivals | Seal: Slack sync, inbound email, Telegram. Open: the next holder's call. | With K, after opening every sealed arrival | Account deletion |
-| Search and identity tag keys | Derived from K by HKDF on each request | Never stored | Never | Computing tags for writes and queries | With K; every tag is recomputed | With K |
-| Support key | Once, in a Cloud KMS HSM, by infrastructure code | The private half never leaves the HSM | The public half to the server | KMS decrypt of a support copy, by staff with the IAM role and two-step sign-in; logged in Cloud Audit Logs | KMS key versions; support copies re-wrap on next use | KMS key-version destruction |
-| Support copy | When the user turns on Debug access | Postgres, with its expiry | Never leaves; the server sends it to KMS and gets K back for one request | Each support request | — | At expiry (72 hours suggested), or when the user turns it off |
-| Device token | At sign-in, with Google or an emailed code. Built: 240 random bits. | OS keystore; the server keeps SHA-256 | `Authorization: Bearer` over TLS | Every client request | Open (question 13) | Sign out, removal from Control, account deletion |
-| Access token (AI) | `/token`, after consent. Built. | The AI provider; the server keeps SHA-256 | Bearer header on `/mcp` only | Each MCP call | Each refresh | Disconnect from Control, account deletion |
-| Refresh token (AI) | `/token`. Built: single use. | The AI provider; the server keeps SHA-256 | `/token` only | Renewing the access token | Spent and replaced on every use | Deleted with the AI's access token and copy on disconnect |
-| Session cookie (board) | Redeeming a connect code, or signing in on the web. Built. | An HttpOnly, Secure, SameSite=Lax cookie only | The cookie | Each board request | A new session replaces the previous one for the same purpose | Sign out, revoking its parent device, account deletion |
-| Connect code | The client asks for one. Built: 256 bits. | A server row until redeemed or expired | The URL fragment, which browsers do not send to servers | Once | — | Deleted on redemption; expires after 60 seconds |
-| Personal access token | Minted from Control by the signed-in owner, for a script | The script; the server keeps SHA-256, its scopes and its expiry | Bearer header on a REST surface | Each request, like any holder | Mint a new one, then delete the old one | At its expiry, or deleted from Control |
-| Source tokens (Google, Slack) | When the user connects the source | Wrapped under K | Never | Only inside a request that holds K | When the provider rotates them | Deleted, and revoked with the provider, on disconnect |
-
-## 9. Protocol flows
-
-The eight flows below are the whole proposal: in each, K is unwrapped only inside a request that presents a holder's secret. Notation is from section 6. Steps marked "built" run that way today.
-
-### 9.1 Enrollment: the client's first run
-
-1. Client → Server: sign in with Google or an emailed code. Built.
-2. Server → client: device token Tₘ. The server stores SHA-256(Tₘ). Built.
-3. Client: generates K, an X25519 keypair (pk, sk), and the device's unlock secret sₘ.
-4. Client: stores K, Tₘ and sₘ in the OS keystore.
-5. Client → Server: Cₘ = Wrap(HKDF(sₘ), K), pk, and sk encrypted under K.
-6. Server: stores them. K, sk and sₘ never leave the device in the clear.
-
-&#91;embedded content: enrollment sequence · 4 parties, built vs proposed\]
-
-The first three messages run today; everything below the line is proposed. K is created on the device, and only locked copies cross to the server.
-
-### 9.2 Opening the web board
-
-1. Client → Server: request a connect code, presenting Tₘ and sₘ. Built, without sₘ.
-2. Server → client: a 60-second, single-use connect code. Built.
-3. Client: opens the browser with the code in the URL fragment. Built.
-4. Browser → Server: redeem the code, from a trusted Origin. Built.
-5. Server: makes the session's secret sₑ and its copy Cₑ.
-6. Server → Browser: an HttpOnly session cookie carrying Tₑ and sₑ.
-
-Whether Cₑ is made at step 2 or step 5 is open (question 6). Made at step 5, a code that expires unused leaves no copy behind, but the code must then carry a secret that opens K.
-
-&#91;embedded content: opening the board · 3 parties, 6 steps\]
-
-The device vouches for the browser with a one-use code; the browser then holds its own secret in an HttpOnly cookie.
-
-### 9.3 Connecting an AI assistant (OAuth 2.1)
-
-1. AI → Server: dynamic client registration, then a redirect to `/authorize` with a PKCE S256 challenge. Built.
-2. User, signed in on the board, approves on the consent page. Built.
-3. Server: unwraps K through the session's copy, makes sₐ for the AI, stores Cₐ.
-4. Server → AI: an authorization code, 300 seconds, single use. Built.
-5. AI → Server: `/token` with the code and the PKCE verifier. Built.
-6. Server → AI: an access token and a refresh token, each carrying sₐ.
-7. On renewal, AI → Server: `/token` with the refresh token, which carries sₐ, so Cₐ stays openable (question 7).
-
-Today the redirect allowlist admits Claude, ChatGPT and loopback clients only.
-
-&#91;embedded content: connecting an AI · 4 parties, OAuth 2.1 with PKCE\]
-
-The copy is made inside the user’s signed-in session, so approving the AI is the only step the user takes.
-
-### 9.4 An AI asks a question
-
-1. AI → Server: an MCP call, `Authorization: Bearer` carrying Tₐ and sₐ. Built, without sₐ.
-2. Server: finds the holder by SHA-256(Tₐ), and its copy Cₐ. Built, without Cₐ.
-3. Server: K = Unwrap(HKDF(sₐ), Cₐ), held in a request-scoped context. A route that needs K and lacks it fails; it never falls back to plaintext.
-4. Server → Postgres: look up the query's keyed tags in the GIN index (section 10).
-5. Postgres → Server: candidate rows, still ciphertext.
-6. Server: decrypts only the candidates, runs the real regex, and returns the answer.
-7. The request ends. K and the plaintext are dropped; nothing is written or logged in the clear.
-
-&#91;embedded content: an AI asks · 3 parties, one request\]
-
-Only the candidate rows are decrypted, and K is dropped when the request ends.
-
-### 9.5 Arrivals while nobody is calling
-
-1. Slack sync, the inbound email webhook or the Telegram bot → Server: a new message. Built.
-2. Server: seals it to pk with HPKE and stores the sealed record. The plaintext exists in memory only while it is sealed.
-3. On the next holder's call, the server unwraps K, decrypts sk, opens the sealed records, tags them and re-encrypts them under K.
-
-The arrivals queue, which runs on Google Pub/Sub in development, carries message ids only, never content.
-
-&#91;embedded content: arrivals · 4 parties, seal now, open later\]
-
-New mail keeps arriving without the server ever holding K; it waits sealed until a holder calls.
-
-### 9.6 Debug access
-
-1. User, signed in (the session holds K) → Server: turn on Debug access, with an end time and an optional reason.
-2. Server: Cₛ = RSA-OAEP(support public key, K), stored with its expiry.
-3. Support staff, with the IAM role and two-step sign-in → Server: a support request.
-4. Server → Cloud KMS: decrypt Cₛ. KMS → Server: K, for that request. Cloud Audit Logs records the call.
-5. Server → User: the use appears in the user's list, read from the audit log.
-6. At the end time, or when the user turns it off, the server deletes Cₛ.
-
-Cloud KMS does not know the end time; the server enforces it by deleting the copy (question 8).
-
-&#91;embedded content: Debug access · 4 parties, user-granted and logged\]
-
-Support has no copy until the user turns access on, and the KMS audit log records each use.
-
-### 9.7 A lost device, and a new one
-
-1. User, on the board → Server: remove the lost device. The server deletes Cₘ and revokes Tₘ.
-2. New device → Server: sign in and ask to join. The new device shows a short code.
-3. User, on an existing holder: compares the code and approves.
-4. Server: makes a copy for the new device under its own new secret.
-5. If no holder is left, the mirror cannot be read. The new device makes a new K and refills the mirror from the original sources.
-
-How a second device joins, and whether it also keeps K locally, is not specified yet (question 4).
-
-&#91;embedded content: a lost device, and a new one · 3 parties\]
-
-Revoking a device is deleting one copy; a new device needs approval from a holder the user still has.
-
-### 9.8 Disconnect, sign out, delete
-
-- Disconnect an AI: delete Cₐ, and revoke its access and refresh tokens.
-- Sign out on the device: revoke Tₘ and the board sessions it opened, and delete their copies.
-- Delete the account: delete every copy and every row. The Vault deletes K from the Keychain. Backups still hold locked copies until they expire, within 30 days, so a holder secret that survives the deletion could open them until then.
-
-&#91;embedded content: disconnect, sign out, delete · 3 parties\]
-
-Every exit works by deleting the live copies of K. Backups keep older copies until they expire, within 30 days.
-
-## 10. Searching encrypted data
-
-Search runs over keyed 64-bit trigram tags, so the database index never holds plaintext. The price is a leakage profile, listed below, and it is the design's main weakness against a storage thief (A1).
-
-**Construction**
-
-1. kₛ = HKDF-SHA256(K, info = "search", version). A separate key, kᵢ, is derived the same way for identity tags.
-2. For each indexed field (message text, sender, sender name, chat name, participants, alias names), every distinct three-character fragment t gives the tag trunc₆₄(HMAC-SHA256(kₛ, field ‖ t)).
-3. A row's tags are stored as a `bigint[]` column with a GIN index. They replace today's pg\_trgm indexes.
-4. A query's regex is reduced to the fragments any match must contain, the approach of Russ Cox's trigram index. Those fragments become tags, and the GIN index returns candidate rows.
-5. The server decrypts the candidates and runs the real regex. A truncation collision only adds a false candidate, which this check removes.
-6. A pattern with no required fragment, such as `.*`, falls back to a bounded scan of the most recent rows.
-7. Handles, addresses and names are normalized and tagged under kᵢ, so conversations and the people graph can be grouped without plaintext.
-
-**What an adversary with the database learns**
-
-| Leak | Who sees it | Severity |
-| --- | --- | --- |
-| Each row's number of distinct fragments, roughly its length | A1, A2 | Low |
-| Which rows of one account share a fragment | A1, A2 | Medium. Frequency analysis and known plaintext can recover common fragments: see the leakage-abuse and inference attacks in section 18. |
-| Which tags a live query touched (the access pattern) | Anyone watching the database while queries run | Medium |
-| Timestamps, row counts, sizes | A1, A2 | Low to medium |
-| Anything across accounts | Nobody | None: the tag keys differ per account |
-
-A concrete case: a thief who also knows a newsletter that an account received can mark that newsletter's tags and look for them in the account's other rows. Section 16, question 5, asks whether padding or bucketing the tag sets is worth its cost.
-
-## 11. Performance
-
-The design adds an estimated few milliseconds to each authorized request, mostly the regex recheck. K is opened in memory once per request with no network call, and only the rows in the answer are decrypted.
-
-| Step | Work | Estimated cost | Compared with today |
-| --- | --- | --- | --- |
-| Find the holder | One indexed lookup by token hash | Under 1 ms | The same lookup as today |
-| Unwrap K | HKDF and one key unwrap, in process | Microseconds | New, negligible |
-| Search | GIN lookup on keyed tags | Milliseconds | The same index type as today's trigram search |
-| Decrypt the answer | AES-256-GCM with hardware acceleration | About 1 µs per KB | New, negligible for 50 rows |
-| Recheck | The real regex over the candidates | About 1 ms | pg\_trgm already rechecks inside Postgres today |
-| Debug access only | One Cloud KMS decrypt | A network round trip | New; support requests only |
-
-These are estimates, not measurements. Before anything switches over, the search work will measure them on a synthetic account the size of the largest real one, about 1.6 million messages, and publish the results here.
-
-## 12. Security analysis
-
-The threats below are sorted by STRIDE category and tied to the trust boundaries drawn in section 3. The largest residual risk is T3: until level 3, a malicious server build can read what authorized requests decrypt.
-
-**Trust boundaries:** TB1 device to server. TB2 AI provider to server. TB3 browser to server. TB4 server to storage (Cloud SQL, Cloud Storage, backups). TB5 server to Cloud KMS. TB6 support staff to server. TB7 external sources to server. TB8 build pipeline to the running server.
-
-| # | STRIDE | Boundary | Threat | Mitigation | Residual risk |
-| --- | --- | --- | --- | --- | --- |
-| S1 | Spoofing | TB2, TB3 | A stolen holder token is used to act as that holder | Per-holder copies; revocation deletes one row; the board token lives only in an HttpOnly cookie; token expiry (question 13) | Access until revoked or expired |
-| S2 | Spoofing | TB2 | A rogue OAuth client is approved | PKCE S256, an exact redirect allowlist, the consent page, and an email on every new connection (planned) | A user tricked into approving |
-| S3 | Spoofing | TB1 | A rogue device joins the account | The user compares a code on an existing holder before approving (question 4) | Phishing of the approval step |
-| T1 | Tampering | TB4 | Ciphertext is moved between rows, columns or accounts | AES-GCM associated data binds account, table, column and row | An older value of the same row can be replayed |
-| T2 | Tampering | TB4 | Tags are altered to hide or surface rows | Every candidate is decrypted and rechecked | Hiding rows from search |
-| T3 | Tampering | TB8 | A malicious build is deployed | Public key-handling code, reproducible signed builds, a public log; attestation at level 3 | Until level 3, that build sees plaintext during requests |
-| R1 | Repudiation | TB6 | Support denies having read an account | Every KMS decrypt is in Cloud Audit Logs and shown to the user | Expiry is enforced by the server, not KMS |
-| I1 | Information disclosure | TB4 | Database, backup or bucket theft | Content encrypted; tags keyed per account; tokens stored as hashes | Metadata and tag overlap (section 10); backups taken before cutover |
-| I2 | Information disclosure | TB4 | Content written to logs | A key context that never logs; a test that scans the server's log calls for content | A logging change that the test misses |
-| I3 | Information disclosure | In process | Memory read on a compromised server | K lives for one request | Not defended until level 3 |
-| I4 | Information disclosure | TB7 | Source tokens used to re-read the originals | Google and Slack tokens wrapped under K | None, once built |
-| D1 | Denial of service | All | Every holder is lost | The mirror refills from the original sources | Data that exists only on the server, if stored under K |
-| D2 | Denial of service | TB5 | Cloud KMS is unavailable | KMS is used only for Debug access | Support is delayed |
-| E1 | Elevation of privilege | TB2, TB3 | A bug serves another account's rows | Per-account keys: the rows do not decrypt under the caller's K | A bug in the key context itself |
-| E2 | Elevation of privilege | TB6 | Staff use admin routes to read accounts | Admin routes need a key like every other route, and return ciphertext without one | Debug access, while the user has it on |
-
-## 13. Residual risks and known limitations
-
-The design leaves fourteen known weaknesses, listed here so no reader has to discover them. The first three matter most.
-
-| # | Limitation | Consequence | What would close it |
-| --- | --- | --- | --- |
-| L1 | The server holds K and plaintext in memory during each authorized request | A compromised server or a malicious build can copy them (T3, I3) | Attestation, level 3 |
-| L2 | Search tags leak which rows of an account share a fragment | A storage thief with some known plaintext can infer more (section 10) | Padding or bucketing tag sets (question 5) |
-| L3 | Backups taken before cutover hold plaintext | Readable by a backup thief until they expire, within 30 days | Time |
-| L4 | AI providers see what they ask for | Their handling is outside this design | None here |
-| L5 | Metadata stays visible: timestamps, sizes, counts, access times | Traffic analysis of one account | Not planned |
-| L6 | The promise depends on locking the source tokens | Without it, the operator could re-read Gmail, Drive, Calendar and Slack directly | Locking Google and Slack tokens under K, before launch |
-| L7 | Whoever controls the device at first run controls K | Malware at enrollment owns the key | A hardware-backed or user-presence gate on the OS keystore item (planned, not designed here) |
-| L8 | A board session opened from an unlocked device has full device rights | Someone at the device can open the mirror | Narrower session scopes |
-| L9 | A hijacked browser session can approve a new AI | The attacker becomes a key holder | An email to the user on every new connection (planned) |
-| L10 | Refresh tokens carry the AI's secret | A leaked refresh token is a long-lived key | Refresh-token expiry and binding (questions 7 and 13) |
-| L11 | Debug access expiry is enforced by the server, not by Cloud KMS | A server bug could extend support access | KMS-side conditions (question 8) |
-| L12 | Arrivals are in server memory, in the clear, before sealing | A compromised server sees new mail as it arrives | Attestation, level 3 |
-| L13 | Background features that need content (triage, filing, briefs) cannot run without a caller | Board accounts are not covered by the first phase | Question 12 |
-| L14 | No recovery key exists | Losing every holder loses data that exists only on the server | A user-held recovery key, if wanted |
-| L15 | Revocation and account deletion are enforced by the server, not by cryptography | A backup taken earlier still holds the locked copies, so a holder secret that survives can open it until the backup expires, within 30 days | Rotating K on revocation (question 3), or shorter backup retention |
-
-This is server-side encryption, not end-to-end encryption. Readers who need the server never to see plaintext should treat L1 as decisive until level 3 ships.
-
-## 14. Verification and transparency
-
-Encryption alone still asks users to trust the operator. Three levels make the claims checkable from outside; levels 1 and 2 are proposed for the first release, and level 3 as its own project.
-
-| Level | The operator does | Outsiders can check | Does not prove |
-| --- | --- | --- | --- |
-| 1. Review | Publishes the key-handling code and this design. Commissions an independent cryptography review and publishes the report. | That the design and the code are sound | That the server runs that code |
-| 2. Transparency | Builds each release reproducibly (SLSA), signs it with Sigstore cosign, records it in the Rekor public log, and reports the running image digest on `/health`. A Verify page in the client lists every key holder and every support use, from the KMS audit log. | That each release is a logged build, and who can open their key | That the running process is that build |
-| 3. Attestation | Runs the server in Google Confidential Space on AMD SEV-SNP. Each locked copy is wrapped a second time under a server key that Cloud KMS releases only to the attested image digest. The client checks the attestation before it issues a token. | That the server runs that build and cannot be logged into, by the operator included. A stolen token is useless on any other build. | Moving the server from an SSH-managed VM to a sealed container is a project of its own |
-
-**The chain from source to running server**
-
-1. Public source: the key-handling code, the token handling, the encrypted column type and the search tags.
-2. A reproducible build: the same source always yields the same image digest.
-3. Signed and logged: each release digest is signed and entered in a public transparency log.
-4. An attested server: a confidential VM proves its digest, and keys are released only to it.
-
-At each link, someone outside can check without trusting the operator. A reviewer reads the source. Anyone rebuilds it and compares the digest with the public log and with `/health`. The user's client verifies the attestation.
-
-## 15. Implementation status and roadmap
-
-None of the twenty pieces below is built. They group into roughly ten pull requests, and client-only accounts switch first.
-
-| # | Group | Piece | What it does | Technology |
+| Round | Version | Review opens (6 days) | Editing day (1 day) | Next version |
 | --- | --- | --- | --- | --- |
-| 1 | Keys and tokens | Account key | Made by the client on first run and kept in the OS keystore; one per account | Native client code, platform cryptography library, OS keystore |
-| 2 | Keys and tokens | Locked copies | One copy per holder, in a table listing its holder, creation time and expiry | HKDF-SHA256, AES key wrap (RFC 5649) |
-| 3 | Keys and tokens | Tokens that carry the secret | Device tokens, OAuth tokens and the board's session cookie each carry their holder's secret; the server keeps only a hash | OAuth 2.1, SHA-256 |
-| 4 | Keys and tokens | Request key context | Opens K once per request and holds it only for that request; a route that needs K and lacks it fails, never falling back to plaintext | FastAPI dependency, contextvars |
-| 5 | Storage | Encrypted column type | One column type for text and JSON, on every content column, bound to account, table, column and row | SQLAlchemy TypeDecorator, AES-256-GCM |
-| 6 | Storage | Content coverage test | Reads the models and fails if any content column is stored in the clear, so a column added later cannot slip through | Static (AST) test |
-| 7 | Storage | Encrypted files | Attachments, contact photos and uploads encrypted before upload, in chunks for large files | Cloud Storage, streaming AES-256-GCM |
-| 8 | Search | Keyed search tags | Replace today's trigram indexes (section 10) | HMAC-SHA256, Postgres GIN |
-| 9 | Search | Query planner | Regex to required fragments, candidate lookup, decrypt and recheck, bounded fallback scan | Python regex parser |
-| 10 | Search | Keyed identity tags | Handles, addresses and names matched by keyed tag, so grouping and the people graph keep working | HMAC-SHA256 |
-| 11 | No request open | Sealed arrivals | Slack sync, inbound email and the Telegram bot seal each arrival to the account's public key | HPKE (RFC 9180), X25519 |
-| 12 | No request open | Key-gated jobs | Work that needs content runs only inside a request that holds K | The existing job runner |
-| 13 | No request open | Locked source tokens | Google and Slack tokens wrapped under K | AES key wrap |
-| 14 | Access and cutover | Debug access | The Settings control, the support key, an expiry, revocation, and a list of every use shown to the user | Cloud KMS HSM, RSA-OAEP, Cloud Audit Logs |
-| 15 | Access and cutover | Operator routes | Admin export and raw SQL routes need a key like everything else, and return ciphertext without one | Existing routes |
-| 16 | Access and cutover | Backfill and cutover | At each device's next check-in: encrypt existing rows, build tags, then drop the plaintext columns and old indexes | Alembic, a batch job |
-| 17 | Access and cutover | Public documents | The privacy policy, terms, and the key-custody statements | Documents |
-| 18 | Portability | Written wire format | Versioned envelopes for locked copies, content, sealed arrivals and tag derivation, with test vectors every client must pass | A specification |
-| 19 | Portability | One shared core library | The cryptography written once, so a client on another platform writes only its key storage | Rust, with Swift, C# and Linux bindings |
-| 20 | Portability | Device enrollment | A second device, on any platform, joins through an existing holder (question 4) | — |
+| 1 | 0.1 | To be set | To be set | 0.2 |
+| 2 | 0.2 | The day after round 1's editing day | 6 days after the review opens | 0.3 |
+| Later rounds | As needed | The same pattern | The same pattern | Final, when no comments remain |
 
-**Why client-only accounts go first.** The server already does no background AI work for them, so it reads their content only inside a request or an upload. Accounts that use the board's background features follow once question 12 is settled.
+## Executive summary
 
-**Other platforms.** The server never knows what kind of device a holder is, so a client on another platform producing the same bytes is one more holder. Only key storage differs: Credential Manager or DPAPI with a TPM on Windows, and the Secret Service with TPM2 sealing on Linux. Linux desktop keyrings are often readable by any process in the session, so a Linux client needs TPM sealing or a passphrase to match the guarantee of the other platforms.
+Today, AI assistants connect directly to a user's private correspondence via a variety of partially and fully supported, secure (and insecure) connectors. Under this status quo, AI providers become the custodians of this data, to the end of enabling bleeding edge automation and research capabilities to their users. Simply put, users should not need to hand over custody of their data in exchange for access to the best AIs. This document proposes a security architecture for a messaging mirror that can be securely, safely and privately operated by the user themselves or by a trusted 3rd party.
 
-**Fixes to today's code.** Writing this document surfaced weaknesses in today's token handling that would undercut the design. They are being fixed before any piece above is built. Under coordinated disclosure, each is listed in the revision history once its fix ships.
+**The proposal.** One random key is made on the user's own computer, and messages are encrypted there before they are uploaded. Each device or AI the user approves gets its own token, and the server can open the data only while one of them is making a request, so a copy of the database alone is useless. This is not end-to-end encryption: the server sees what it serves while it serves it, and What it does not protect lists the limits.
 
-## 16. Questions for reviewers
+**The problem.** Data ownership concerns are among the most significant impediments to the proliferation of beneficial AI, especially in security, safety and privacy critical use cases. There currently exists no complete security reference architecture to enable individuals or organizations to securely, safely and privately host their own data mirrors in a way that is integrated and compatible with AI assistants.  Closed-source solutions to data mirroring require users to trust the implementation, and this document is meant to align users on "the right way" to achieve this goal so trust can be attained.
 
-These fourteen points are where review is wanted most. Comment on a question directly, or anywhere else in the document.
+**The alternative.** Without a community effort to develop a security, privacy and safety standard around private data, the most likely outcome is for AIs to become more entrenched in their position as system of record for user's private data optimally stored for use by AI. Private 3rd party companies hosting closed source messaging mirrors require the user to trust that bond, which is a non-starter for anyone hosting sensitive or mission critical data. As well, the technical requirements of building such data management systems require seasoned, credentialed software engineering veterans and are thus costly and/or out of reach for most potential users of powerful AI.
 
-1. **Token format.** A holder presents Tₕ and sₕ together in one bearer value. Is that sound, or should sₕ travel separately so that a leaked lookup token alone is useless?
-2. **Nonce budget.** K encrypts every content value for the life of the account, with random 96-bit GCM nonces. NIST SP 800-38D limits random nonces to 2³² uses per key, and the largest account holds about 1.6 million messages across several columns. Per-table keys derived by HKDF, AES-GCM-SIV, or XAES-256-GCM?
-3. **Rotating K.** Re-encrypt the mirror, or keep content under data keys wrapped by K, so that rotation re-wraps only keys?
-4. **A second device.** Is comparing a short code on an existing holder enough to admit a new device? Should the new device receive K itself, and over what channel?
-5. **Search leakage.** Is a keyed 64-bit trigram index acceptable for this threat model? Are padded tag sets or bucketed fragments worth their cost in index size and false candidates?
-6. **The board session's copy.** Make it when the connect code is minted, deleting it if unredeemed, or when the code is redeemed, which needs the code to carry a secret?
-7. **Refresh.** Carry sₐ inside the refresh token, or re-wrap Cₐ under a fresh secret at each refresh?
-8. **Debug access expiry.** Is deletion by the server enough, or should the KMS decrypt permission carry an IAM condition that ends at the same time?
-9. **HPKE on the server.** Which maintained HPKE implementation should a Python 3.11 server use?
-10. **Verification for the first release.** Are levels 1 and 2 enough to ship, with level 3 to follow?
-11. **Wire format.** Beyond versioned envelopes and test vectors, what must the specification fix so that independent clients interoperate safely?
-12. **Background features.** Triage, filing and briefs need content when no holder is calling. Run them only on a holder's call, on the user's device, or not at all for encrypted accounts?
-13. **Token lifetimes.** Now that every token carries a key, what expiry and renewal should device, access, refresh and session tokens have?
-14. **Recovery.** Should users be offered a recovery key they hold themselves, accepting that it can be lost or stolen?
+**What is asked of you.** Help us figure out what's worth building that will actually get adopted because it is trusted. Attack the design. What it does not protect, the search leakage (question 1) and the questions for reviewers matter most.
 
-## 17. Vulnerability disclosure
+## Contents
 
-Report a security problem in the running service privately, never in a comment here. Comments on this document are for the design.
+1. Document control
+2. Executive summary
+3. What it defends against
+4. System Requirements
+5. The design on one page
+6. How it works
+   1. Key management lifecycle
+      - Create
+      - Read
+      - Update
+      - Expire
+      - Delete
+   2. How data moves
+      - Collect and push
+      - Approve a reader or writer
+      - Search and retrieve
+      - Update
+      - Revoke and recover
+7. Latency budget
+8. What it does not protect
+9. Decisions made to simplify
+10. Questions for reviewers
 
-- **Where to report:** open question; a reporting address is still to be named.
-- **What the operator's security policy commits to:** an acknowledgement within 2 business days, an assessment within 5, and a fix for a critical or high-severity issue within 7 days of confirming it, or a stated reason and date.
-- **Safe harbour:** good-faith research that follows the policy is treated as authorized, with no legal action.
-- **Please include:** what the issue is and what an attacker gains, exact steps to reproduce, the host you tested, and anything you reached that was not yours.
-- **Out of scope:** denial-of-service and high-rate automated scanning, social engineering, physical attacks, and third-party services the operator does not run.
-- **Payment and credit:** there is no bug bounty. You are credited by name in the fix if you want to be.
+Appendix A. Single or multi-tenant
 
-Open question: a `security.txt` (RFC 9116) on the service's domain, so researchers find this contact without the document.
+## What it defends against
 
-## 18. References and glossary
+The design has one goal: a copy of the stored data is useless without a credential the user approved. It does not hide data from the server while the server answers an approved request.
 
-**Standards**
-
-- [RFC 2104, HMAC](https://www.rfc-editor.org/rfc/rfc2104)
-- [RFC 3552, Guidelines for Writing RFC Text on Security Considerations](https://www.rfc-editor.org/rfc/rfc3552)
-- [RFC 5649, AES Key Wrap with Padding](https://www.rfc-editor.org/rfc/rfc5649)
-- [RFC 5869, HKDF](https://www.rfc-editor.org/rfc/rfc5869)
-- [RFC 7636, PKCE](https://www.rfc-editor.org/rfc/rfc7636)
-- [RFC 7748, Elliptic Curves for Security (X25519)](https://www.rfc-editor.org/rfc/rfc7748)
-- [RFC 8017, PKCS #1 v2.2 (RSA-OAEP)](https://www.rfc-editor.org/rfc/rfc8017)
-- [RFC 9116, security.txt](https://www.rfc-editor.org/rfc/rfc9116)
-- [RFC 9180, Hybrid Public Key Encryption](https://www.rfc-editor.org/rfc/rfc9180)
-- [RFC 9700, Best Current Practice for OAuth 2.0 Security](https://www.rfc-editor.org/rfc/rfc9700)
-- [The OAuth 2.1 Authorization Framework (Internet-Draft)](https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/)
-- [NIST SP 800-38D, Galois/Counter Mode](https://csrc.nist.gov/pubs/sp/800/38/d/final)
-- [NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final)
-- [Fernet specification](https://github.com/fernet/spec/blob/master/Spec.md)
-- [SLSA](https://slsa.dev/), [Sigstore](https://www.sigstore.dev/), [Google Confidential Space](https://cloud.google.com/confidential-computing/confidential-space/docs)
-
-**Research on searchable encryption leakage**
-
-- Cash, Grubbs, Perry and Ristenpart, "Leakage-Abuse Attacks Against Searchable Encryption", ACM CCS 2015.
-- Naveed, Kamara and Wright, "Inference Attacks on Property-Preserving Encrypted Databases", ACM CCS 2015.
-- Russ Cox, ["Regular Expression Matching with a Trigram Index"](https://swtch.com/~rsc/regexp/regexp4.html), 2012.
-
-**Method:** threat categories follow STRIDE, as in Adam Shostack, *Threat Modeling: Designing for Security* (Wiley, 2014).
-
-**Glossary**
-
-| Term | Meaning |
+| Who | Protected? |
 | --- | --- |
-| Mirror | The server-side copy of an account's mail, messages, calendars, contacts and files |
-| Client | The desktop app that reads the user's sources on the device and uploads the mirror |
-| Board | The web interface that shows the mirror in a browser |
-| Holder | Anything that can open K: the device, a connected AI, a board session, a personal access token, or support during Debug access |
-| K, account key | The 256-bit key that encrypts one account's mirror |
-| Locked copy, Cₕ | K wrapped under a key derived from one holder's unlock secret |
-| Unlock secret, sₕ | A 256-bit random secret carried only inside a holder's token |
-| Keyed tag | A truncated HMAC of a text fragment or an identity, under a key derived from K |
-| Sealed arrival | A message encrypted to the account's public key while no holder is calling |
-| Debug access | A user-controlled, time-limited grant that lets support open the account through Cloud KMS |
-| MCP | Model Context Protocol, the interface AI assistants use to query the mirror |
+| Someone who steals the database, a backup or a disk | Yes. They hold ciphertext, search tags and token hashes, and no key. The tags still leak some structure (see What it does not protect). Attachments are encrypted by the storage service under a key it does not keep, so a copy of the bucket is unreadable as well. |
+| The operator's staff reading stored data | Yes, in the same way |
+| A reader or writer after the user revokes it | Yes, through the service: its token no longer finds a copy |
+| A compromised server, or an operator who changes the server's code | No. It sees the account key during any approved request and could keep it. |
+| Malware on the user's desktop | No. The desktop holds the account key. |
 
-## Appendix A. Submission process
+## System Requirements
 
-A change counts as submitted, and is credited, only when it arrives signed by its author through one of the channels below. A name typed into a commit, an email or a comment is never evidence of who wrote it.
+The design exists to meet five requirements, and nothing in it serves anything else.
 
-**The rule.** Attribution comes from a cryptographic signature, or from an account the platform has authenticated, never from text. Git author names, `Co-authored-by` lines, email From headers and names in a document can all be typed by anyone.
+| # | Requirement | How the design meets it |
+| --- | --- | --- |
+| R1 | The user controls the keys | The account key is made on the user's desktop. A reader or writer gets access only when the user approves it, and loses it when the user revokes it. |
+| R2 | The desktop sync app collects and pushes messages in real time, encrypted from the source | The app encrypts each message under a content key derived from the account key, and computes its search tags, before it uploads. The server never receives plaintext from the app. Attachments are the exception (see Decisions made to simplify). |
+| R3 | Data is secure at rest in the database | The database holds ciphertext, keyed tags and token hashes. Nothing in it opens without a token. |
+| R4 | Approved readers and writers can search, retrieve and update in near real time | Each holds a token that opens its own copy of the account key for one request. A message is searchable as soon as it is stored. |
+| R5 | Under 10 seconds from a user's question to the AI's first response | The mirror's share is budgeted at 1 second at the 95th percentile. The rest belongs to the AI. |
 
-**Channels**
+## The design on one page
 
-| Channel | Counts as | Attributed to | Verified by |
-| --- | --- | --- | --- |
-| GitHub pull request, every commit signed | An official text change | The GitHub account whose registered GPG or SSH key signed each commit | GitHub's Verified mark, plus a required check that fails on any commit without a verified signature |
-| GitHub issue, from the submission template | An official comment or objection | The GitHub account that opened it | GitHub's sign-in. At intake the issue's text is hashed into the submission log, so a later edit shows. |
-| Signed email to the submissions address | An official submission, for people without GitHub | The holder of the signing key or identity | An S/MIME or OpenPGP signature, or a Sigstore signature bound to a verified email. The editor files it as an issue with the signature attached, so anyone can check it. |
-| Google Doc or Claude Doc comment, unsigned email, DOCX | Discussion only | Not attributed | It becomes a submission when its author files it through a channel above |
+There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts everything, and SHA-256 does the rest as a hash, as HMAC and as HKDF. Everything else follows from them.
 
-**Steps**
+&#91;embedded content: the whole design · 1 key, 1 kind of token\]
 
-1. Discuss anywhere. Discussion is welcome, but it is not a submission.
-2. Submit through a signed channel. A pull request carries a `Signed-off-by` line under the Developer Certificate of Origin, which licenses the change under CC BY 4.0. That line is a licence, not proof of identity.
-3. Intake. Each submission gets a number, from S-0001, in `SUBMISSIONS.md`: its channel, its account or key fingerprint, its time, and the SHA-256 of its content.
-4. Disposition. The editor records accepted, declined with a reason, or deferred, as a signed commit naming the submission number.
-5. Merge. Pull requests merge with a merge commit only. Squash and rebase merges rewrite the submitter's commits, so their signatures would no longer cover what lands. The editor's own changes are separate signed commits, so readers can always tell the submitter's words from the editor's.
-6. Release. Each version is a signed Git tag. Its commit hash is recorded in Sigstore's public Rekor log and the tagged tree is saved to Software Heritage, so history cannot be quietly rewritten later, by the editor or by GitHub.
-7. Credit. The contributor list is generated from the verified signatures in the history, never typed by hand.
+- **One key.** On installation, the desktop sync application asks the operating system for 256 random bits, and those bits are the "account key". The user's OS key store holds the account key and releases it only to approved application(s). The account key never encrypts anything itself. Instead, HKDF-SHA256 turns it into two working keys, one per job:  (1) a content key that encrypts each message (AES-256-GCM) and (2) a tag key that computes the search tags (HMAC-SHA256). A third, the storage key, is derived the same way for attachments. They are re-derived whenever they are needed, so nothing extra is stored, and learning one working key reveals neither the other nor the account key. Because both come from the one account key, a reader that can open its copy of the account key can both read messages and search them.
 
-**Attacks on attribution, and what stops them**
+> Why this is current best practice: a full-strength random key from an approved generator ([NIST SP 800-133 Rev. 2](https://csrc.nist.gov/pubs/sp/800/133/r2/final)); one key per purpose, never one key for two jobs ([NIST SP 800-57 Part 1 Rev. 5](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final), key separation); and working keys derived with HKDF ([RFC 5869](https://www.rfc-editor.org/rfc/rfc5869)), the extract-then-expand construction NIST approves in [SP 800-56C Rev. 2](https://csrc.nist.gov/pubs/sp/800/56/c/r2/final) and the one TLS 1.3 uses for all its keys ([RFC 8446](https://www.rfc-editor.org/rfc/rfc8446)).
 
-| Attack | Control |
+- **Encrypted at the source.** The desktop app encrypts each message with AES-256-GCM, bound to the account and the message's id, and computes its search tags with HMAC-SHA256. Only ciphertext and tags leave the desktop. Attachments are the exception: the desktop uploads them as they are, and the storage service encrypts each one under a storage key that is derived from the account key, supplied with the request and never kept (see Decisions made to simplify).
+
+> Why this is current best practice: AES-256-GCM is the NIST-approved authenticated encryption mode ([SP 800-38D](https://csrc.nist.gov/pubs/sp/800/38/d/final), over AES in [FIPS 197](https://csrc.nist.gov/pubs/fips/197/final)), so tampering is detected, not just hidden. Binding each ciphertext to its account and message id as associated data follows the AEAD design in [RFC 5116](https://www.rfc-editor.org/rfc/rfc5116), which stops a stored ciphertext being swapped into another row or account. HMAC-SHA256 is the approved keyed hash ([FIPS 198-1](https://csrc.nist.gov/pubs/fips/198-1/final)), and keyed tags over fragments are the classic construction for search over encrypted data ([Song, Wagner and Perrig, IEEE S&P 2000](https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf)). Its known limit, that equal fragments produce equal tags, is question 1, and GCM's nonce limit is question 2.
+
+- **One kind of token.** Every reader or writer the user approves gets a random 256-bit token: a connected AI, the web app, a second device, a script. The server keeps the token's SHA-256, to find it, and one copy of the account key locked under a key derived from the token (AES-256-GCM, the cipher that also encrypts messages). One token, one copy.
+
+> Why this is current best practice: high-entropy bearer tokens are the OAuth standard ([RFC 6750](https://www.rfc-editor.org/rfc/rfc6750)), and short lifetimes with refresh-token rotation follow the OAuth security best current practice ([RFC 9700](https://www.rfc-editor.org/rfc/rfc9700)). Keeping only a hash of each token means a database copy yields no usable credential, the same rule [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html) sets for stored passwords. Locking one copy of the account key per holder with AES-256-GCM, an authenticated cipher that NIST also approves for wrapping keys ([NIST SP 800-38F](https://csrc.nist.gov/pubs/sp/800/38/f/final)) is envelope encryption, the pattern cloud key-management services use.
+
+- **Search without plaintext.** Inside an approved request the server unlocks the account key, turns the query into tags, finds candidates in an ordinary database index, and decrypts only those.
+
+> Why this is current best practice: keyed tags are the standard construction for search over encrypted data ([Song, Wagner and Perrig, IEEE S&P 2000](https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf)). Filtering on trigrams and then checking the real match is how production regex search works ([Russ Cox, Regular Expression Matching with a Trigram Index](https://swtch.com/~rsc/regexp/regexp4.html)). The known cost is access-pattern leakage ([Cash et al., Leakage-Abuse Attacks Against Searchable Encryption, CCS 2015](https://eprint.iacr.org/2016/718)), which is why this design names it as a limit and asks reviewers about it (question 1).
+
+- **Revocation is deletion.** Deleting a token's hash and its copy cuts that reader or writer off at once.
+
+> Why this is current best practice: revoking one holder deletes its only way to open the key through the service. Deleting every copy, as account deletion does, is cryptographic erase, a sanitization method NIST recognizes ([SP 800-88 Rev. 1](https://csrc.nist.gov/pubs/sp/800/88/r1/final)). Revoking a token server-side, effective on its next use, is what OAuth token revocation specifies ([RFC 7009](https://www.rfc-editor.org/rfc/rfc7009)). Two gaps remain: backups hold old copies for up to 30 days, and the other copies of the same key stay valid (see What it does not protect).
+
+The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token.
+
+**One rule for every credential.** Each credential has its own locked copy of the account key. Every hand-off opens the copy with the old credential, locks a new copy under the new one, and deletes the old. An OAuth authorization code, the web app's connect code and a renewed token are all hand-offs of this kind, so the server never needs to store a token while one is in transit. A recovery code is the same thing on paper.
+
+## How it works
+
+The same machinery seen twice: first what happens to the account key, then what happens to the data.
+
+### Key management lifecycle
+
+The account key is created once on the desktop, opened only inside approved requests, changed only by adding or removing locked copies, and destroyed by deleting every copy.
+
+&#91;embedded content: where the account key lives · 2 places in the clear\]
+
+Only a desktop keystore holds the account key at rest. The server holds it in memory for one request at a time; everything else holds a locked copy, a token, or nothing.
+
+Every change to who can read the mirror is a copy of the account key added or deleted; the account key itself changes only if it is rotated.
+
+#### Create
+
+On first run, the desktop app generates the account key from 256 random bits and stores it in the OS keystore. It then signs in, receives its own desktop token, wraps the account key under a key derived from that token, and uploads only that locked copy. The server stores the copy beside the token’s hash; it never sees the account key and never keeps the token.
+
+&#91;embedded content: create · 4 parties\]
+
+**Why this is best practice.** The key is made from a cryptographically secure random source on the device that will hold it, which is what [NIST SP 800-133 Rev. 2](https://csrc.nist.gov/pubs/sp/800/133/r2/final) recommends, and it is stored in the OS key store, hardware-backed where the platform offers it, rather than in a file. The server receives only a wrapped copy ([NIST SP 800-38F](https://csrc.nist.gov/pubs/sp/800/38/f/final)), so nothing the server stores can open the data. That separation is the core idea of client-side and envelope encryption.
+
+#### Read
+
+A reader's request carries its token. The server finds the reader's locked copy by the token’s hash, derives the unwrapping key from the token with HKDF, and opens the account key in memory. It looks up the query's tags, decrypts only the candidate rows and returns the results. When the request ends, the account key is dropped; nothing of it is written to disk or logs.
+
+&#91;embedded content: read · 3 parties\]
+
+**Why this is best practice.** The key is opened only in memory, only for one request, and then dropped. That follows [NIST SP 800-57 Part 1](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final): keep plaintext keys out of persistent storage and out of logs, and limit how long they exist. The unwrapping key is derived from the token with HKDF ([RFC 5869](https://www.rfc-editor.org/rfc/rfc5869)), the standard way to turn a high-entropy secret into a key, and the server looks tokens up by hash, so its stored data holds no usable credential.
+
+#### Update
+
+When the user approves a new reader or writer, the approval happens inside a session that already holds the account key. The server makes a new token, wraps the account key under a key derived from it, stores that copy beside the new token’s hash, and hands the new token to the new holder once. Renewing a token follows the same steps, then deletes the old token's hash and copy. The account key itself does not change.
+
+&#91;embedded content: update · 4 parties\]
+
+**Why this is best practice.** Granting access means wrapping the same key once more, not re-encrypting data or sharing one credential among holders. This is envelope encryption, the pattern cloud key-management services use, and it means every holder can be revoked on its own. Handing a new token over once and rotating it on renewal follows the OAuth security best current practice ([RFC 9700](https://www.rfc-editor.org/rfc/rfc9700)).
+
+#### Expire
+
+Every token has an end time, stored beside its hash. The server refuses an expired token on every request, and a periodic sweep then deletes the expired token's hash and its copy of the account key. A holder renews before its end time by presenting its current token, which follows Update; a refresh token presented twice revokes its whole chain. The lifetime for each kind of holder is question 4. Backups can still hold an expired copy for up to 30 days (see What it does not protect).
+
+&#91;embedded content: expire · 3 parties\]
+
+**Why this is best practice.** Every token has a fixed lifetime, and its copy of the key is deleted when that lifetime ends, so a leaked token stops working without anyone acting. Bounded lifetimes are what [RFC 9700](https://www.rfc-editor.org/rfc/rfc9700) recommends for tokens, and NIST calls them cryptoperiods ([SP 800-57 Part 1](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final)).
+
+#### Delete
+
+The user ends access in one of three ways, each from an approved device:
+
+- **Revoke one reader or writer** (an AI, a browser session, a script). The server deletes that token's hash and its copy of the account key. That holder is cut off at once, and every other holder keeps working.
+- **Remove a lost device.** The same deletion, for the device's token. Recovery then runs as an Update from a device the user still has.
+- **Delete the account.** The server deletes every copy and every row. With no copy of the account key left, nothing live can open the mirror.
+
+Backups still hold old copies until they expire, up to 30 days. If every holder is lost, the next desktop makes a new account key and collects again from the sources.
+
+&#91;embedded content: delete · 4 parties\]
+
+**Why this is best practice.** Deleting every copy of the key, as account deletion does, is cryptographic erase, a sanitization method NIST recognizes ([SP 800-88 Rev. 1](https://csrc.nist.gov/pubs/sp/800/88/r1/final)). It works at once, even when ciphertext remains in storage the user cannot reach. Revoking a single holder is weaker: it ends that holder's access through the service, but other copies of the same key remain. Revocation takes effect server-side on the token's next use, as OAuth token revocation specifies ([RFC 7009](https://www.rfc-editor.org/rfc/rfc7009)). The known exception is backups, which keep old copies for up to 30 days.
+
+### How data moves
+
+Five flows cover everything the system does. In each one, the account key is opened only inside a request that presents an approved token.
+
+#### Collect and push
+
+New messages are locked on the user's own computer before they go anywhere, so the service stores only ciphertext, which opens only inside an approved request.
+
+1. The desktop app reads a new message from a source on the desktop: mail, messaging apps, team chat, a calendar.
+2. It encrypts the message under the content key and computes its search tags under the tag key, both derived from the account key.
+3. It uploads the ciphertext and tags over TLS, presenting its own token. The server stores them and cannot open them without an approved token.
+4. The message is searchable as soon as it is stored.
+
+&#91;embedded content: collect and push · 4 parties\]
+
+Only ciphertext and tags leave the desktop; the server cannot open them without an approved token.
+
+**Why this is best practice.** Encrypting on the client before upload, so the storage provider holds only ciphertext, is the model behind end-to-end encrypted storage and client-side encryption. Each message is sealed with AES-256-GCM ([NIST SP 800-38D](https://csrc.nist.gov/pubs/sp/800/38/d/final)), an authenticated cipher that detects any change to the ciphertext, and it is bound to its account and message ids as associated data ([RFC 5116](https://www.rfc-editor.org/rfc/rfc5116)), so a row cannot be moved to another account or message. TLS protects the upload in transit ([RFC 8446](https://www.rfc-editor.org/rfc/rfc8446)).
+
+#### Approve a reader or writer
+
+Nothing gets access unless the user says yes, and every approved AI, browser or device gets its own key that can be cancelled on its own.
+
+1. The user approves it: OAuth consent for an AI, the web app opened from the desktop, or a matching code for a second device.
+2. Inside the user's own approved session, the server makes a new token and a copy of the account key locked under it.
+3. The token is handed to the new reader or writer once. The server keeps only its hash.
+
+&#91;embedded content: approve a reader or writer · 4 parties\]
+
+The server keeps only the token’s hash; the token itself is handed over once.
+
+**Why this is best practice.** AI clients are approved through OAuth consent with PKCE, as the OAuth security best current practice requires ([RFC 9700](https://www.rfc-editor.org/rfc/rfc9700)), and a second device is approved by comparing a short code on both screens, a relative of the device flow in [RFC 8628](https://www.rfc-editor.org/rfc/rfc8628). Giving each holder its own token and its own wrapped copy of the key is least privilege: no credential is shared, so each one can be revoked alone. Storing only a hash of each token means a database copy yields no usable credential, as [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html) requires for stored passwords.
+
+#### Search and retrieve
+
+An approved AI gets answers in well under a second, and the data is unlocked only for that one question, then locked again.
+
+1. A reader sends a query with its token.
+2. The server finds the token's copy by its hash and unlocks the account key for this request.
+3. It turns the query into tags, finds the candidates in the index, decrypts only those, and checks the real match.
+4. It returns the results and drops the account key.
+
+&#91;embedded content: search and retrieve · 3 parties, one request\]
+
+Only the candidate rows are decrypted, and the account key lives only for the request.
+
+**Why this is best practice.** Search runs on keyed tags, the standard construction for searching encrypted data ([Song, Wagner and Perrig, IEEE S&P 2000](https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf)). The query is reduced to trigrams and the real match is checked afterwards, as in production regex search ([Russ Cox, trigram index](https://swtch.com/~rsc/regexp/regexp4.html)). Holding the key in memory for one request only follows [NIST SP 800-57 Part 1](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final) on limiting how long plaintext keys exist. The known cost is access-pattern leakage ([Cash et al., CCS 2015](https://eprint.iacr.org/2016/718)), which question 1 puts to reviewers.
+
+#### Update
+
+Edits by an approved AI or by the user are locked the moment they are saved, and every other reader sees them on its next request.
+
+1. A writer sends a change with its token: an AI's tool call, or an edit on the web app.
+2. The server unlocks the account key, encrypts the change, recomputes its tags and stores it.
+3. Every reader sees it on its next request.
+
+&#91;embedded content: update · 4 parties\]
+
+Writes follow the same rule as reads: the account key is opened only inside the writer’s request.
+
+**Why this is best practice.** A write uses the same authenticated encryption as a read, so the server never stores an edited row in the clear. Every write gets a fresh random nonce, which is what keeps AES-GCM secure when the same key encrypts many messages ([NIST SP 800-38D](https://csrc.nist.gov/pubs/sp/800/38/d/final), section 8). The tags are recomputed with HMAC-SHA256 ([FIPS 198-1](https://csrc.nist.gov/pubs/fips/198-1/final)), so the search index never falls out of step with the content.
+
+#### Revoke and recover
+
+Cutting off an AI or a lost device takes effect at once and touches no one else; a replacement device is approved like any other.
+
+- **Revoke.** Deleting a token's hash and copy cuts that reader or writer off at once.
+- **A lost desktop.** From another approved device the user revokes it, then approves a new desktop, which receives the account key through its own copy.
+- **The only desktop lost.** A recovery code made at setup is one more token, printed and kept offline, with its own locked copy. Presented from a new desktop, it approves that desktop. Without one, the mirror starts again with a new account key even if AI readers still hold tokens, because a reader's token cannot approve a device.
+- **Every holder lost.** The mirror cannot be read. A new desktop makes a new account key and collects again from the sources.
+
+&#91;embedded content: revoke and recover · 4 parties\]
+
+Cutting off a reader is one deletion; a replacement desktop is approved like any other holder.
+
+**Why this is best practice.** Revoking a token server-side, so that it fails on its next use, is what OAuth token revocation specifies ([RFC 7009](https://www.rfc-editor.org/rfc/rfc7009)). Deleting that token's copy ends its access through the service. Only deleting every copy is cryptographic erase, the sanitization method NIST recognizes ([SP 800-88 Rev. 1](https://csrc.nist.gov/pubs/sp/800/88/r1/final)). Recovering through another approved device, rather than through a reset the operator controls, keeps the operator unable to open the data. End-to-end encrypted services use the same approach, and when every holder is lost the honest result is that the data cannot be read.
+
+## Latency budget
+
+Encryption costs the answer well under a second: the mirror's whole share is targeted at 0.4 seconds, inside a 1-second budget, so most of the 10 seconds belongs to the AI.
+
+&#91;embedded content: latency budget · targets at the 95th percentile, not measurements\]
+
+These are targets, not measurements. Before launch they are measured on a synthetic account the size of the largest real one, about 1.6 million messages. A new message is searchable once its upload completes; the target is under 2 seconds from arriving on the desktop.
+
+## What it does not protect
+
+This is encryption controlled by the user's keys, not end-to-end encryption: the server decrypts inside each approved request. The limits follow.
+
+| Limit | Consequence |
 | --- | --- |
-| Committing under someone else's name or email | Unsigned commits are refused. Submitters should turn on GitHub's vigilant mode, so anything unsigned under their email shows as Unverified. |
-| Claiming in a description to be someone else | Attribution comes from the signing account, never from text |
-| The editor changing a submitter's text before merging | Submitter commits merge unchanged; the editor's edits are separate signed commits, visible in the diff |
-| Forged `Co-authored-by` or `Signed-off-by` lines | Never used for attribution |
-| Spoofed email | Only signed email counts |
-| Rewriting history | A protected main branch: signed commits required, no force-push, no deletion. Tag hashes in Rekor. Copies in Software Heritage. |
-| Deleting or editing a comment in a shared document | Those comments are discussion, not submissions |
-| Many accounts posing as broad support | Submissions are weighed on their merit, never counted as votes |
+| The server holds the account key and the results while it answers | A compromised server can capture the account key from any approved request. That one key opens the whole mirror, past and future, until the key is rotated. Proving which code the server runs (attestation) would close this; it is not in this design. |
+| AI providers see what they retrieve | Their handling of results is outside this design |
+| Search tags reveal which messages share a fragment | The tags are deterministic and overlap, so a thief of the database may recover text from fragment frequencies alone, and more with some known plaintext (question 1). Sizes and times are visible too. |
+| A stolen token works until it is revoked | Expiry limits the damage (question 4) |
+| Malware on the desktop sees everything | The desktop holds the account key |
+| Backups keep deleted copies until they expire | A revoked token can still open its copy in a backup taken earlier, for up to 30 days |
+| Revoking one holder is access control, not erasure | Other copies of the same key remain, and a holder that paired its token with a copy of the database keeps the key. Only deleting every copy, or rotating the key, erases. |
+| Every token opens the whole account key | What a holder may do (read only, one source, approve others) is enforced by the server's rules, not by cryptography |
+| Tokens, queries and results are plaintext in the server's memory | They must be kept out of logs, traces and error reports. Whatever ends TLS in front of the server sees tokens too. Mitigation: the implementation's source code is published, and automated tests plant marker values in tokens, queries and results and fail if a marker reaches a log, a trace, an error report or stored data. Publishing the source shows what the code does; proving that the running server is that code is what attestation would add (question 7). |
+| The mirror is only as fresh as the desktop | While the desktop is off or asleep, nothing new is collected |
+| Search needs a fixed fragment of three or more characters | A query without one cannot use the index. It must be refused, or answered by decrypting every row. |
+| Attachments are encrypted by the storage service, not on the desktop | The storage service sees each file in the clear while it handles an upload or a read. At rest, a file opens only with the storage key, which is derived from the account key inside an approved request. The bucket's access policy stays as a second line. |
 
-**What it cannot stop.** If a submitter's own account or signing key is stolen, the thief can submit as them. Use two-factor authentication and, ideally, a hardware security key. A submitter who finds a submission they did not make can disown it with a signed statement, and it is marked disputed.
+## Decisions made to simplify
 
-Open question: the public repository, its branch protection, the signature check, the issue template and the submissions address must exist before the comment period opens.
+These choices keep the design small. Each has a cost, stated here so reviewers can challenge it.
+
+| Decision | What it removes | What it costs |
+| --- | --- | --- |
+| Every source is collected on the desktop | Server-side collectors, and the public-key sealing they needed for mail that arrives while nobody is calling | A source that can only be read server-side, such as a hosted inbox or a chat bot, is out of scope until it can run on the desktop |
+| The token is its own secret | Separate unlock secrets. SHA-256 of the token finds its copy; a key derived from the token with HKDF opens it, and knowing one gives nothing about the other. | A leaked token both identifies and unlocks, exactly as a leaked token-and-secret pair did before |
+| Support is just another reader | The operator's hardware-held support key. To get help, the user approves a support reader with an end time, like any other. | Its use is recorded in the service's own log rather than by the cloud provider's audit log |
+| Background AI work needs a reader | Server-side processing with no request open. Triage or filing runs on the desktop, or inside a reader's request. | Nothing is processed while every reader is idle |
+| Attachments are encrypted by the storage service, under a key derived from the account key | Encrypting and chunking every file on the desktop | The storage service sees each file in the clear while it handles a request, and it must accept a key supplied per request. The bucket cannot hand out direct links, because every read needs the key. |
+
+## Questions for reviewers
+
+These seven are where review is wanted most.
+
+1. **Search leakage.** Is a keyed trigram index acceptable for this threat model, or should tag sets be padded?
+2. **Nonce budget.** One content key encrypts every message for the account's life with random 96-bit nonces, and NIST SP 800-38D limits that to 2³² uses per key. The largest account today holds about 1.6 million messages, far below that. Proposed answer: derive a new content key each year with HKDF from the account key and the year, so the limit applies per year and nothing extra is stored. Is that enough, or is a cipher that tolerates nonce reuse (AES-GCM-SIV, XAES-256-GCM) still worth adding?
+3. **Rotating the account key.** Proposed answer: rotation is a re-push. The desktop makes a new account key, re-encrypts the mirror under it, including what writers added, uploads it again and deletes the old copies. That is the same path as when every holder is lost. It costs a full upload, so it is for a suspected compromise, not a schedule. Is that acceptable, or are data keys wrapped by the account key worth their extra machinery?
+4. **Token lifetimes.** What expiry and renewal should each kind have: desktop, AI access and refresh, web app session, script?
+5. **A second desktop.** Is a matching code shown on both screens enough to approve one? And how should the new desktop's token reach it without the server storing it: handed to a waiting request in memory, or sealed to a key the new desktop sends?
+6. **Support audit.** Is the service's own log enough for support access, or is an independent audit worth a second key?
+7. **Attestation.** Is proving which code the server runs worth adding later, to close the first limit?
+
+## Appendix A. Single or multi-tenant
+
+For stored data the choice barely matters, because each user's rows are locked under that user's own key. It matters for the server's memory, for cost, and for who can see metadata.
+
+|  | One shared database | One database per user |
+| --- | --- | --- |
+| Stored data | Isolated by each user's key: another user's rows, served by mistake, do not decrypt | The same, plus physical separation |
+| A compromised server | Sees what every active user's requests decrypt while it is compromised | Sees one user's |
+| Metadata: counts, sizes, times | Visible to the operator. Per-user tag keys stop matching across users. | Visible to whoever runs it |
+| Deleting a user | Delete their copies of the account key and their rows | Delete the database |
+| Cost and operations | One database to run | One per user |
+
+&#91;embedded content: shared vs dedicated · 3 users\]
+
+The recommendation is one codebase that runs either way. Shared by default, with row-level security in the database as a second line behind the keys. A dedicated instance, run by the operator or by the user, for anyone who wants the smaller blast radius. The keys stay with the user in both.

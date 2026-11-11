@@ -32,11 +32,44 @@ EXPORT = "\n".join([
 
 
 class RoundTrip(unittest.TestCase):
-    def test_figures_round_trip(self) -> None:
-        text = "x\n&#91;embedded content: a diagram · 3 parties\\]\ny"
-        swapped = rfcsync.to_figures(text)
-        self.assertIn("![a diagram · 3 parties](../figures/a-diagram-3-parties.png)", swapped)
-        self.assertEqual(rfcsync.to_placeholders(swapped), text)
+    def test_diagrams_round_trip_and_number_repeated_captions(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            saved = rfcsync.ROOT, rfcsync.DIAGRAMS
+            rfcsync.ROOT = Path(tmp)
+            rfcsync.DIAGRAMS = Path(tmp) / "diagrams"
+            try:
+                rfcsync.DIAGRAMS.mkdir()
+                (rfcsync.DIAGRAMS / "a-flow-3-parties.mmd").write_text("sequenceDiagram\n  A->>B: one\n")
+                (rfcsync.DIAGRAMS / "a-flow-3-parties-2.mmd").write_text("sequenceDiagram\n  A->>B: two\n")
+                text = ("x\n&#91;embedded content: a flow · 3 parties\\]\ny\n"
+                        "&#91;embedded content: a flow · 3 parties\\]\nz")
+                missing: list[str] = []
+                md = rfcsync.to_diagrams(text, rfcsync.DiagramNames(), missing)
+                self.assertEqual(missing, [])
+                self.assertIn("<!-- diagram: a flow · 3 parties -->\n```mermaid\nsequenceDiagram\n  A->>B: one\n```", md)
+                self.assertIn("A->>B: two", md)
+                self.assertEqual(rfcsync.to_placeholders(md, rfcsync.DiagramNames()), text)
+                # Quarto's spelling of the fence is accepted too
+                self.assertEqual(rfcsync.to_placeholders(md.replace("```mermaid", "```{mermaid}"), rfcsync.DiagramNames()), text)
+                # editing the Mermaid inside a chapter is refused
+                with self.assertRaises(ValueError):
+                    rfcsync.to_placeholders(md.replace("one", "ONE"), rfcsync.DiagramNames())
+            finally:
+                rfcsync.ROOT, rfcsync.DIAGRAMS = saved
+
+    def test_a_missing_diagram_stays_a_placeholder_and_is_reported(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            saved = rfcsync.ROOT, rfcsync.DIAGRAMS
+            rfcsync.ROOT, rfcsync.DIAGRAMS = Path(tmp), Path(tmp) / "diagrams"
+            try:
+                missing: list[str] = []
+                text = "&#91;embedded content: nothing yet\\]"
+                self.assertEqual(rfcsync.to_diagrams(text, rfcsync.DiagramNames(), missing), text)
+                self.assertEqual(missing, ["diagrams/nothing-yet.mmd"])
+            finally:
+                rfcsync.ROOT, rfcsync.DIAGRAMS = saved
 
     def test_headings_shift_outside_fences_only(self) -> None:
         shifted = rfcsync.shift_headings("## A\n```\n## code\n```\n### B", -1)

@@ -25,7 +25,7 @@ book:
     card-style: summary_large_image
   downloads: [pdf]
   chapters:
-    - index.qmd
+    - index.md
     - updates.qmd
 {chapters}
 {appendices}
@@ -38,6 +38,8 @@ from: markdown-citations
 format:
   html:
     theme: cosmo
+    mermaid:
+      theme: neutral
     toc: true
     toc-depth: 3
   typst:

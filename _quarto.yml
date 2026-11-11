@@ -9,7 +9,7 @@ project:
     - assets/social/ai-optimized-data-mirror-social.png
 
 book:
-  title: "Mirror Encryption: Security Architecture"
+  title: "Security Reference Architecture for AI-optimized Data Mirrors"
   subtitle: "Request for comments"
   author: "AJS Consult LLC. Editor: Aaron Soellinger."
   date: last-modified
@@ -25,29 +25,21 @@ book:
     card-style: summary_large_image
   downloads: [pdf]
   chapters:
-    - index.qmd
+    - index.md
     - updates.qmd
-    - chapters/01-executive-summary.qmd
-    - chapters/02-1-document-control.qmd
-    - chapters/03-2-scope.qmd
-    - chapters/04-3-system-overview.qmd
-    - chapters/05-4-threat-model.qmd
-    - chapters/06-5-security-goals-and-non-goals.qmd
-    - chapters/07-6-cryptographic-inventory.qmd
-    - chapters/08-7-key-hierarchy.qmd
-    - chapters/09-8-key-management-lifecycle.qmd
-    - chapters/10-9-protocol-flows.qmd
-    - chapters/11-10-searching-encrypted-data.qmd
-    - chapters/12-11-performance.qmd
-    - chapters/13-12-security-analysis.qmd
-    - chapters/14-13-residual-risks-and-known-limitations.qmd
-    - chapters/15-14-verification-and-transparency.qmd
-    - chapters/16-15-implementation-status-and-roadmap.qmd
-    - chapters/17-16-questions-for-reviewers.qmd
-    - chapters/18-17-vulnerability-disclosure.qmd
-    - chapters/19-18-references-and-glossary.qmd
+    - chapters/01-document-control.md
+    - chapters/02-executive-summary.md
+    - chapters/03-contents.md
+    - chapters/04-what-it-defends-against.md
+    - chapters/05-system-requirements.md
+    - chapters/06-the-design-on-one-page.md
+    - chapters/07-how-it-works.md
+    - chapters/08-latency-budget.md
+    - chapters/09-what-it-does-not-protect.md
+    - chapters/10-decisions-made-to-simplify.md
+    - chapters/11-questions-for-reviewers.md
   appendices:
-    - chapters/20-appendix-a-submission-process.qmd
+    - chapters/12-appendix-a-single-or-multi-tenant.md
 
 number-sections: false
 
@@ -57,6 +49,8 @@ from: markdown-citations
 format:
   html:
     theme: cosmo
+    mermaid:
+      theme: neutral
     toc: true
     toc-depth: 3
   typst:

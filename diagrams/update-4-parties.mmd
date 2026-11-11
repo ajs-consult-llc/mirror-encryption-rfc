@@ -1,0 +1,12 @@
+sequenceDiagram
+  accTitle: A new holder gets its own copy, made inside the user's session
+  accDescr: Update. The user approves a new reader or writer, inside a session that holds the account key. The server makes a new token and wraps the account key under a key derived from it, stores the new token's hash and the copy in the database, and hands the new token to the reader or writer once. Renewal runs the same steps, then deletes the old token's hash and copy.
+  participant U as User
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  U->>S: approve, inside a session that holds the account key
+  Note over S: make a new token, wrap the account key under a key derived from it
+  S->>DB: store the new token's hash and the copy
+  S-->>R: the new token, handed over once
+  Note over R,DB: Renewal runs the same steps, then deletes the old token's hash and copy.

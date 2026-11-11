@@ -1,0 +1,13 @@
+sequenceDiagram
+  accTitle: Revoking deletes a copy, and recovery needs another approved device
+  accDescr: Revoke and recover. The user revokes a token, or a lost desktop, and the server deletes its hash and its copy in the database. A new desktop asks the server to join, the user approves the new desktop, and the server gives the new desktop its own token, which opens its own copy of the account key. If every holder is lost, the mirror cannot be read, and a new desktop makes a new account key and collects again from the sources.
+  participant U as User
+  participant D as Desktop app
+  participant S as Server
+  participant DB as Database
+  U->>S: revoke a token, or a lost desktop
+  S->>DB: delete its hash and its copy
+  D->>S: a new desktop asks to join
+  U->>S: approve the new desktop
+  S-->>D: its own token, which opens its own copy of the account key
+  Note over D,DB: If every holder is lost, the mirror cannot be read. A new desktop makes a new account key and collects again from the sources.

@@ -1,0 +1,11 @@
+sequenceDiagram
+  accTitle: Messages are encrypted on the desktop before they leave it
+  accDescr: Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
+  participant D as Desktop app
+  participant S as Server
+  participant DB as Database
+  Note over D: read a new message from a local source, mail, chat or calendar
+  Note over D: encrypt it under the account key, compute its search tags
+  D->>S: ciphertext and tags over TLS, with its token
+  S->>DB: store them, the server cannot read them
+  Note over S,DB: The message is searchable as soon as it is stored.
