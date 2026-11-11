@@ -34,6 +34,23 @@ Claude Doc ──export──▶ tools/rfcsync.py split ──▶ chapters/*.qmd
 In a Claude Code session in this repository, ask to **publish the doc** (doc to GitHub) or to
 **import merged changes** (GitHub to doc).
 
+## Posting an update
+
+Every update is a GitHub release: the release is the one source, so the site's Updates page,
+the feed and the subscriber email cannot disagree.
+
+1. Publish a release. On GitHub: Releases, Draft a new release, a new tag such as
+   `round-1-open`, a title and the text in Markdown, then Publish. Or:
+   `gh release create round-1-open --title "Round 1 is open" --notes-file post.md`.
+   The Updates page and the feed update within a few minutes.
+2. In a Claude Code session in this repository, ask to **email the update**. Claude adds new,
+   consented sign-ups to the list (`tools/announce.py sync`), makes a draft from the release
+   (`tools/announce.py draft <tag>`), shows it to you, and sends only when you say so.
+
+Setup, once: copy `announce.example.json` to `.announce.json` and fill it in (it is not
+committed); a Tally form with an email question and a consent checkbox; its API key in Secret
+Manager under the name in `.announce.json`; the form's link in `tools/updates.json`.
+
 ## Building locally
 
 ```sh

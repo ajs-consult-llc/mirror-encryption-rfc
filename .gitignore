@@ -3,4 +3,6 @@ _book/
 /.sync/import-plan.json
 /.sync/import-plan.md
 __pycache__/
+/updates.qmd
+/.announce.json
 .DS_Store
