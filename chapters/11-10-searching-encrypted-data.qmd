@@ -1,0 +1,25 @@
+# 10. Searching encrypted data
+
+Search runs over keyed 64-bit trigram tags, so the database index never holds plaintext. The price is a leakage profile, listed below, and it is the design's main weakness against a storage thief (A1).
+
+**Construction**
+
+1. kₛ = HKDF-SHA256(K, info = "search", version). A separate key, kᵢ, is derived the same way for identity tags.
+2. For each indexed field (message text, sender, sender name, chat name, participants, alias names), every distinct three-character fragment t gives the tag trunc₆₄(HMAC-SHA256(kₛ, field ‖ t)).
+3. A row's tags are stored as a `bigint[]` column with a GIN index. They replace today's pg\_trgm indexes.
+4. A query's regex is reduced to the fragments any match must contain, the approach of Russ Cox's trigram index. Those fragments become tags, and the GIN index returns candidate rows.
+5. The server decrypts the candidates and runs the real regex. A truncation collision only adds a false candidate, which this check removes.
+6. A pattern with no required fragment, such as `.*`, falls back to a bounded scan of the most recent rows.
+7. Handles, addresses and names are normalized and tagged under kᵢ, so conversations and the people graph can be grouped without plaintext.
+
+**What an adversary with the database learns**
+
+| Leak | Who sees it | Severity |
+| --- | --- | --- |
+| Each row's number of distinct fragments, roughly its length | A1, A2 | Low |
+| Which rows of one account share a fragment | A1, A2 | Medium. Frequency analysis and known plaintext can recover common fragments: see the leakage-abuse and inference attacks in section 18. |
+| Which tags a live query touched (the access pattern) | Anyone watching the database while queries run | Medium |
+| Timestamps, row counts, sizes | A1, A2 | Low to medium |
+| Anything across accounts | Nobody | None: the tag keys differ per account |
+
+A concrete case: a thief who also knows a newsletter that an account received can mark that newsletter's tags and look for them in the account's other rows. Section 16, question 5, asks whether padding or bucketing the tag sets is worth its cost.

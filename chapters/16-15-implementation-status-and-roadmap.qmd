@@ -1,0 +1,32 @@
+# 15. Implementation status and roadmap
+
+None of the twenty pieces below is built. They group into roughly ten pull requests, and client-only accounts switch first.
+
+| # | Group | Piece | What it does | Technology |
+| --- | --- | --- | --- | --- |
+| 1 | Keys and tokens | Account key | Made by the client on first run and kept in the OS keystore; one per account | Native client code, platform cryptography library, OS keystore |
+| 2 | Keys and tokens | Locked copies | One copy per holder, in a table listing its holder, creation time and expiry | HKDF-SHA256, AES key wrap (RFC 5649) |
+| 3 | Keys and tokens | Tokens that carry the secret | Device tokens, OAuth tokens and the board's session cookie each carry their holder's secret; the server keeps only a hash | OAuth 2.1, SHA-256 |
+| 4 | Keys and tokens | Request key context | Opens K once per request and holds it only for that request; a route that needs K and lacks it fails, never falling back to plaintext | FastAPI dependency, contextvars |
+| 5 | Storage | Encrypted column type | One column type for text and JSON, on every content column, bound to account, table, column and row | SQLAlchemy TypeDecorator, AES-256-GCM |
+| 6 | Storage | Content coverage test | Reads the models and fails if any content column is stored in the clear, so a column added later cannot slip through | Static (AST) test |
+| 7 | Storage | Encrypted files | Attachments, contact photos and uploads encrypted before upload, in chunks for large files | Cloud Storage, streaming AES-256-GCM |
+| 8 | Search | Keyed search tags | Replace today's trigram indexes (section 10) | HMAC-SHA256, Postgres GIN |
+| 9 | Search | Query planner | Regex to required fragments, candidate lookup, decrypt and recheck, bounded fallback scan | Python regex parser |
+| 10 | Search | Keyed identity tags | Handles, addresses and names matched by keyed tag, so grouping and the people graph keep working | HMAC-SHA256 |
+| 11 | No request open | Sealed arrivals | Slack sync, inbound email and the Telegram bot seal each arrival to the account's public key | HPKE (RFC 9180), X25519 |
+| 12 | No request open | Key-gated jobs | Work that needs content runs only inside a request that holds K | The existing job runner |
+| 13 | No request open | Locked source tokens | Google and Slack tokens wrapped under K | AES key wrap |
+| 14 | Access and cutover | Debug access | The Settings control, the support key, an expiry, revocation, and a list of every use shown to the user | Cloud KMS HSM, RSA-OAEP, Cloud Audit Logs |
+| 15 | Access and cutover | Operator routes | Admin export and raw SQL routes need a key like everything else, and return ciphertext without one | Existing routes |
+| 16 | Access and cutover | Backfill and cutover | At each device's next check-in: encrypt existing rows, build tags, then drop the plaintext columns and old indexes | Alembic, a batch job |
+| 17 | Access and cutover | Public documents | The privacy policy, terms, and the key-custody statements | Documents |
+| 18 | Portability | Written wire format | Versioned envelopes for locked copies, content, sealed arrivals and tag derivation, with test vectors every client must pass | A specification |
+| 19 | Portability | One shared core library | The cryptography written once, so a client on another platform writes only its key storage | Rust, with Swift, C# and Linux bindings |
+| 20 | Portability | Device enrollment | A second device, on any platform, joins through an existing holder (question 4) | — |
+
+**Why client-only accounts go first.** The server already does no background AI work for them, so it reads their content only inside a request or an upload. Accounts that use the board's background features follow once question 12 is settled.
+
+**Other platforms.** The server never knows what kind of device a holder is, so a client on another platform producing the same bytes is one more holder. Only key storage differs: Credential Manager or DPAPI with a TPM on Windows, and the Secret Service with TPM2 sealing on Linux. Linux desktop keyrings are often readable by any process in the session, so a Linux client needs TPM sealing or a passphrase to match the guarantee of the other platforms.
+
+**Fixes to today's code.** Writing this document surfaced weaknesses in today's token handling that would undercut the design. They are being fixed before any piece above is built. Under coordinated disclosure, each is listed in the revision history once its fix ships.

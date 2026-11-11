@@ -1,0 +1,23 @@
+# 13. Residual risks and known limitations
+
+The design leaves fourteen known weaknesses, listed here so no reader has to discover them. The first three matter most.
+
+| # | Limitation | Consequence | What would close it |
+| --- | --- | --- | --- |
+| L1 | The server holds K and plaintext in memory during each authorized request | A compromised server or a malicious build can copy them (T3, I3) | Attestation, level 3 |
+| L2 | Search tags leak which rows of an account share a fragment | A storage thief with some known plaintext can infer more (section 10) | Padding or bucketing tag sets (question 5) |
+| L3 | Backups taken before cutover hold plaintext | Readable by a backup thief until they expire, within 30 days | Time |
+| L4 | AI providers see what they ask for | Their handling is outside this design | None here |
+| L5 | Metadata stays visible: timestamps, sizes, counts, access times | Traffic analysis of one account | Not planned |
+| L6 | The promise depends on locking the source tokens | Without it, the operator could re-read Gmail, Drive, Calendar and Slack directly | Locking Google and Slack tokens under K, before launch |
+| L7 | Whoever controls the device at first run controls K | Malware at enrollment owns the key | A hardware-backed or user-presence gate on the OS keystore item (planned, not designed here) |
+| L8 | A board session opened from an unlocked device has full device rights | Someone at the device can open the mirror | Narrower session scopes |
+| L9 | A hijacked browser session can approve a new AI | The attacker becomes a key holder | An email to the user on every new connection (planned) |
+| L10 | Refresh tokens carry the AI's secret | A leaked refresh token is a long-lived key | Refresh-token expiry and binding (questions 7 and 13) |
+| L11 | Debug access expiry is enforced by the server, not by Cloud KMS | A server bug could extend support access | KMS-side conditions (question 8) |
+| L12 | Arrivals are in server memory, in the clear, before sealing | A compromised server sees new mail as it arrives | Attestation, level 3 |
+| L13 | Background features that need content (triage, filing, briefs) cannot run without a caller | Board accounts are not covered by the first phase | Question 12 |
+| L14 | No recovery key exists | Losing every holder loses data that exists only on the server | A user-held recovery key, if wanted |
+| L15 | Revocation and account deletion are enforced by the server, not by cryptography | A backup taken earlier still holds the locked copies, so a holder secret that survives can open it until the backup expires, within 30 days | Rotating K on revocation (question 3), or shorter backup retention |
+
+This is server-side encryption, not end-to-end encryption. Readers who need the server never to see plaintext should treat L1 as decisive until level 3 ships.

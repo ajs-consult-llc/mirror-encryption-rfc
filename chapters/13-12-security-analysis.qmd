@@ -1,0 +1,23 @@
+# 12. Security analysis
+
+The threats below are sorted by STRIDE category and tied to the trust boundaries drawn in section 3. The largest residual risk is T3: until level 3, a malicious server build can read what authorized requests decrypt.
+
+**Trust boundaries:** TB1 device to server. TB2 AI provider to server. TB3 browser to server. TB4 server to storage (Cloud SQL, Cloud Storage, backups). TB5 server to Cloud KMS. TB6 support staff to server. TB7 external sources to server. TB8 build pipeline to the running server.
+
+| # | STRIDE | Boundary | Threat | Mitigation | Residual risk |
+| --- | --- | --- | --- | --- | --- |
+| S1 | Spoofing | TB2, TB3 | A stolen holder token is used to act as that holder | Per-holder copies; revocation deletes one row; the board token lives only in an HttpOnly cookie; token expiry (question 13) | Access until revoked or expired |
+| S2 | Spoofing | TB2 | A rogue OAuth client is approved | PKCE S256, an exact redirect allowlist, the consent page, and an email on every new connection (planned) | A user tricked into approving |
+| S3 | Spoofing | TB1 | A rogue device joins the account | The user compares a code on an existing holder before approving (question 4) | Phishing of the approval step |
+| T1 | Tampering | TB4 | Ciphertext is moved between rows, columns or accounts | AES-GCM associated data binds account, table, column and row | An older value of the same row can be replayed |
+| T2 | Tampering | TB4 | Tags are altered to hide or surface rows | Every candidate is decrypted and rechecked | Hiding rows from search |
+| T3 | Tampering | TB8 | A malicious build is deployed | Public key-handling code, reproducible signed builds, a public log; attestation at level 3 | Until level 3, that build sees plaintext during requests |
+| R1 | Repudiation | TB6 | Support denies having read an account | Every KMS decrypt is in Cloud Audit Logs and shown to the user | Expiry is enforced by the server, not KMS |
+| I1 | Information disclosure | TB4 | Database, backup or bucket theft | Content encrypted; tags keyed per account; tokens stored as hashes | Metadata and tag overlap (section 10); backups taken before cutover |
+| I2 | Information disclosure | TB4 | Content written to logs | A key context that never logs; a test that scans the server's log calls for content | A logging change that the test misses |
+| I3 | Information disclosure | In process | Memory read on a compromised server | K lives for one request | Not defended until level 3 |
+| I4 | Information disclosure | TB7 | Source tokens used to re-read the originals | Google and Slack tokens wrapped under K | None, once built |
+| D1 | Denial of service | All | Every holder is lost | The mirror refills from the original sources | Data that exists only on the server, if stored under K |
+| D2 | Denial of service | TB5 | Cloud KMS is unavailable | KMS is used only for Debug access | Support is delayed |
+| E1 | Elevation of privilege | TB2, TB3 | A bug serves another account's rows | Per-account keys: the rows do not decrypt under the caller's K | A bug in the key context itself |
+| E2 | Elevation of privilege | TB6 | Staff use admin routes to read accounts | Admin routes need a key like every other route, and return ciphertext without one | Debug access, while the user has it on |

@@ -1,0 +1,14 @@
+# 11. Performance
+
+The design adds an estimated few milliseconds to each authorized request, mostly the regex recheck. K is opened in memory once per request with no network call, and only the rows in the answer are decrypted.
+
+| Step | Work | Estimated cost | Compared with today |
+| --- | --- | --- | --- |
+| Find the holder | One indexed lookup by token hash | Under 1 ms | The same lookup as today |
+| Unwrap K | HKDF and one key unwrap, in process | Microseconds | New, negligible |
+| Search | GIN lookup on keyed tags | Milliseconds | The same index type as today's trigram search |
+| Decrypt the answer | AES-256-GCM with hardware acceleration | About 1 µs per KB | New, negligible for 50 rows |
+| Recheck | The real regex over the candidates | About 1 ms | pg\_trgm already rechecks inside Postgres today |
+| Debug access only | One Cloud KMS decrypt | A network round trip | New; support requests only |
+
+These are estimates, not measurements. Before anything switches over, the search work will measure them on a synthetic account the size of the largest real one, about 1.6 million messages, and publish the results here.

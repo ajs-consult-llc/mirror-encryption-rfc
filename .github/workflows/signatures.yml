@@ -1,0 +1,30 @@
+name: Signed commits
+
+# Appendix A: a change is credited only to the account whose registered key
+# signed it. This check fails a pull request that carries any commit GitHub
+# cannot verify. Make it a required check in the branch protection for main.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Every commit in the pull request carries a verified signature
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh api "repos/$REPO/pulls/$PR/commits" --paginate \
+            --jq '.[] | [.sha[0:12], (.commit.verification.verified | tostring), .commit.verification.reason, (.author.login // "no-github-account")] | @tsv' \
+            > commits.tsv
+          printf 'commit\tverified\treason\tsigner\n'; cat commits.tsv
+          if awk -F'\t' '$2 != "true"' commits.tsv | grep -q .; then
+            echo "::error::Every commit must carry a verified signature (Appendix A). Sign with a GPG or SSH key registered to your GitHub account."
+            exit 1
+          fi

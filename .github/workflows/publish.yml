@@ -1,0 +1,37 @@
+name: Publish the book
+
+# Renders the Quarto book (HTML, DOCX, PDF via Typst) and publishes it to
+# the gh-pages branch, which GitHub Pages serves.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: The chapters join back into one document
+        run: python3 tools/rfcsync.py join > /dev/null
+
+      - name: Run the sync tool's tests
+        run: python3 -m unittest discover -s tests -v
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.11.9
+
+      - uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

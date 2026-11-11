@@ -1,0 +1,18 @@
+{
+  "_note": "Each diagram in the Claude Doc, by its embed caption. Refresh from an outline read of the doc's body node (embed caption= and ref=node/<id>) whenever a diagram is added.",
+  "doc": "dbfbfc6b-6c59-40e8-bb58-d19e63397bd8",
+  "tab": "8087117e-4ac8",
+  "body": "679e2ffc-9464",
+  "widgets": {
+    "system overview · 4 holders, 4 stores, 8 trust boundaries": "76079e32-6b4c",
+    "key hierarchy · 4 holders, 1 account key, 4 things it opens": "ee2de91b-2b82",
+    "enrollment sequence · 4 parties, built vs proposed": "c498f12d-867a",
+    "opening the board · 3 parties, 6 steps": "8d1ba10c-76ff",
+    "connecting an AI · 4 parties, OAuth 2.1 with PKCE": "dd552fc1-6032",
+    "an AI asks · 3 parties, one request": "264cc9a9-5991",
+    "arrivals · 4 parties, seal now, open later": "4d6183b9-d758",
+    "Debug access · 4 parties, user-granted and logged": "03c5e249-2425",
+    "a lost device, and a new one · 3 parties": "2d3c4401-471d",
+    "disconnect, sign out, delete · 3 parties": "bc9f4c15-07d1"
+  }
+}

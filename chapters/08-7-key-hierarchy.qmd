@@ -1,0 +1,7 @@
+# 7. Key hierarchy
+
+One account key, K, encrypts everything, and each holder reaches it only through a copy wrapped under its own secret.
+
+![key hierarchy · 4 holders, 1 account key, 4 things it opens](figures/key-hierarchy-4-holders-1-account-key-4-things-it-opens.png)
+
+Deleting a copy revokes one holder. A personal access token, when built, is one more holder in the top row.

@@ -1,0 +1,32 @@
+# GENERATED: tools/rfcsync.py split writes _quarto.yml from this template.
+# Edit this template, never _quarto.yml. The chapter list is derived from the
+# doc's sections on every split, so nobody keeps it in step by hand.
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "{title}"
+  subtitle: "Request for comments"
+  author: "AJS Consult LLC. Editor: Aaron Soellinger."
+  date: last-modified
+  license: "CC BY"
+  repo-url: https://github.com/ajs-consult-llc/mirror-encryption-rfc
+  repo-actions: [edit, issue, source]
+  search: true
+  chapters:
+    - index.qmd
+{chapters}
+{appendices}
+
+number-sections: false
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+  docx:
+    toc: true
+  typst:
+    toc: true

@@ -1,0 +1,27 @@
+# 5. Security goals and non-goals
+
+This is server-side encryption under keys the user's holders control. It is not end-to-end encryption: the server decrypts, in memory, for each authorized request.
+
+**Goals**
+
+| # | Goal | Where it is met |
+| --- | --- | --- |
+| G1 | Without a holder's token, stored content, contacts and calendars are ciphertext to everyone, operator staff and anyone with the database, backups or storage included. | Sections 6, 7, 10 |
+| G2 | Each holder has its own locked copy. Revoking a holder deletes one row and ends its access at once. | Sections 7, 8 |
+| G3 | Support can read an account only after the user turns on Debug access. It is time-limited, revocable, logged by a party other than the operator, and every use is shown to the user. | Section 9.6 |
+| G4 | The operator cannot re-read the user's original sources: the Google and Slack tokens are locked under the account key. | Section 8 |
+| G5 | Deleting the account deletes every live copy of the key, and the Vault deletes K from the Keychain. Backups keep locked copies until they expire, within 30 days. | Section 9.8 |
+| G6 | One account's ciphertext and tags cannot be read or matched with another account's keys. | Sections 6, 10 |
+| G7 | An authorized AI's answer costs about what it costs today. | Section 11 |
+| G8 | People outside the company can check the code, the build and, at level 3, the running server. | Section 14 |
+
+**Non-goals**
+
+| # | Not promised | Why |
+| --- | --- | --- |
+| N1 | Protecting plaintext in server memory during an authorized request from a compromised server | Needs attestation, level 3 |
+| N2 | Controlling what an AI provider does with an answer | Outside the operator's control |
+| N3 | Hiding metadata: timestamps, sizes, counts, access times, and which rows share a keyed fragment | Needed for search and ordering (section 10) |
+| N4 | Protecting backups taken before cutover | They expire within 30 days |
+| N5 | Defending against malware on the user's device | The device holds the key |
+| N6 | Keeping the mirror readable if every holder is lost | No recovery key exists. The mirror refills from the original sources. |

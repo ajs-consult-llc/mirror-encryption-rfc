@@ -1,0 +1,43 @@
+# 18. References and glossary
+
+**Standards**
+
+- [RFC 2104, HMAC](https://www.rfc-editor.org/rfc/rfc2104)
+- [RFC 3552, Guidelines for Writing RFC Text on Security Considerations](https://www.rfc-editor.org/rfc/rfc3552)
+- [RFC 5649, AES Key Wrap with Padding](https://www.rfc-editor.org/rfc/rfc5649)
+- [RFC 5869, HKDF](https://www.rfc-editor.org/rfc/rfc5869)
+- [RFC 7636, PKCE](https://www.rfc-editor.org/rfc/rfc7636)
+- [RFC 7748, Elliptic Curves for Security (X25519)](https://www.rfc-editor.org/rfc/rfc7748)
+- [RFC 8017, PKCS #1 v2.2 (RSA-OAEP)](https://www.rfc-editor.org/rfc/rfc8017)
+- [RFC 9116, security.txt](https://www.rfc-editor.org/rfc/rfc9116)
+- [RFC 9180, Hybrid Public Key Encryption](https://www.rfc-editor.org/rfc/rfc9180)
+- [RFC 9700, Best Current Practice for OAuth 2.0 Security](https://www.rfc-editor.org/rfc/rfc9700)
+- [The OAuth 2.1 Authorization Framework (Internet-Draft)](https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/)
+- [NIST SP 800-38D, Galois/Counter Mode](https://csrc.nist.gov/pubs/sp/800/38/d/final)
+- [NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final)
+- [Fernet specification](https://github.com/fernet/spec/blob/master/Spec.md)
+- [SLSA](https://slsa.dev/), [Sigstore](https://www.sigstore.dev/), [Google Confidential Space](https://cloud.google.com/confidential-computing/confidential-space/docs)
+
+**Research on searchable encryption leakage**
+
+- Cash, Grubbs, Perry and Ristenpart, "Leakage-Abuse Attacks Against Searchable Encryption", ACM CCS 2015.
+- Naveed, Kamara and Wright, "Inference Attacks on Property-Preserving Encrypted Databases", ACM CCS 2015.
+- Russ Cox, ["Regular Expression Matching with a Trigram Index"](https://swtch.com/~rsc/regexp/regexp4.html), 2012.
+
+**Method:** threat categories follow STRIDE, as in Adam Shostack, *Threat Modeling: Designing for Security* (Wiley, 2014).
+
+**Glossary**
+
+| Term | Meaning |
+| --- | --- |
+| Mirror | The server-side copy of an account's mail, messages, calendars, contacts and files |
+| Client | The desktop app that reads the user's sources on the device and uploads the mirror |
+| Board | The web interface that shows the mirror in a browser |
+| Holder | Anything that can open K: the device, a connected AI, a board session, a personal access token, or support during Debug access |
+| K, account key | The 256-bit key that encrypts one account's mirror |
+| Locked copy, Cₕ | K wrapped under a key derived from one holder's unlock secret |
+| Unlock secret, sₕ | A 256-bit random secret carried only inside a holder's token |
+| Keyed tag | A truncated HMAC of a text fragment or an identity, under a key derived from K |
+| Sealed arrival | A message encrypted to the account's public key while no holder is calling |
+| Debug access | A user-controlled, time-limited grant that lets support open the account through Cloud KMS |
+| MCP | Model Context Protocol, the interface AI assistants use to query the mirror |

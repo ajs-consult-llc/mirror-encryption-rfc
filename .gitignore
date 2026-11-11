@@ -1,0 +1,6 @@
+_book/
+.quarto/
+/.sync/import-plan.json
+/.sync/import-plan.md
+__pycache__/
+.DS_Store

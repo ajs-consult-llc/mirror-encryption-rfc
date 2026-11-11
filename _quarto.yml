@@ -1,0 +1,51 @@
+# GENERATED: tools/rfcsync.py split writes _quarto.yml from this template.
+# Edit this template, never _quarto.yml. The chapter list is derived from the
+# doc's sections on every split, so nobody keeps it in step by hand.
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Mirror Encryption: Security Architecture"
+  subtitle: "Request for comments"
+  author: "AJS Consult LLC. Editor: Aaron Soellinger."
+  date: last-modified
+  license: "CC BY"
+  repo-url: https://github.com/ajs-consult-llc/mirror-encryption-rfc
+  repo-actions: [edit, issue, source]
+  search: true
+  chapters:
+    - index.qmd
+    - chapters/01-executive-summary.qmd
+    - chapters/02-1-document-control.qmd
+    - chapters/03-2-scope.qmd
+    - chapters/04-3-system-overview.qmd
+    - chapters/05-4-threat-model.qmd
+    - chapters/06-5-security-goals-and-non-goals.qmd
+    - chapters/07-6-cryptographic-inventory.qmd
+    - chapters/08-7-key-hierarchy.qmd
+    - chapters/09-8-key-management-lifecycle.qmd
+    - chapters/10-9-protocol-flows.qmd
+    - chapters/11-10-searching-encrypted-data.qmd
+    - chapters/12-11-performance.qmd
+    - chapters/13-12-security-analysis.qmd
+    - chapters/14-13-residual-risks-and-known-limitations.qmd
+    - chapters/15-14-verification-and-transparency.qmd
+    - chapters/16-15-implementation-status-and-roadmap.qmd
+    - chapters/17-16-questions-for-reviewers.qmd
+    - chapters/18-17-vulnerability-disclosure.qmd
+    - chapters/19-18-references-and-glossary.qmd
+  appendices:
+    - chapters/20-appendix-a-submission-process.qmd
+
+number-sections: false
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+  docx:
+    toc: true
+  typst:
+    toc: true
