@@ -21,6 +21,9 @@ book:
 
 number-sections: false
 
+# The doc has no bibliography, and its byline's "@name" mention is not a citation.
+from: markdown-citations
+
 format:
   html:
     theme: cosmo
