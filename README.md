@@ -4,7 +4,7 @@ A request for comments on encrypting private data mirrors so that only the devic
 user approves can read them. Owned by AJS Consult LLC; edited by Aaron Soellinger; licensed
 CC BY 4.0.
 
-- **Read it:** https://ajs-consult-llc.github.io/mirror-encryption-rfc/ (HTML, with DOCX and PDF downloads)
+- **Read it:** https://ajs-consult-llc.github.io/mirror-encryption-rfc/ (HTML, with a PDF download)
 - **Comment or propose a change:** see [CONTRIBUTING.md](CONTRIBUTING.md). Only signed, attributed
   submissions are official (Appendix A of the document).
 - **Report a vulnerability in the running service:** privately, as chapter 17 says. Never in an issue.
@@ -39,7 +39,7 @@ In a Claude Code session in this repository, ask to **publish the doc** (doc to 
 ```sh
 python3 -m unittest discover -s tests      # the sync tool's tests
 python3 tools/rfcsync.py check             # the chapters still equal the last export
-quarto render                              # HTML, DOCX and PDF into _book/
+quarto render                              # HTML and PDF into _book/
 ```
 
 Quarto 1.11 or later. PDF is rendered with Typst, which Quarto includes; no LaTeX is needed.

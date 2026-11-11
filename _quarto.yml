@@ -14,7 +14,7 @@ book:
   repo-url: https://github.com/ajs-consult-llc/mirror-encryption-rfc
   repo-actions: [edit, issue, source]
   search: true
-  downloads: [docx, pdf]
+  downloads: [pdf]
   chapters:
     - index.qmd
     - chapters/01-executive-summary.qmd
@@ -49,7 +49,5 @@ format:
     theme: cosmo
     toc: true
     toc-depth: 3
-  docx:
-    toc: true
   typst:
     toc: true

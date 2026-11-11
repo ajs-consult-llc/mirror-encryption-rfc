@@ -11,7 +11,7 @@ attacks on attribution it is built to stop, are in Appendix A of the document.
 | A pull request whose every commit is signed | An official text change | The GitHub account whose registered key signed each commit |
 | An issue opened with the **Submission** form | An official comment or objection | The GitHub account that opened it |
 | A signed email to the submissions address | An official submission, for people without GitHub | The holder of the signing key |
-| A comment in a shared copy of the document, unsigned email, a DOCX | Discussion only | Not credited until filed through a channel above |
+| A comment in a shared copy of the document, or unsigned email | Discussion only | Not credited until filed through a channel above |
 
 ## Proposing a text change
 
