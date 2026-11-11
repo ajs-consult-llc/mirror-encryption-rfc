@@ -30,8 +30,17 @@ jobs:
         with:
           version: 1.11.9
 
+      - name: Render HTML, DOCX and PDF
+        run: quarto render
+
+      # pandoc leaves the Word table of contents as an empty field that only a
+      # field update fills; Google Docs and Word on the web never fill it.
+      - name: Fill the Word table of contents with linked entries
+        run: python3 tools/docx_toc.py _book/*.docx
+
       - uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
