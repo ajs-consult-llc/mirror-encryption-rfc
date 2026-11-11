@@ -1,5 +1,7 @@
 # Mirror Encryption: Security Architecture
 
+![Secure Message Mirror](assets/social/secure-message-mirror.png)
+
 A request for comments on encrypting private data mirrors so that only the devices and AIs a
 user approves can read them. Owned by AJS Consult LLC; edited by Aaron Soellinger; licensed
 CC BY 4.0.
@@ -49,7 +51,8 @@ the feed and the subscriber email cannot disagree.
 
 Setup, once: copy `announce.example.json` to `.announce.json` and fill it in (it is not
 committed); a Tally form with an email question and a consent checkbox; its API key in Secret
-Manager under the name in `.announce.json`; the form's link in `tools/updates.json`.
+Manager under the name in `.announce.json`; the form's link in `tools/review.json`, which holds every fact about the round:
+dates, links and the security contact.
 
 ## Building locally
 
