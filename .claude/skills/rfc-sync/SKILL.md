@@ -1,6 +1,6 @@
 ---
 name: rfc-sync
-description: Round-trip the Mirror Encryption RFC between its Claude Doc (where the editor writes) and this GitHub repository (the system of record, published as a Quarto book). Use when asked to publish, export or push the doc to GitHub, or to import, pull or sync merged GitHub changes back into the doc.
+description: Email RFC updates to subscribers, and round-trip the Mirror Encryption RFC between its Claude Doc (where the editor writes) and this GitHub repository (the system of record, published as a Quarto book). Use when asked to publish, export or push the doc to GitHub, or to import, pull or sync merged GitHub changes back into the doc.
 ---
 
 # Round trip: Claude Doc ⇄ GitHub
@@ -59,3 +59,15 @@ keeps them in step; never copy text between them by hand.
 6. Credit the change: add a row to the doc's revision history naming the submission number and
    the contributor's GitHub account.
 7. Finish with **Publish**, so the doc and GitHub agree again and the base moves forward.
+
+## Email an update to subscribers
+
+Updates are GitHub releases. The editor publishes the release; this sends it by email.
+
+1. `python3 tools/announce.py sync --dry-run`, then `python3 tools/announce.py sync`. It adds new,
+   consented Tally sign-ups to the Resend list and never touches an existing contact, so anyone
+   who unsubscribed stays unsubscribed. It prints counts, never addresses; do not print addresses.
+2. `python3 tools/announce.py draft <tag>` makes a Resend broadcast DRAFT from the release.
+3. Show the editor the subject and the release text, and the number of subscribers. Ask in chat
+   whether to send. A Resend send always needs the editor's explicit yes in this conversation.
+4. Only after that yes: `python3 tools/announce.py send <broadcast id>`. Report what was sent.

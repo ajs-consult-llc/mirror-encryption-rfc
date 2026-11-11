@@ -17,6 +17,7 @@ book:
   downloads: [pdf]
   chapters:
     - index.qmd
+    - updates.qmd
     - chapters/01-executive-summary.qmd
     - chapters/02-1-document-control.qmd
     - chapters/03-2-scope.qmd
