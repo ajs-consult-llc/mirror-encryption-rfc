@@ -23,7 +23,7 @@ NAME = "Mirror Encryption RFC: review updates"  # the form's name inside Tally
 DOC_TITLE = "Mirror Encryption: Security Architecture"
 # The graphic, from a commit in the public repository: pinned, so the link cannot break.
 IMAGE_URL = ("https://raw.githubusercontent.com/ajs-consult-llc/mirror-encryption-rfc/"
-             "daba927e053f60c7874fdfcd9a17b521a3b36850/assets/social/secure-message-mirror.png")
+             "8181fb3145e7326e5ad4c7df6047d872dbceb32f/assets/social/secure-message-mirror.png")
 IMAGE_ALT = ("Secure Message Mirror: your messages, encrypted under your key, readable only by "
              "the readers you approve. Everyone else sees ciphertext only.")
 SIGNUP_HEADING = "Get review updates"
