@@ -1,9 +1,9 @@
-# Mirror Encryption: Security Architecture
+# Security Reference Architecture for AI-Optimized Data Mirrors
 
-![Secure Message Mirror RFC](assets/social/secure-message-mirror.png)
+![AI-Optimized Data Mirror RFC](assets/social/ai-optimized-data-mirror.png)
 
-A request for comments on encrypting private data mirrors so that only the devices and AIs a
-user approves can read them. Owned by AJS Consult LLC; edited by Aaron Soellinger; licensed
+A request for comments on a security reference architecture for AI-optimized data mirrors:
+private copies of people's data that only the devices and AIs they approve can read. Owned by AJS Consult LLC; edited by Aaron Soellinger; licensed
 CC BY 4.0.
 
 - **Read it:** https://ajs-consult-llc.github.io/mirror-encryption-rfc/ (HTML, with a PDF download)
