@@ -41,3 +41,4 @@ format:
       theme: neutral
     toc: true
     toc-depth: 3
+    fig-cap-location: top

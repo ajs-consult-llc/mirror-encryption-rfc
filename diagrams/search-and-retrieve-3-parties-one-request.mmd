@@ -1,3 +1,6 @@
+---
+title: "The account key is unlocked for one request and dropped when it ends"
+---
 sequenceDiagram
   accTitle: The account key is unlocked for one request and dropped when it ends
   accDescr: Search and retrieve. A reader or writer sends a query with its token. The server finds the token's copy by its hash, unlocks the account key for this request and turns the query into tags. It finds the candidates in the index and gets back candidate rows, still ciphertext. It decrypts only the candidates, checks the real match, and returns the results. The request ends and the account key is dropped.
@@ -6,9 +9,9 @@ sequenceDiagram
   participant DB as Database
   R->>S: a query, with its token
   S->>DB: find the token's copy by its hash
-  Note over S: unlock the account key for this request, turn the query into tags
+  Note over S: unlock the account key for this<br/>request, turn the query into tags
   S->>DB: find the candidates in the index
   DB-->>S: candidate rows, still ciphertext
-  Note over S: decrypt only the candidates, check the real match
+  Note over S: decrypt only the candidates, check<br/>the real match
   S-->>R: the results
-  Note over S,DB: The request ends and the account key is dropped.
+  Note over S,DB: The request ends and the account<br/>key is dropped.
