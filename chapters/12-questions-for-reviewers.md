@@ -1,4 +1,4 @@
-# 10. Questions for reviewers
+# 9. Questions for reviewers
 
 These seven are where review is wanted most.
 

@@ -5,11 +5,11 @@ Every diagram in this document, written out: a description in words, for screen 
 
 <a id="the-whole-design-1-key-1-kind-of-token"></a>
 
-## Figure 5.1. The whole design: one account key, one kind of token, a database and a blob store
+## Figure 4.1. The whole design: one account key, one kind of token, a database and a blob store
 
 *Plaintext exists only on the desktop and inside an approved request*
 
-In [5. The design on one page](07-the-design-on-one-page.md). One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
+In [4. The design on one page](07-the-design-on-one-page.md). One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
 
 ```mermaid
 flowchart TB
@@ -28,11 +28,11 @@ flowchart TB
 
 <a id="where-the-account-key-lives-2-places-in-the-clear"></a>
 
-## Figure 6.1. Where the account key lives in the clear, and where only locked copies exist
+## Figure 5.1. Where the account key lives in the clear, and where only locked copies exist
 
 *The account key exists in the clear in only two places*
 
-In [6. How it works](08-how-it-works.md). Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, and in server memory, with its two derived keys, for one approved request only. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, board and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once.
+In [5. How it works](08-how-it-works.md). Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, and in server memory, with its two derived keys, for one approved request only. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, board and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once.
 
 ```mermaid
 flowchart TB
@@ -63,11 +63,11 @@ flowchart TB
 
 <a id="create-4-parties"></a>
 
-## Figure 6.2. Create: the desktop makes the account key and uploads only a locked copy
+## Figure 5.2. Create: the desktop makes the account key and uploads only a locked copy
 
 *The account key is born on the desktop, and only a locked copy reaches the server*
 
-In [6. How it works](08-how-it-works.md). Create. The desktop app generates the account key from 256 random bits and stores it in the OS keystore. It signs in and asks the server for a desktop token, and the server replies with one. The desktop app wraps the account key under a key derived from the token and sends the locked copy to the server, which stores the token's hash and the copy in the database. The account key never leaves the desktop in the clear.
+In [5. How it works](08-how-it-works.md). Create. The desktop app generates the account key from 256 random bits and stores it in the OS keystore. It signs in and asks the server for a desktop token, and the server replies with one. The desktop app wraps the account key under a key derived from the token and sends the locked copy to the server, which stores the token's hash and the copy in the database. The account key never leaves the desktop in the clear.
 
 ```mermaid
 sequenceDiagram
@@ -88,11 +88,11 @@ sequenceDiagram
 
 <a id="read-3-parties"></a>
 
-## Figure 6.3. Read: a token opens its copy of the account key for one request
+## Figure 5.3. Read: a token opens its copy of the account key for one request
 
 *The account key is unwrapped for one request and never written down*
 
-In [6. How it works](08-how-it-works.md). Read. A reader or writer sends a request carrying its token. The server looks up the token's hash in the database and gets back its locked copy. A key derived from the token unwraps the account key, in memory only. The server looks up the query's tags and gets back ciphertext rows, decrypts the candidates and builds the answer, and returns the results. The request ends and the account key is dropped.
+In [5. How it works](08-how-it-works.md). Read. A reader or writer sends a request carrying its token. The server looks up the token's hash in the database and gets back its locked copy. A key derived from the token unwraps the account key, in memory only. The server looks up the query's tags and gets back ciphertext rows, decrypts the candidates and builds the answer, and returns the results. The request ends and the account key is dropped.
 
 ```mermaid
 sequenceDiagram
@@ -114,11 +114,11 @@ sequenceDiagram
 
 <a id="update-4-parties"></a>
 
-## Figure 6.4. Update: a new reader or writer gets its own token and its own locked copy
+## Figure 5.4. Update: a new reader or writer gets its own token and its own locked copy
 
 *A new holder gets its own copy, made inside the user's session*
 
-In [6. How it works](08-how-it-works.md). Update. The user approves a new reader or writer, inside a session that holds the account key. The server makes a new token and wraps the account key under a key derived from it, stores the new token's hash and the copy in the database, and hands the new token to the reader or writer once. Renewal runs the same steps, then deletes the old token's hash and copy.
+In [5. How it works](08-how-it-works.md). Update. The user approves a new reader or writer, inside a session that holds the account key. The server makes a new token and wraps the account key under a key derived from it, stores the new token's hash and the copy in the database, and hands the new token to the reader or writer once. Renewal runs the same steps, then deletes the old token's hash and copy.
 
 ```mermaid
 sequenceDiagram
@@ -137,11 +137,11 @@ sequenceDiagram
 
 <a id="expire-3-parties"></a>
 
-## Figure 6.5. Expire: an expired token is refused and its copy is deleted
+## Figure 5.5. Expire: an expired token is refused and its copy is deleted
 
 *An expired token finds no copy and is refused*
 
-In [6. How it works](08-how-it-works.md). Expire. The server finds copies past their expiry in the database and deletes each one's hash and copy. When a reader or writer then sends a request with the expired token, the server refuses it, and the holder must renew or be approved again. The account key itself is rotated before its nonce budget runs out, by re-encrypting or by re-wrapping data keys (questions 2 to 4).
+In [5. How it works](08-how-it-works.md). Expire. The server finds copies past their expiry in the database and deletes each one's hash and copy. When a reader or writer then sends a request with the expired token, the server refuses it, and the holder must renew or be approved again. The account key itself is rotated before its nonce budget runs out, by re-encrypting or by re-wrapping data keys (questions 2 to 4).
 
 ```mermaid
 sequenceDiagram
@@ -159,11 +159,11 @@ sequenceDiagram
 
 <a id="delete-4-parties"></a>
 
-## Figure 6.6. Delete: access ends when a token's hash and its copy are deleted
+## Figure 5.6. Delete: access ends when a token's hash and its copy are deleted
 
 *Deleting copies is how access ends*
 
-In [6. How it works](08-how-it-works.md). Delete. The user revokes a token, or deletes the account. The server deletes that token's hash and copy, or every copy and row. Backups keep old copies until they expire, up to 30 days. If every holder is lost, the next desktop makes a new account key and collects again.
+In [5. How it works](08-how-it-works.md). Delete. The user revokes a token, or deletes the account. The server deletes that token's hash and copy, or every copy and row. Backups keep old copies until they expire, up to 30 days. If every holder is lost, the next desktop makes a new account key and collects again.
 
 ```mermaid
 sequenceDiagram
@@ -180,11 +180,11 @@ sequenceDiagram
 
 <a id="collect-and-push-4-parties"></a>
 
-## Figure 6.7. Collect and push: messages are encrypted on the desktop before upload
+## Figure 5.7. Collect and push: messages are encrypted on the desktop before upload
 
 *Messages are encrypted on the desktop before they leave it*
 
-In [6. How it works](08-how-it-works.md). Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
+In [5. How it works](08-how-it-works.md). Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
 
 ```mermaid
 sequenceDiagram
@@ -202,11 +202,11 @@ sequenceDiagram
 
 <a id="approve-a-reader-or-writer-4-parties"></a>
 
-## Figure 6.8. Approve a reader or writer: one approval, one token, one locked copy
+## Figure 5.8. Approve a reader or writer: one approval, one token, one locked copy
 
 *Approving a reader or writer creates one token and one copy of the account key*
 
-In [6. How it works](08-how-it-works.md). Approve a reader or writer. The user approves it by OAuth consent, by the web app opened from the desktop, or with a matching code. Inside the user's session, the server makes a token and a copy of the account key locked under it, stores the token's hash and the copy in the database, and hands the token to the reader or writer once.
+In [5. How it works](08-how-it-works.md). Approve a reader or writer. The user approves it by OAuth consent, by the web app opened from the desktop, or with a matching code. Inside the user's session, the server makes a token and a copy of the account key locked under it, stores the token's hash and the copy in the database, and hands the token to the reader or writer once.
 
 ```mermaid
 sequenceDiagram
@@ -224,11 +224,11 @@ sequenceDiagram
 
 <a id="search-and-retrieve-3-parties-one-request"></a>
 
-## Figure 6.9. Search and retrieve: the account key is opened for one request only
+## Figure 5.9. Search and retrieve: the account key is opened for one request only
 
 *The account key is unlocked for one request and dropped when it ends*
 
-In [6. How it works](08-how-it-works.md). Search and retrieve. A reader or writer sends a query with its token. The server finds the token's copy by its hash, unlocks the account key for this request and turns the query into tags. It finds the candidates in the index and gets back candidate rows, still ciphertext. It decrypts only the candidates, checks the real match, and returns the results. The request ends and the account key is dropped.
+In [5. How it works](08-how-it-works.md). Search and retrieve. A reader or writer sends a query with its token. The server finds the token's copy by its hash, unlocks the account key for this request and turns the query into tags. It finds the candidates in the index and gets back candidate rows, still ciphertext. It decrypts only the candidates, checks the real match, and returns the results. The request ends and the account key is dropped.
 
 ```mermaid
 sequenceDiagram
@@ -249,11 +249,11 @@ sequenceDiagram
 
 <a id="update-4-parties-2"></a>
 
-## Figure 6.10. Update: a writer's change is encrypted on the server inside its request
+## Figure 5.10. Update: a writer's change is encrypted on the server inside its request
 
 *A writer's change is encrypted on the server and seen on the next read*
 
-In [6. How it works](08-how-it-works.md). Update. A reader or writer sends a change with its token, such as an AI tool call or a web-app edit. The server unlocks the account key, encrypts the change, recomputes its tags and stores it. On any reader's next request, the server returns the updated message.
+In [5. How it works](08-how-it-works.md). Update. A reader or writer sends a change with its token, such as an AI tool call or a web-app edit. The server unlocks the account key, encrypts the change, recomputes its tags and stores it. On any reader's next request, the server returns the updated message.
 
 ```mermaid
 sequenceDiagram
@@ -271,11 +271,11 @@ sequenceDiagram
 
 <a id="revoke-and-recover-4-parties"></a>
 
-## Figure 6.11. Revoke and recover: one deletion cuts a holder off, and recovery needs another approved device
+## Figure 5.11. Revoke and recover: one deletion cuts a holder off, and recovery needs another approved device
 
 *Revoking deletes a copy, and recovery needs another approved device*
 
-In [6. How it works](08-how-it-works.md). Revoke and recover. The user revokes a token, or a lost desktop, and the server deletes its hash and its copy in the database. A new desktop asks the server to join, the user approves the new desktop, and the server gives the new desktop its own token, which opens its own copy of the account key. If every holder is lost, the mirror cannot be read, and a new desktop makes a new account key and collects again from the sources.
+In [5. How it works](08-how-it-works.md). Revoke and recover. The user revokes a token, or a lost desktop, and the server deletes its hash and its copy in the database. A new desktop asks the server to join, the user approves the new desktop, and the server gives the new desktop its own token, which opens its own copy of the account key. If every holder is lost, the mirror cannot be read, and a new desktop makes a new account key and collects again from the sources.
 
 ```mermaid
 sequenceDiagram
@@ -295,11 +295,11 @@ sequenceDiagram
 
 <a id="latency-budget-targets-at-the-95th-percentile-not-measurements"></a>
 
-## Figure 7.1. Latency budget: targets at the 95th percentile, not measurements
+## Figure 6.1. Latency budget: targets at the 95th percentile, not measurements
 
 *Encryption adds well under a second, and the answer lands inside the 10-second budget*
 
-In [7. Latency budget](09-latency-budget.md). Question to first response is 7.4 seconds at the 95th percentile, of which the mirror is 0.405 seconds. These are targets, not measurements. The AI provider reads the question and calls the mirror in an assumed 3 seconds. The mirror then takes 0.405 seconds of its 1-second budget: 0.2 seconds for the request to the server and back over the network, 0.005 seconds on the server to find the token and unlock the key, 0.1 seconds in the database to look up the query's tags, and 0.1 seconds on the server to decrypt and check 200 candidates. The AI provider then writes the first words from the results in an assumed 4 seconds, so the first response arrives at 7.4 seconds, inside the 10-second budget.
+In [6. Latency budget](09-latency-budget.md). Question to first response is 7.4 seconds at the 95th percentile, of which the mirror is 0.405 seconds. These are targets, not measurements. The AI provider reads the question and calls the mirror in an assumed 3 seconds. The mirror then takes 0.405 seconds of its 1-second budget: 0.2 seconds for the request to the server and back over the network, 0.005 seconds on the server to find the token and unlock the key, 0.1 seconds in the database to look up the query's tags, and 0.1 seconds on the server to decrypt and check 200 candidates. The AI provider then writes the first words from the results in an assumed 4 seconds, so the first response arrives at 7.4 seconds, inside the 10-second budget.
 
 ```mermaid
 flowchart TB
