@@ -1,4 +1,4 @@
-# 9. Decisions made to simplify
+# 8. Decisions made to simplify
 
 These choices keep the design small. Each has a cost, stated here so reviewers can challenge it.
 
