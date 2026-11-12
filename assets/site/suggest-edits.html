@@ -103,36 +103,39 @@ body.rfc-editing [data-rfc-edit]:focus { outline: 2px solid #2f5f86; background:
     refresh();
   }
 
-  // Word-level difference: removed words ~~struck~~, added words **bold**.
-  function tokens(s) { return s.match(/\s+|[^\s]+/g) || []; }
-  function md(s) { return s.replace(/([\\*_~`\[\]])/g, "\\$1"); }
-  function diff(a, b) {
-    const A = tokens(a), B = tokens(b);
-    if (A.length * B.length > 400000) return null;
+  // Sentence-level difference, written as a unified diff: GitHub shows the issue's Changes field
+  // as a diff block (the form renders it so), removed sentences red, added ones green.
+  function sentences(text) {
+    return text.replace(/\s+/g, " ").trim().split(/(?<=[.!?;:])\s+/).filter(Boolean);
+  }
+  function opsBetween(A, B) {
     const L = Array.from({ length: A.length + 1 }, () => new Uint16Array(B.length + 1));
     for (let i = A.length - 1; i >= 0; i--)
       for (let j = B.length - 1; j >= 0; j--)
         L[i][j] = A[i] === B[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
     const out = [];
     let i = 0, j = 0;
-    const push = (kind, text) => {
-      const last = out[out.length - 1];
-      if (last && last.kind === kind) last.text += text; else out.push({ kind, text });
-    };
     while (i < A.length && j < B.length) {
-      if (A[i] === B[j]) { push("same", A[i]); i++; j++; }
-      else if (L[i + 1][j] >= L[i][j + 1]) push("del", A[i++]);
-      else push("add", B[j++]);
+      if (A[i] === B[j]) { out.push([" ", A[i]]); i++; j++; }
+      else if (L[i + 1][j] >= L[i][j + 1]) out.push(["-", A[i++]]);
+      else out.push(["+", B[j++]]);
     }
-    while (i < A.length) push("del", A[i++]);
-    while (j < B.length) push("add", B[j++]);
-    return out.map(p => {
-      if (p.kind === "same") return md(p.text);
-      const core = p.text.trim();
-      if (!core) return p.text;
-      const lead = p.text.match(/^\s*/)[0], trail = p.text.match(/\s*$/)[0];
-      return lead + (p.kind === "del" ? `~~${md(core)}~~` : `**${md(core)}**`) + trail;
-    }).join("");
+    while (i < A.length) out.push(["-", A[i++]]);
+    while (j < B.length) out.push(["+", B[j++]]);
+    return out;
+  }
+  function wrapped(mark, text, width = 88) {  // a long sentence becomes several lines, each marked
+    const lines = [];
+    let line = "";
+    text.split(" ").forEach(word => {
+      if (line && (line + " " + word).length > width) { lines.push(line); line = word; }
+      else line = line ? line + " " + word : word;
+    });
+    if (line) lines.push(line);
+    return lines.map(l => `${mark} ${l}`);
+  }
+  function diffOf(before, after) {
+    return opsBetween(sentences(before), sentences(after)).flatMap(([mark, text]) => wrapped(mark, text));
   }
 
   function sectionOf(el) {
@@ -146,14 +149,8 @@ body.rfc-editing [data-rfc-edit]:focus { outline: 2px solid #2f5f86; background:
   function send() {
     const items = changed();
     if (!items.length) return;
-    const parts = items.map((el, k) => {
-      const before = el._rfcText.trim(), after = el.innerText.trim();
-      const d = diff(before, after);
-      return `#### ${k + 1}. In "${sectionOf(el)}"\n\n` +
-        (d ? `${d}\n\n` : "") +
-        `<details><summary>Before and after</summary>\n\n**Before:** ${md(before)}\n\n**After:** ${md(after)}\n\n</details>`;
-    });
-    const changes = parts.join("\n\n");
+    const changes = items.map(el => [`@@ ${sectionOf(el)} @@`, ...diffOf(el._rfcText, el.innerText)].join("\n"))
+      .join("\n\n");
     const base = `https://github.com/${REPO}/issues/new?template=suggested-edit.yml` +
       `&title=${encodeURIComponent("Suggested edit: " + pageTitle.trim())}` +
       `&page=${encodeURIComponent(pageUrl)}`;
@@ -163,7 +160,7 @@ body.rfc-editing [data-rfc-edit]:focus { outline: 2px solid #2f5f86; background:
       try { navigator.clipboard.writeText(changes); } catch (e) { /* no clipboard: shown below */ }
       status.textContent = "Your changes are long, so they are copied: paste them into the Changes box on GitHub.";
     } else {
-      status.textContent = `GitHub opened in a new tab with ${items.length} suggestion${items.length === 1 ? "" : "s"}. ` +
+      status.textContent = `GitHub opened in a new tab with ${items.length} change${items.length === 1 ? "" : "s"}. ` +
         "Submit the issue there to send them; it is credited to your GitHub account.";
     }
     window.open(url, "_blank", "noopener");

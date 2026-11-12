@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        These are the changes you made on the page. Removed words are ~~struck through~~ and added words are **bold**.
+        These are the changes you made on the page, by section: lines starting `-` were removed (red once filed) and lines starting `+` were added (green).
         You can still change anything here before you submit. Submitting files them as a suggestion credited to your GitHub account.
   - type: input
     id: page
@@ -19,7 +19,8 @@ body:
     id: changes
     attributes:
       label: Changes
-      description: Each change, and the section it is in.
+      description: Each change as a diff, under the section it is in.
+      render: diff
     validations:
       required: true
   - type: textarea
