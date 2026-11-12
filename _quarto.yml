@@ -54,4 +54,8 @@ format:
       theme: neutral
     toc: true
     toc-depth: 3
+    # The page's sections sit in the left panel, under the chapter, opened out: one place to
+    # see where you are, with every subsection (6.1, 6.1.1, ...) listed.
+    toc-location: left
+    toc-expand: true
     fig-cap-location: top
