@@ -5,11 +5,11 @@ project:
   type: book
   output-dir: _book
   resources:
-    - assets/social/ai-optimized-data-mirror.png
-    - assets/social/ai-optimized-data-mirror-social.png
+    - assets/social/cloud-data-mirror.png
+    - assets/social/cloud-data-mirror-social.png
 
 book:
-  title: "Security Reference Architecture for AI-optimized Data Mirrors"
+  title: "Security Reference Architecture for Cloud Data Mirrors"
   subtitle: "Request for comments"
   author: "AJS Consult LLC. Editor: Aaron Soellinger."
   date: last-modified
@@ -19,11 +19,10 @@ book:
   search: true
   site-url: https://ajs-consult-llc.github.io/mirror-encryption-rfc/
   # Link previews get the white-background version: a transparent PNG looks broken on dark-mode feeds.
-  image: assets/social/ai-optimized-data-mirror-social.png
+  image: assets/social/cloud-data-mirror-social.png
   open-graph: true
   twitter-card:
     card-style: summary_large_image
-  downloads: [pdf]
   chapters:
     - index.md
     - updates.qmd
@@ -53,5 +52,3 @@ format:
       theme: neutral
     toc: true
     toc-depth: 3
-  typst:
-    toc: true

@@ -19,12 +19,12 @@ from pathlib import Path
 
 from announce import TALLY, Config, call, secret
 
-NAME = "AI-Optimized Data Mirror RFC: review updates"  # the form's name inside Tally
-DOC_TITLE = "Security Reference Architecture for AI-Optimized Data Mirrors (RFC)"
+NAME = "Cloud Data Mirror RFC: review updates"  # the form's name inside Tally
+DOC_TITLE = "Security Reference Architecture for Cloud Data Mirrors (RFC)"
 # The graphic, from a commit in the public repository: pinned, so the link cannot break.
 IMAGE_URL = ("https://raw.githubusercontent.com/ajs-consult-llc/mirror-encryption-rfc/"
-             "e3fd25115ec63dcd060164b381367d11e47ace58/assets/social/ai-optimized-data-mirror-banner.png")
-IMAGE_ALT = ("AI-Optimized Data Mirror: your data, encrypted with your key, readable only by the AI "
+             "8e5037870da87c89aebba5da04180a4f3a927849/assets/social/cloud-data-mirror-banner.png")
+IMAGE_ALT = ("Cloud Data Mirror: your data, encrypted with your key, readable only by the AI "
              "you approve.")
 LABEL = "Get review updates by email"
 CONSENT = "Yes, send me review updates"
@@ -47,13 +47,13 @@ def block(kind: str, group: str, payload: dict) -> dict:
 def blocks(site_url: str) -> list[dict]:
     """Short enough to fit one laptop screen: title, banner, one paragraph, the sign-up."""
     review = json.loads(REVIEW.read_text(encoding="utf-8"))
-    details = (f"A request for comments (RFC) on a security reference architecture for AI-optimized "
-               f"data mirrors: private copies of people's data that only the AI they approve can read. "
+    details = (f"A request for comments (RFC) on a security reference architecture for cloud data "
+               f"mirrors: private copies of people's data that only the AI they approve can read. "
                f"Open for public comment until {review['closes']}. "
                f'<a href="{site_url}">Read the RFC</a>')
     return [
         block("FORM_TITLE", "TEXT", {"html": DOC_TITLE, "title": NAME, "button": {"label": BUTTON}}),
-        block("IMAGE", "IMAGE", {"images": [{"name": "ai-optimized-data-mirror-banner.png", "url": IMAGE_URL}],
+        block("IMAGE", "IMAGE", {"images": [{"name": "cloud-data-mirror-banner.png", "url": IMAGE_URL}],
                                  "hasAltText": True, "altText": IMAGE_ALT}),
         block("TEXT", "TEXT", {"html": details}),
         block("TITLE", "QUESTION", {"html": LABEL}),

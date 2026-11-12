@@ -1,6 +1,6 @@
 ---
 name: rfc-sync
-description: Email RFC updates to subscribers, and round-trip the AI-Optimized Data Mirror RFC between its Claude Doc (where the editor writes) and this GitHub repository (the system of record, published as a Quarto book). Use when asked to publish, export or push the doc to GitHub, or to import, pull or sync merged GitHub changes back into the doc.
+description: Email RFC updates to subscribers, and round-trip the Cloud Data Mirror RFC between its Claude Doc (where the editor writes) and this GitHub repository (the system of record, published as a Quarto book). Use when asked to publish, export or push the doc to GitHub, or to import, pull or sync merged GitHub changes back into the doc.
 ---
 
 # Round trip: Claude Doc ⇄ GitHub

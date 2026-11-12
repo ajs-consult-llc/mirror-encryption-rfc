@@ -1,6 +1,6 @@
 name: Publish the book
 
-# Renders the Quarto book (HTML, and PDF via Typst) and publishes it to
+# Renders the Quarto book as a website and publishes it to
 # the gh-pages branch, which GitHub Pages serves.
 on:
   push:
@@ -49,10 +49,7 @@ jobs:
           sed -i -E 's#^(    - (index|chapters/[^ ]+))\.md$#\1.qmd#' _quarto.yml
           grep -n 'qmd' _quarto.yml
 
-      - name: A headless browser, to draw the diagrams in the PDF
-        run: quarto install chrome-headless-shell --no-prompt || quarto install chromium --no-prompt
-
-      - name: Render HTML and PDF
+      - name: Render the site
         run: quarto render
 
       - uses: quarto-dev/quarto-actions/publish@v2
