@@ -16,24 +16,22 @@
 
 **Security problems in the running service** go privately to the contact in section 17 of the v0.1 tab, never in a comment here.
 
-Open question: the date the comment period closes.
-
 | Version | Date | Change |
 | --- | --- | --- |
 | 0.1 | 11 November 2026 | Initial commit. |
 
 ## Submission phases
 
-Review runs in rounds. Each round is seven days, six for review and one for editing, and the rounds repeat until every comment is addressed.
+Review runs in rounds. Round 1 runs for a month, so that reviewers have time; later rounds run for two weeks. The rounds repeat until every comment is addressed.
 
-1. **Review, 6 days.** The current version is open, and anyone may comment on any part of it.
-2. **Editing, 1 day.** No new comments are taken. The editor addresses every comment in its own thread: accepted and changed, declined with a reason, or carried into Questions for reviewers.
+1. **Review.** The current version is open, and anyone may comment on any part of it.
+2. **Editing.** No new comments are taken. The editor addresses every comment in its own thread: accepted and changed, declined with a reason, or carried into Questions for reviewers.
 3. **New version.** The revised version is published and added to the version table above, with what changed. The next review opens on it.
 
-A comment that arrives on an editing day counts toward the next round. The rounds end when a review closes with no new comments and none left unaddressed; that version is then marked final.
+A comment that arrives during editing counts toward the next round. The rounds end when a review closes with no new comments and none left unaddressed; that version is then marked final.
 
-| Round | Version | Review opens (6 days) | Editing day (1 day) | Next version |
+| Round | Version | Review | Editing | Next version |
 | --- | --- | --- | --- | --- |
-| 1 | 0.1 | To be set | To be set | 0.2 |
-| 2 | 0.2 | The day after round 1's editing day | 6 days after the review opens | 0.3 |
-| Later rounds | As needed | The same pattern | The same pattern | Final, when no comments remain |
+| 1 | 0.1 | 11 November to 11 December 2026, 23:59 UTC | 12 to 18 December 2026 | 0.2, with a decision on every comment, by 18 December 2026 |
+| 2 | 0.2 | Two weeks, from a date announced with version 0.2 | Up to one week | 0.3 |
+| Later rounds | As needed | Two weeks | Up to one week | Final, when no comments remain |
