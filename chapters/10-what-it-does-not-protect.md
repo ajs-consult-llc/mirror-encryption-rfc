@@ -1,4 +1,4 @@
-# What it does not protect
+# 8. What it does not protect
 
 This is encryption controlled by the user's keys, not end-to-end encryption: the server decrypts inside each approved request. The limits follow.
 

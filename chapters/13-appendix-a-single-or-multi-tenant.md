@@ -10,10 +10,10 @@ For stored data the choice barely matters, because each user's rows are locked u
 | Deleting a user | Delete their copies of the account key and their rows | Delete the database |
 | Cost and operations | One database to run | One per user |
 
-<!-- diagram: shared vs dedicated · 3 users -->
+<!-- diagram: Figure A.1. One shared database compared with one database per user -->
 ![Keys isolate stored data either way, and separate instances contain a breach](../figures/shared-vs-dedicated-3-users.png)
 
-*[This diagram as text](13-appendix-b-the-diagrams-as-text.md#shared-vs-dedicated-3-users)*
+**Figure A.1.** One shared database compared with one database per user · [Text version](14-appendix-b-the-diagrams-as-text.md#shared-vs-dedicated-3-users)
 <!-- /diagram -->
 
 The recommendation is one codebase that runs either way. Shared by default, with row-level security in the database as a second line behind the keys. A dedicated instance, run by the operator or by the user, for anyone who wants the smaller blast radius. The keys stay with the user in both.

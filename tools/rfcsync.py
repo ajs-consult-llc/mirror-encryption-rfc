@@ -73,17 +73,30 @@ def slugify(text: str) -> str:
 
 
 class DiagramNames:
-    """Hands out a unique slug per caption, in document order: the second use of a caption
-    gets ``-2``. One instance spans a whole split or join, so the numbering is the document's."""
+    """Hands out each diagram's slug, in document order. A caption recorded in
+    ``.sync/widgets.json`` keeps its slug when the caption is reworded there, so a picture and its
+    text version survive a rename; any other caption is slugified, and a second use gets ``-2``."""
 
-    def __init__(self) -> None:
+    def __init__(self, known: dict[str, str] | None = None) -> None:
+        self.known = known if known is not None else known_captions()
         self.seen: dict[str, int] = {}
 
     def next(self, caption: str) -> str:
+        if caption in self.known:
+            return self.known[caption]
         base = slugify(caption)
         self.seen[base] = self.seen.get(base, 0) + 1
         n = self.seen[base]
         return base if n == 1 else f"{base}-{n}"
+
+
+def known_captions() -> dict[str, str]:
+    """caption -> slug, from .sync/widgets.json (empty when there is none)."""
+    path = SYNC / "widgets.json"
+    if not path.exists():
+        return {}
+    diagrams = json.loads(path.read_text(encoding="utf-8")).get("diagrams", {})
+    return {w["caption"]: slug for slug, w in diagrams.items() if w.get("caption")}
 
 
 def shift_headings(text: str, delta: int) -> str:
@@ -136,42 +149,58 @@ class Diagram:
     heading: str  # that chapter's heading
 
 
-def figure_lines(caption: str, slug: str, figures_href: str, appendix_href: str | None) -> list[str] | None:
-    """What stands in a chapter for one diagram: the picture exported from the doc, and a link to
-    its text version. None when the picture has not been exported yet."""
+TEXT_LINK = re.compile(r" · \[Text version\]\([^)]*\)$")
+
+
+def figure_lines(caption: str, slug: str, figures_href: str, appendix_href: str | None,
+                 doc_caption: str | None = None) -> list[str] | None:
+    """What stands in a chapter for one diagram: the picture exported from the doc, the doc's own
+    caption line under it (when the doc has one), and a link to the text version. None when the
+    picture has not been exported yet."""
     if not (FIGURES / f"{slug}.png").exists():
         return None
     text = text_version(slug)
     alt = text.title if text and text.title else caption
+    link = f"[Text version]({appendix_href}#{slug})" if text and appendix_href else None
     lines = [f"<!-- diagram: {caption} -->", f"![{alt}]({figures_href}{slug}.png)"]
-    if text and appendix_href:
-        lines += ["", f"*[This diagram as text]({appendix_href}#{slug})*"]
+    if doc_caption is not None:
+        lines += ["", doc_caption + (f" · {link}" if link else "")]
+    elif link:
+        lines += ["", f"*{link}*"]
     return lines + [DIAGRAM_END]
+
+
+def is_doc_caption(line: str) -> bool:
+    return line.startswith("**Figure ")
 
 
 def to_diagrams(text: str, names: DiagramNames, missing: list[str], *, figures_href: str = "../figures/",
                 appendix_href: str | None = None, chapter: str = "", heading: str = "",
                 found: list[Diagram] | None = None) -> str:
-    """Replace each diagram placeholder with its exported picture and a link to its text version.
-    A placeholder whose picture is not in figures/ yet is left as it is, and reported."""
-    out: list[str] = []
-    for line in text.split("\n"):
-        m = PLACEHOLDER.match(line)
+    """Replace each diagram placeholder, and the doc's caption line under it, with the exported
+    picture and that caption. A placeholder whose picture is not in figures/ yet stays, reported."""
+    lines, out, i = text.split("\n"), [], 0
+    while i < len(lines):
+        m = PLACEHOLDER.match(lines[i])
         if not m:
-            out.append(line)
+            out.append(lines[i])
+            i += 1
             continue
         caption = m.group("caption")
         slug = names.next(caption)
-        block = figure_lines(caption, slug, figures_href, appendix_href)
+        has_caption = i + 2 < len(lines) and lines[i + 1] == "" and is_doc_caption(lines[i + 2])
+        block = figure_lines(caption, slug, figures_href, appendix_href, lines[i + 2] if has_caption else None)
         if block is None:
             missing.append(f"figures/{slug}.png")
-            out.append(line)
+            out.append(lines[i])
+            i += 1
             continue
         if text_version(slug) is None:
             missing.append(f"diagrams/{slug}.mmd")
         if found is not None:
             found.append(Diagram(caption, slug, chapter, heading))
         out += block
+        i += 3 if has_caption else 1
     return "\n".join(out)
 
 
@@ -188,11 +217,14 @@ def to_placeholders(text: str, names: DiagramNames, *, figures_href: str = "../f
             if end == len(lines):
                 raise ValueError(f"the diagram {m.group('caption')!r} has no closing {DIAGRAM_END}")
             caption = m.group("caption")
-            expected = figure_lines(caption, names.next(caption), figures_href, appendix_href)
+            doc_caption = next((TEXT_LINK.sub("", ln) for ln in lines[i + 1:end] if is_doc_caption(ln)), None)
+            expected = figure_lines(caption, names.next(caption), figures_href, appendix_href, doc_caption)
             if expected != lines[i:end + 1]:
                 raise ValueError(f"the diagram block for {caption!r} was edited: change figures/ or "
                                  "diagrams/ and run split, never the block inside a chapter")
             out.append(f"&#91;embedded content: {caption}\\]")
+            if doc_caption is not None:
+                out += ["", doc_caption]
             i = end + 1
             continue
         out.append(lines[i])
@@ -211,7 +243,7 @@ def appendix_text(letter: str, diagrams: list[Diagram]) -> str:
         text = text_version(d.slug)
         if text is None:
             continue
-        out += [f'<a id="{d.slug}"></a>', "", f"## {text.title or d.caption}", "",
+        out += [f'<a id="{d.slug}"></a>', "", f"## {d.caption}", "", f"*{text.title}*" if text.title else "", "",
                 f"In [{d.heading}]({d.chapter}). {text.description}".rstrip(), "",
                 "```mermaid", text.source, "```", ""]
     return "\n".join(out)
@@ -262,8 +294,13 @@ def parse(export: str) -> Parsed:
     return Parsed(title=title, opening=opening, sections=tuple(sections))
 
 
+SECTION_NUMBER = re.compile(r"^\d+(?:\.\d+)*\.?\s+")
+
+
 def chapter_name(index: int, section: Section) -> str:
-    return f"{index:02d}-{slugify(section.heading)}.md"
+    """``06-the-design-on-one-page.md``: the doc's own section number stays out of the name, so
+    renumbering the doc does not rename the files."""
+    return f"{index:02d}-{slugify(SECTION_NUMBER.sub('', section.heading))}.md"
 
 
 def split(export_path: Path) -> list[Path]:
