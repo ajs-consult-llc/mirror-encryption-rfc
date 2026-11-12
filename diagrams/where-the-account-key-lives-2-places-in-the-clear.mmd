@@ -4,11 +4,12 @@ title: "The account key exists in the clear in only two places"
 flowchart TB
   accTitle: The account key exists in the clear in only two places
   accDescr: Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, and in server memory, with its two derived keys, for one approved request only. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, board and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once.
-  subgraph clear["In the clear"]
+  subgraph never["Never holds the key"]
     direction TB
-    K1["Desktop OS keystore<br/>the key at rest, on each<br/>approved desktop, made<br/>on the first one"]
-    K2["Server memory<br/>the key and its two<br/>derived keys, for one<br/>approved request only"]
-    K1 ~~~ K2
+    N1["AIs, board and scripts<br/>hold a token, never the<br/>key, the server unlocks<br/>it for them"]
+    N2["AI providers<br/>see only the results<br/>they asked for"]
+    N3["Logs and operator staff<br/>no key, no token,<br/>no plaintext"]
+    N1 ~~~ N2 ~~~ N3
   end
   subgraph locked["Only a locked copy"]
     direction TB
@@ -16,12 +17,11 @@ flowchart TB
     L2["Backups<br/>deleted copies stay<br/>until the backup expires,<br/>up to 30 days"]
     L1 ~~~ L2
   end
-  subgraph never["Never holds the key"]
+  subgraph clear["In the clear"]
     direction TB
-    N1["AIs, board and scripts<br/>hold a token, never the<br/>key, the server unlocks<br/>it for them"]
-    N2["AI providers<br/>see only the results<br/>they asked for"]
-    N3["Logs and operator staff<br/>no key, no token,<br/>no plaintext"]
-    N1 ~~~ N2 ~~~ N3
+    K1["Desktop OS keystore<br/>the key at rest, on each<br/>approved desktop, made<br/>on the first one"]
+    K2["Server memory<br/>the key and its two<br/>derived keys, for one<br/>approved request only"]
+    K1 ~~~ K2
   end
   classDef hot stroke:#c8932e,fill:#fbf3e3,color:#1f2933
   class K1,K2 hot
