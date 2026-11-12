@@ -47,7 +47,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4f67ab1e4efc86feb5e21e0983fc9301.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-49acf0a39ecf523189c3a327b971c21b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -75,6 +75,12 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    document.body.classList.add('hypothesis-enabled');
+  });
+</script>
 <meta name="mermaid-theme" content="neutral">
 <script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
@@ -239,7 +245,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#figure-7.1.-latency-budget-targets-at-the-95th-percentile-not-measurements" id="toc-figure-7.1.-latency-budget-targets-at-the-95th-percentile-not-measurements" class="nav-link" data-scroll-target="#figure-7.1.-latency-budget-targets-at-the-95th-percentile-not-measurements">Figure 7.1. Latency budget: targets at the 95th percentile, not measurements</a></li>
   <li><a href="#figure-a.1.-one-shared-database-compared-with-one-database-per-user" id="toc-figure-a.1.-one-shared-database-compared-with-one-database-per-user" class="nav-link" data-scroll-target="#figure-a.1.-one-shared-database-compared-with-one-database-per-user">Figure A.1. One shared database compared with one database per user</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/14-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/14-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/tree/main/diagrams" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/tree/main/diagrams" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -719,6 +725,187 @@ ul.task-list li input[type="checkbox"] {
 </section>
 
 </main> <!-- /main -->
+<!-- Suggest edits: a reader changes the wording right on the rendered page, then sends the
+     changes as a GitHub issue under their own account. Nothing here writes anywhere: the page
+     is edited only in the reader's browser, and the issue is theirs to submit or not.
+     Loaded on every page by _quarto.yml; it switches itself on only where the build copy put
+     the "Comment or suggest a change" box (#rfc-take-part). -->
+<style>
+.rfc-take-part { border: 1px solid #d9e0e7; border-left: 4px solid #2f5f86; border-radius: 6px;
+  padding: .8rem 1rem; margin: 0 0 1.6rem; background: #f7f9fb; font-size: .95rem; }
+.rfc-take-part p { margin: 0 0 .6rem; }
+.rfc-actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; font-size: .9rem; }
+.rfc-btn { border: 1px solid #2f5f86; background: #2f5f86; color: #fff; border-radius: 4px;
+  padding: .3rem .85rem; font-size: .9rem; cursor: pointer; line-height: 1.4; }
+.rfc-btn.rfc-quiet { background: #fff; color: #2f5f86; }
+.rfc-btn:disabled { opacity: .45; cursor: default; }
+.rfc-bar { display: none; position: sticky; top: .5rem; z-index: 1050; gap: .6rem; align-items: center;
+  flex-wrap: wrap; background: #fffaf0; border: 1px solid #e3c36a; border-radius: 6px;
+  padding: .55rem .8rem; margin: 0 0 1.2rem; box-shadow: 0 2px 6px rgba(0,0,0,.08); font-size: .92rem; }
+body.rfc-editing .rfc-bar { display: flex; }
+.rfc-bar .rfc-status { flex: 1 1 16rem; }
+body.rfc-editing [data-rfc-edit] { outline: 1px dashed #b7c6d6; outline-offset: 3px; border-radius: 2px; cursor: text; }
+body.rfc-editing [data-rfc-edit]:focus { outline: 2px solid #2f5f86; background: #fffef6; }
+[data-rfc-edit].rfc-changed { background: #fff3c4; }
+</style>
+<script>
+(() => {
+  "use strict";
+  const REPO = "ajs-consult-llc/mirror-encryption-rfc";
+  const MAX_URL = 7800;  // GitHub refuses longer new-issue links; past this the changes go via the clipboard
+  const box = document.getElementById("rfc-take-part");
+  const start = document.getElementById("rfc-suggest");
+  const main = document.querySelector("main#quarto-document-content") || document.querySelector("main");
+  if (!box || !start || !main) return;
+
+  const BLOCKS = "p, li, td, th, h2, h3, h4, h5, blockquote";
+  const SKIP = "figure, pre, code, .rfc-take-part, .rfc-bar, #quarto-appendix, .giscus, nav, .quarto-title-meta, .callout-header";
+  const storeKey = "rfc-suggest:" + location.pathname;
+  const pageUrl = location.origin + location.pathname;
+  const pageTitle = (document.querySelector("h1.title") || {}).textContent || document.title;
+  let blocks = [];
+
+  const bar = document.createElement("div");
+  bar.className = "rfc-bar";
+  bar.setAttribute("role", "region");
+  bar.setAttribute("aria-label", "Suggest edits");
+  bar.innerHTML = '<span class="rfc-status" aria-live="polite"></span>' +
+    '<button type="button" class="rfc-btn" data-act="send" disabled>Send suggestions</button>' +
+    '<button type="button" class="rfc-btn rfc-quiet" data-act="discard">Discard</button>' +
+    '<button type="button" class="rfc-btn rfc-quiet" data-act="done">Done</button>';
+  box.after(bar);
+  const status = bar.querySelector(".rfc-status");
+  const sendBtn = bar.querySelector('[data-act="send"]');
+
+  function editable() {
+    return [...main.querySelectorAll(BLOCKS)]
+      .filter(el => !el.closest(SKIP))
+      .filter(el => !el.querySelector(BLOCKS + ", img, svg, figure"))
+      .filter(el => el.innerText.trim().length > 0);
+  }
+  const changed = () => blocks.filter(el => el.innerText.trim() !== el._rfcText.trim());
+
+  function refresh() {
+    const n = changed().length;
+    blocks.forEach(el => el.classList.toggle("rfc-changed", el.innerText.trim() !== el._rfcText.trim()));
+    sendBtn.disabled = n === 0;
+    status.textContent = n === 0
+      ? "Editing this page in your browser. Click any text and change it."
+      : `${n} paragraph${n === 1 ? "" : "s"} changed. Send them when you are ready.`;
+    try {
+      const draft = {};
+      changed().forEach(el => { draft[el._rfcIndex] = { from: el._rfcText, to: el.innerText }; });
+      if (n) localStorage.setItem(storeKey, JSON.stringify(draft)); else localStorage.removeItem(storeKey);
+    } catch (e) { /* storage blocked: the edits still work, they just are not kept */ }
+  }
+
+  function begin() {
+    if (!blocks.length) {
+      blocks = editable();
+      blocks.forEach((el, i) => { el._rfcText = el.innerText; el._rfcHtml = el.innerHTML; el._rfcIndex = i; });
+      try {  // bring back an unsent draft of this page, if the page has not changed since
+        const draft = JSON.parse(localStorage.getItem(storeKey) || "{}");
+        Object.entries(draft).forEach(([i, d]) => {
+          const el = blocks[Number(i)];
+          if (el && el._rfcText === d.from) el.innerText = d.to;
+        });
+      } catch (e) { /* no draft */ }
+    }
+    blocks.forEach(el => { el.setAttribute("contenteditable", "true"); el.setAttribute("data-rfc-edit", ""); });
+    document.body.classList.add("rfc-editing");
+    start.textContent = "Editing…";
+    start.disabled = true;
+    refresh();
+  }
+
+  function finish() {
+    blocks.forEach(el => { el.removeAttribute("contenteditable"); el.removeAttribute("data-rfc-edit"); });
+    document.body.classList.remove("rfc-editing");
+    start.textContent = changed().length ? "Keep editing" : "Suggest edits";
+    start.disabled = false;
+  }
+
+  function discard() {
+    blocks.forEach(el => { el.innerHTML = el._rfcHtml; });
+    refresh();
+  }
+
+  // Word-level difference: removed words ~~struck~~, added words **bold**.
+  function tokens(s) { return s.match(/\s+|[^\s]+/g) || []; }
+  function md(s) { return s.replace(/([\\*_~`\[\]])/g, "\\$1"); }
+  function diff(a, b) {
+    const A = tokens(a), B = tokens(b);
+    if (A.length * B.length > 400000) return null;
+    const L = Array.from({ length: A.length + 1 }, () => new Uint16Array(B.length + 1));
+    for (let i = A.length - 1; i >= 0; i--)
+      for (let j = B.length - 1; j >= 0; j--)
+        L[i][j] = A[i] === B[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+    const out = [];
+    let i = 0, j = 0;
+    const push = (kind, text) => {
+      const last = out[out.length - 1];
+      if (last && last.kind === kind) last.text += text; else out.push({ kind, text });
+    };
+    while (i < A.length && j < B.length) {
+      if (A[i] === B[j]) { push("same", A[i]); i++; j++; }
+      else if (L[i + 1][j] >= L[i][j + 1]) push("del", A[i++]);
+      else push("add", B[j++]);
+    }
+    while (i < A.length) push("del", A[i++]);
+    while (j < B.length) push("add", B[j++]);
+    return out.map(p => {
+      if (p.kind === "same") return md(p.text);
+      const core = p.text.trim();
+      if (!core) return p.text;
+      const lead = p.text.match(/^\s*/)[0], trail = p.text.match(/\s*$/)[0];
+      return lead + (p.kind === "del" ? `~~${md(core)}~~` : `**${md(core)}**`) + trail;
+    }).join("");
+  }
+
+  function sectionOf(el) {
+    let found = pageTitle.trim();
+    main.querySelectorAll("h2, h3, h4, h5").forEach(h => {
+      if (h !== el && (h.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)) found = h.innerText.trim();
+    });
+    return found;
+  }
+
+  function send() {
+    const items = changed();
+    if (!items.length) return;
+    const parts = items.map((el, k) => {
+      const before = el._rfcText.trim(), after = el.innerText.trim();
+      const d = diff(before, after);
+      return `#### ${k + 1}. In "${sectionOf(el)}"\n\n` +
+        (d ? `${d}\n\n` : "") +
+        `<details><summary>Before and after</summary>\n\n**Before:** ${md(before)}\n\n**After:** ${md(after)}\n\n</details>`;
+    });
+    const changes = parts.join("\n\n");
+    const base = `https://github.com/${REPO}/issues/new?template=suggested-edit.yml` +
+      `&title=${encodeURIComponent("Suggested edit: " + pageTitle.trim())}` +
+      `&page=${encodeURIComponent(pageUrl)}`;
+    let url = base + `&changes=${encodeURIComponent(changes)}`;
+    if (url.length > MAX_URL) {
+      url = base;
+      try { navigator.clipboard.writeText(changes); } catch (e) { /* no clipboard: shown below */ }
+      status.textContent = "Your changes are long, so they are copied: paste them into the Changes box on GitHub.";
+    } else {
+      status.textContent = `GitHub opened in a new tab with ${items.length} suggestion${items.length === 1 ? "" : "s"}. ` +
+        "Submit the issue there to send them; it is credited to your GitHub account.";
+    }
+    window.open(url, "_blank", "noopener");
+  }
+
+  start.addEventListener("click", begin);
+  main.addEventListener("input", e => { if (e.target.closest && e.target.closest("[data-rfc-edit]")) refresh(); });
+  bar.addEventListener("click", e => {
+    const act = e.target.getAttribute && e.target.getAttribute("data-act");
+    if (act === "send") send();
+    if (act === "discard") discard();
+    if (act === "done") finish();
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1195,6 +1382,35 @@ ul.task-list li input[type="checkbox"] {
   <script type="application/javascript">
   window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
   </script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+<script>
+  function loadGiscus() {
+    // Function to get the theme based on body class
+    const getTheme = () => {
+      let baseTheme = document.getElementById('giscus-base-theme').value;
+      let altTheme = document.getElementById('giscus-alt-theme').value;
+      return document.body.classList.contains('quarto-dark') ? altTheme : baseTheme;
+    };
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.dataset.repo = "ajs-consult-llc/mirror-encryption-rfc";
+    script.dataset.repoId = "R_kgDOVq8EvA";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDOVq8EvM4DK7dz";
+    script.dataset.mapping = "pathname";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = getTheme();
+    script.dataset.lang = "en";
+    script.crossOrigin = "anonymous";
+    // Append the script to the desired div instead of at the end of the body
+    document.getElementById("quarto-content").appendChild(script);
+  }
+  loadGiscus();
+</script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/13-appendix-a-single-or-multi-tenant.html" class="pagination-link" aria-label="Single or multi-tenant">
@@ -1209,4 +1425,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/14-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/14-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/tree/main/diagrams" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/tree/main/diagrams" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
