@@ -22,27 +22,25 @@ A request for comments (RFC) on encrypting private data mirrors so that a copy o
 
 **Security problems in the running service** go privately to the contact in section 17 of the v0.1 tab, never in a comment here.
 
-Open question: the date the comment period closes.
-
 | Version | Date | Change |
 | --- | --- | --- |
 | 0.1 | 11 November 2026 | Initial commit. |
 
 ### Submission phases
 
-Review runs in rounds. Each round is seven days, six for review and one for editing, and the rounds repeat until every comment is addressed.
+Review runs in rounds. Round 1 runs for a month, so that reviewers have time; later rounds run for two weeks. The rounds repeat until every comment is addressed.
 
-1. **Review, 6 days.** The current version is open, and anyone may comment on any part of it.
-2. **Editing, 1 day.** No new comments are taken. The editor addresses every comment in its own thread: accepted and changed, declined with a reason, or carried into Questions for reviewers.
+1. **Review.** The current version is open, and anyone may comment on any part of it.
+2. **Editing.** No new comments are taken. The editor addresses every comment in its own thread: accepted and changed, declined with a reason, or carried into Questions for reviewers.
 3. **New version.** The revised version is published and added to the version table above, with what changed. The next review opens on it.
 
-A comment that arrives on an editing day counts toward the next round. The rounds end when a review closes with no new comments and none left unaddressed; that version is then marked final.
+A comment that arrives during editing counts toward the next round. The rounds end when a review closes with no new comments and none left unaddressed; that version is then marked final.
 
-| Round | Version | Review opens (6 days) | Editing day (1 day) | Next version |
+| Round | Version | Review | Editing | Next version |
 | --- | --- | --- | --- | --- |
-| 1 | 0.1 | To be set | To be set | 0.2 |
-| 2 | 0.2 | The day after round 1's editing day | 6 days after the review opens | 0.3 |
-| Later rounds | As needed | The same pattern | The same pattern | Final, when no comments remain |
+| 1 | 0.1 | 11 November to 11 December 2026, 23:59 UTC | 12 to 18 December 2026 | 0.2, with a decision on every comment, by 18 December 2026 |
+| 2 | 0.2 | Two weeks, from a date announced with version 0.2 | Up to one week | 0.3 |
+| Later rounds | As needed | Two weeks | Up to one week | Final, when no comments remain |
 
 ## Contents
 
@@ -103,6 +101,8 @@ Today, AI assistants connect directly to a user's private correspondence via a v
 **The alternative.** Without a community effort to develop a security, privacy and safety standard around private data, the most likely outcome is for AIs to become more entrenched in their position as system of record for user's private data optimally stored for use by AI. Private 3rd party companies hosting closed source messaging mirrors require the user to trust that bond, which is a non-starter for anyone hosting sensitive or mission critical data. As well, the technical requirements of building such data management systems require seasoned, credentialed software engineering veterans and are thus costly and/or out of reach for most potential users of powerful AI.
 
 **What is asked of you.** Help us figure out what's worth building that will actually get adopted because it is trusted. Attack the design. What it does not protect, the search leakage (question 1) and the questions for reviewers matter most.
+
+**Disclosure.** The publisher, AJS Consult LLC, also builds a commercial product on this design; see Disclosures under Document control.
 
 ## 2. What it defends against
 
@@ -267,7 +267,7 @@ Nothing gets access unless the user says yes, and every approved AI, browser or 
 
 The server keeps only the token’s hash; the token itself is handed over once.
 
-**Why this is best practice.** AI clients are approved through OAuth consent with PKCE, as the OAuth security best current practice requires ([RFC 9700](https://www.rfc-editor.org/rfc/rfc9700)), and a second device is approved by comparing a short code on both screens, a relative of the device flow in [RFC 8628](https://www.rfc-editor.org/rfc/rfc8628). Giving each holder its own token and its own wrapped copy of the key is least privilege: no credential is shared, so each one can be revoked alone. Storing only a hash of each token means a database copy yields no usable credential, as [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html) requires for stored passwords.
+**Why this is best practice.** AI clients are approved through OAuth consent with PKCE, as the OAuth security best current practice requires ([RFC 9700](https://www.rfc-editor.org/rfc/rfc9700)), and a second device is approved by comparing a short code on both screens, a relative of the device flow in [RFC 8628](https://www.rfc-editor.org/rfc/rfc8628), with the cross-device risks that [RFC 10027](https://www.rfc-editor.org/rfc/rfc10027) sets out. Giving each holder its own token and its own wrapped copy of the key is least privilege: no credential is shared, so each one can be revoked alone. Storing only a hash of each token means a database copy yields no usable credential, as [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html) requires for stored passwords.
 
 #### 5.2.3 Search and retrieve
 
@@ -368,7 +368,7 @@ These seven are where review is wanted most.
 2. **Nonce budget.** One content key encrypts every message for the account's life with random 96-bit nonces, and NIST SP 800-38D limits that to 2³² uses per key. The largest account today holds about 1.6 million messages, far below that. Proposed answer: derive a new content key each year with HKDF from the account key and the year, so the limit applies per year and nothing extra is stored. Is that enough, or is a cipher that tolerates nonce reuse (AES-GCM-SIV, XAES-256-GCM) still worth adding?
 3. **Rotating the account key.** Proposed answer: rotation is a re-push. The desktop makes a new account key, re-encrypts the mirror under it, including what writers added, uploads it again and deletes the old copies. That is the same path as when every holder is lost. It costs a full upload, so it is for a suspected compromise, not a schedule. Is that acceptable, or are data keys wrapped by the account key worth their extra machinery?
 4. **Token lifetimes.** What expiry and renewal should each kind have: desktop, AI access and refresh, web app session, script?
-5. **A second desktop.** Is a matching code shown on both screens enough to approve one? And how should the new desktop's token reach it without the server storing it: handed to a waiting request in memory, or sealed to a key the new desktop sends?
+5. **A second desktop.** Is a matching code shown on both screens enough to approve one, given the cross-device risks set out in RFC 10027? And how should the new desktop's token reach it without the server storing it: handed to a waiting request in memory, or sealed to a key the new desktop sends?
 6. **Support audit.** Is the service's own log enough for support access, or is an independent audit worth a second key?
 7. **Attestation.** Is proving which code the server runs worth adding later, to close the first limit?
 

@@ -9,3 +9,5 @@ Today, AI assistants connect directly to a user's private correspondence via a v
 **The alternative.** Without a community effort to develop a security, privacy and safety standard around private data, the most likely outcome is for AIs to become more entrenched in their position as system of record for user's private data optimally stored for use by AI. Private 3rd party companies hosting closed source messaging mirrors require the user to trust that bond, which is a non-starter for anyone hosting sensitive or mission critical data. As well, the technical requirements of building such data management systems require seasoned, credentialed software engineering veterans and are thus costly and/or out of reach for most potential users of powerful AI.
 
 **What is asked of you.** Help us figure out what's worth building that will actually get adopted because it is trusted. Attack the design. What it does not protect, the search leakage (question 1) and the questions for reviewers matter most.
+
+**Disclosure.** The publisher, AJS Consult LLC, also builds a commercial product on this design; see Disclosures under Document control.
