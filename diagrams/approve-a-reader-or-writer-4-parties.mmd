@@ -1,3 +1,6 @@
+---
+title: "Approving a reader or writer creates one token and one copy of the account key"
+---
 sequenceDiagram
   accTitle: Approving a reader or writer creates one token and one copy of the account key
   accDescr: Approve a reader or writer. The user approves it by OAuth consent, by the web app opened from the desktop, or with a matching code. Inside the user's session, the server makes a token and a copy of the account key locked under it, stores the token's hash and the copy in the database, and hands the token to the reader or writer once.
@@ -6,6 +9,6 @@ sequenceDiagram
   participant S as Server
   participant DB as Database
   U->>S: approve by OAuth consent, the web app opened from the desktop, or a matching code
-  Note over S: inside the user's session, make a token and a copy of the account key locked under it
+  Note over S: inside the user's session, make a<br/>token and a copy of the account<br/>key locked under it
   S->>DB: store the token's hash and the copy
   S-->>R: the token, handed over once

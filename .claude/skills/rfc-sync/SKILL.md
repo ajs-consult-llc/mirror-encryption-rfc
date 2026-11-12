@@ -35,8 +35,11 @@ keeps them in step; never copy text between them by hand.
    screenshot read of the widget (ids in `.sync/widgets.json`; find new ones in an outline read of
    the body node: `<embed caption=… ref='node/<id>'>`) and write the Mermaid by hand: a
    `sequenceDiagram` for flows (solid arrows requests, dashed replies), a `flowchart` for
-   structures, a `gantt` for timings. Give it `accTitle` (the widget's title) and `accDescr`
-   (everything the picture says, as sentences). Avoid `;` and extra `:` in message text, which
+   structures, a `gantt` for timings. Start it with front matter `---` / `title: "<the widget's title>"` / `---`
+   (GitHub shows it above the diagram; the site shows it as the caption), then give it `accTitle`
+   (the same title) and `accDescr` (everything the picture says, as sentences). Keep each label line
+   under about 24 characters with `<br/>`, notes under about 34, and lay flows out top to bottom:
+   the page column is narrow, and a wide diagram shrinks until it cannot be read. Avoid `;` and extra `:` in message text, which
    Mermaid misreads. If a widget changed, update its file the same way. Screenshots are rate-limited
    to about five a minute; on `render_rate`, wait `retryAfterMs`.
 4. `git switch -c doc/$(date +%Y-%m-%d)` and `python3 tools/rfcsync.py split /tmp/rfc-export.md`.

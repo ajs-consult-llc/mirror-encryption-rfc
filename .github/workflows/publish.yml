@@ -37,17 +37,10 @@ jobs:
         with:
           version: 1.11.9
 
-      # The repository keeps plain .md with ```mermaid, which GitHub shows and draws on its own
-      # pages. Quarto draws only ```{mermaid}, and only in .qmd files, so the build copy is
-      # converted here and never committed: fences switched, files renamed, the book list updated.
-      - name: The build copy becomes Quarto documents with Quarto diagrams
-        run: |
-          for f in index.md chapters/*.md; do
-            sed -i 's/^```mermaid$/```{mermaid}/' "$f"
-            mv "$f" "${f%.md}.qmd"
-          done
-          sed -i -E 's#^(    - (index|chapters/[^ ]+))\.md$#\1.qmd#' _quarto.yml
-          grep -n 'qmd' _quarto.yml
+      # The repository keeps plain .md with ```mermaid, which GitHub draws on its own pages.
+      # Quarto needs .qmd and ```{mermaid} cells; the script converts this working copy only.
+      - name: The build copy becomes Quarto documents
+        run: python3 tools/quarto_build_copy.py
 
       - name: Render the site
         run: quarto render

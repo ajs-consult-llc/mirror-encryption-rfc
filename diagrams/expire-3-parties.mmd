@@ -1,3 +1,6 @@
+---
+title: "An expired token finds no copy and is refused"
+---
 sequenceDiagram
   accTitle: An expired token finds no copy and is refused
   accDescr: Expire. The server finds copies past their expiry in the database and deletes each one's hash and copy. When a reader or writer then sends a request with the expired token, the server refuses it, and the holder must renew or be approved again. The account key itself is rotated before its nonce budget runs out, by re-encrypting or by re-wrapping data keys (questions 2 to 4).
@@ -8,4 +11,4 @@ sequenceDiagram
   S->>DB: delete each one's hash and copy
   R->>S: a request with the expired token
   S-->>R: refused, renew or re-approve
-  Note over R,DB: The account key is rotated before its nonce budget runs out, by re-encrypting or re-wrapping data keys (questions 2 to 4).
+  Note over R,DB: The account key is rotated before<br/>its nonce budget runs out, by<br/>re-encrypting or re-wrapping data<br/>keys (questions 2 to 4).
