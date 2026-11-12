@@ -6,7 +6,7 @@
     "section": "",
     "text": "Cloud Data Mirror RFC: your data, encrypted with your key, readable only by the AI you approve\n\n\n\n\n\n\n\n\n\nRequest for comments. Round 1 is open until 11 December 2026, 23:59 UTC.\n\n\n\nWhat this is. A security reference architecture for cloud data mirrors: a private copy of a person’s messages and data that only the readers they choose, including their AI assistants, can search. AJS Consult LLC publishes it for open review.\nHow to take part\n\nRead it. Start with the executive summary.\nComment or suggest changes. On any page: select text to comment on it, press Suggest edits to change the wording right on the page and send your changes, or comment at the end of the page. Suggestions and comments made with a GitHub account are credited to it.\nFollow the review. Updates: sign up by email, use the feed, or watch on GitHub.\nFound a security problem in the running service? Email aaron@matterboard.ai with SECURITY in the subject. Never post it in a comment.\n\n\n\n\nRound 1\n\n\n\n\n\nOpens\n11 November 2026\n\n\nComments close\n11 December 2026, 23:59 UTC\n\n\nDecisions published\nBy 25 December 2026\n\n\n\n\nNov 11, 2026 · @aaron soellinger\nA request for comments (RFC) on encrypting private data mirrors so that a copy of the stored data is useless on its own, and the data opens only while a device or AI the user approved is making a request.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.html</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Home</span>"
     ]
   },
   {
@@ -16,6 +16,7 @@
     "section": "",
     "text": "Follow the review\nEmail addresses are used only for these notices, never shared, and deleted when the review ends. Every email carries an unsubscribe link.",
     "crumbs": [
+      "About this RFC",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Updates</span>"
     ]
   },
@@ -26,6 +27,7 @@
     "section": "",
     "text": "By email. Sign up for review-window notices: when a round opens, its midpoint, when it closes, and when decisions are published.\nBy feed. releases.atom, in any feed reader.\nOn GitHub. Watch the repository, then choose Custom and Releases.",
     "crumbs": [
+      "About this RFC",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Updates</span>"
     ]
   },
@@ -36,6 +38,7 @@
     "section": "All updates",
     "text": "All updates\nNo updates yet.",
     "crumbs": [
+      "About this RFC",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Updates</span>"
     ]
   },
@@ -46,6 +49,7 @@
     "section": "",
     "text": "1.1 Submission phases\nComments. Anyone may and should comment, on any part of this document. Your comments stay yours. By posting one, you let the author use the idea without obligation or payment, and you are credited by name if you ask. Please leave out confidential information and anything about other people.\nSecurity problems in the running service go privately to the contact in section 17 of the v0.1 tab, never in a comment here.\nOpen question: the date the comment period closes.\nReview runs in rounds. Each round is seven days, six for review and one for editing, and the rounds repeat until every comment is addressed.\nA comment that arrives on an editing day counts toward the next round. The rounds end when a review closes with no new comments and none left unaddressed; that version is then marked final.",
     "crumbs": [
+      "About this RFC",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>1. Document control</span>"
     ]
   },
@@ -56,6 +60,7 @@
     "section": "",
     "text": "Review, 6 days. The current version is open, and anyone may comment on any part of it.\nEditing, 1 day. No new comments are taken. The editor addresses every comment in its own thread: accepted and changed, declined with a reason, or carried into Questions for reviewers.\nNew version. The revised version is published and added to the version table above, with what changed. The next review opens on it.\n\n\n\n\n\n\n\n\n\n\n\n\nRound\nVersion\nReview opens (6 days)\nEditing day (1 day)\nNext version\n\n\n\n\n1\n0.1\nTo be set\nTo be set\n0.2\n\n\n2\n0.2\nThe day after round 1’s editing day\n6 days after the review opens\n0.3\n\n\nLater rounds\nAs needed\nThe same pattern\nThe same pattern\nFinal, when no comments remain",
     "crumbs": [
+      "About this RFC",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>1. Document control</span>"
     ]
   },
@@ -76,6 +81,7 @@
     "section": "",
     "text": "Comment or suggest a change. Select any text to comment on it. Press Suggest edits to change the wording right on this page, then send your changes. Or comment at the end of the page with your GitHub account.\nSuggest edits\nHow suggestions are credited · Edit the Markdown on GitHub\n\n\nDocument control\n\n1.1 Submission phases\n\nExecutive summary\nWhat it defends against\nSystem Requirements\nThe design on one page\nHow it works\n\n6.1 Key management lifecycle\n\n6.1.1 Create\n6.1.2 Read\n6.1.3 Update\n6.1.4 Expire\n6.1.5 Delete\n\n6.2 How data moves\n\n6.2.1 Collect and push\n6.2.2 Approve a reader or writer\n6.2.3 Search and retrieve\n6.2.4 Update\n6.2.5 Revoke and recover\n\n\nLatency budget\nWhat it does not protect\nDecisions made to simplify\nQuestions for reviewers\n\nAppendix A. Single or multi-tenant",
     "crumbs": [
+      "Contents",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Contents</span>"
     ]
   },
@@ -86,6 +92,7 @@
     "section": "",
     "text": "Comment or suggest a change. Select any text to comment on it. Press Suggest edits to change the wording right on this page, then send your changes. Or comment at the end of the page with your GitHub account.\nSuggest edits\nHow suggestions are credited · Edit the Markdown on GitHub\n\n\n\n\n\n\n\n\n\nFigure\nCaption\nSection\n\n\n\n\n5.1\nThe whole design: one account key, one kind of token, a database and a blob store\n5\n\n\n6.1\nWhere the account key lives in the clear, and where only locked copies exist\n6.1\n\n\n6.2\nCreate: the desktop makes the account key and uploads only a locked copy\n6.1.1\n\n\n6.3\nRead: a token opens its copy of the account key for one request\n6.1.2\n\n\n6.4\nUpdate: a new reader or writer gets its own token and its own locked copy\n6.1.3\n\n\n6.5\nExpire: an expired token is refused and its copy is deleted\n6.1.4\n\n\n6.6\nDelete: access ends when a token’s hash and its copy are deleted\n6.1.5\n\n\n6.7\nCollect and push: messages are encrypted on the desktop before upload\n6.2.1\n\n\n6.8\nApprove a reader or writer: one approval, one token, one locked copy\n6.2.2\n\n\n6.9\nSearch and retrieve: the account key is opened for one request only\n6.2.3\n\n\n6.10\nUpdate: a writer’s change is encrypted on the server inside its request\n6.2.4\n\n\n6.11\nRevoke and recover: one deletion cuts a holder off, and recovery needs another approved device\n6.2.5\n\n\n7.1\nLatency budget: targets at the 95th percentile, not measurements\n7\n\n\nA.1\nOne shared database compared with one database per user\nAppendix A",
     "crumbs": [
+      "Contents",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Figures</span>"
     ]
   },
