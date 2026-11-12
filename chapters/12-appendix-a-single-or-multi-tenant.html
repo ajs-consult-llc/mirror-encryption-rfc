@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Appendix A — Appendix A. Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors</title>
+<title>Appendix A — Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -81,13 +81,13 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<meta property="og:title" content="Appendix A — Appendix A. Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:title" content="Appendix A — Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="Appendix A — Appendix A. Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors">
+<meta name="twitter:title" content="Appendix A — Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -102,7 +102,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html"><span class="chapter-title">Single or multi-tenant</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a>
+  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Single or multi-tenant</span></a>
   </div>
 </li>
       </ul>
@@ -219,9 +219,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html"><span class="chapter-title">Appendix A. Single or multi-tenant</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html"><span class="chapter-title">Single or multi-tenant</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Appendix A — Appendix A. Single or multi-tenant</h1>
+<h1 class="title">Appendix A — Single or multi-tenant</h1>
 </div>
 
 
@@ -292,24 +292,25 @@ ul.task-list li input[type="checkbox"] {
   accDescr: Each user's key stays on their desktop in both designs, and colours mark whose key locks which rows. With one shared database, users A, B and C, holding keys A, B and C, all use one shared server, which opens key A, B or C inside each user's request, and one shared database with row-level security, where user A's rows are locked under key A, user B's under key B and user C's under key C. A server breach sees every active user's requests. There is one system to run, and metadata is visible to the operator. With one instance per user, user A uses server A, which holds key A only, and database A, which holds user A's rows under key A, and the same for users B and C. A server breach sees one user's requests. There is one system per user to run and pay for.
   subgraph shared["One shared database"]
     direction TB
-    SA["User A&lt;br/&gt;holds key A"]:::a --&gt; SS
-    SB["User B&lt;br/&gt;holds key B"]:::b --&gt; SS
-    SC["User C&lt;br/&gt;holds key C"]:::c --&gt; SS
-    SS["One shared server&lt;br/&gt;opens key A, B or C inside each user's request"] --&gt; SD
-    SD[("One shared database, with row-level security&lt;br/&gt;User A's rows, locked under key A&lt;br/&gt;User B's rows, locked under key B&lt;br/&gt;User C's rows, locked under key C")]
+    SA["User A&lt;br/&gt;holds key A"]:::a
+    SB["User B&lt;br/&gt;holds key B"]:::b
+    SC["User C&lt;br/&gt;holds key C"]:::c
+    SA &amp; SB &amp; SC --&gt; SS["One shared server&lt;br/&gt;opens key A, B or C&lt;br/&gt;inside each user's request"]
+    SS --&gt; SD[("One shared database,&lt;br/&gt;with row-level security&lt;br/&gt;A's rows under key A&lt;br/&gt;B's rows under key B&lt;br/&gt;C's rows under key C")]
   end
   subgraph dedicated["One instance per user"]
     direction TB
-    UA["User A&lt;br/&gt;holds key A"]:::a --&gt; VA["Server A&lt;br/&gt;key A only"] --&gt; BA[("Database A&lt;br/&gt;user A's rows under key A")]:::a
-    UB["User B&lt;br/&gt;holds key B"]:::b --&gt; VB["Server B&lt;br/&gt;key B only"] --&gt; BB[("Database B&lt;br/&gt;user B's rows under key B")]:::b
-    UC["User C&lt;br/&gt;holds key C"]:::c --&gt; VC["Server C&lt;br/&gt;key C only"] --&gt; BC[("Database C&lt;br/&gt;user C's rows under key C")]:::c
+    UA["User A&lt;br/&gt;holds key A"]:::a --&gt; VA["Server A&lt;br/&gt;key A only"] --&gt; BA[("Database A&lt;br/&gt;A's rows&lt;br/&gt;under key A")]:::a
+    UB["User B&lt;br/&gt;holds key B"]:::b --&gt; VB["Server B&lt;br/&gt;key B only"] --&gt; BB[("Database B&lt;br/&gt;B's rows&lt;br/&gt;under key B")]:::b
+    UC["User C&lt;br/&gt;holds key C"]:::c --&gt; VC["Server C&lt;br/&gt;key C only"] --&gt; BC[("Database C&lt;br/&gt;C's rows&lt;br/&gt;under key C")]:::c
   end
+  shared ~~~ dedicated
   classDef a stroke:#2f6fd0,fill:#e3edfb,color:#1f2933
   classDef b stroke:#e0663a,fill:#fbe9e2,color:#1f2933
   classDef c stroke:#2a9d6f,fill:#e0f3ea,color:#1f2933
 </pre>
 </div>
-<p></p></figure><p></p>
+<p></p><figcaption> Keys isolate stored data either way, and separate instances contain a breach</figcaption> </figure><p></p>
 </div>
 </div>
 </div>
