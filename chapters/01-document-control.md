@@ -1,4 +1,4 @@
-# Document control
+# 1. Document control
 
 | Field | Value |
 | --- | --- |
@@ -22,7 +22,7 @@ Open question: the date the comment period closes.
 | --- | --- | --- |
 | 0.1 | 11 November 2026 | Initial commit. |
 
-## Submission phases
+## 1.1 Submission phases
 
 Review runs in rounds. Each round is seven days, six for review and one for editing, and the rounds repeat until every comment is addressed.
 

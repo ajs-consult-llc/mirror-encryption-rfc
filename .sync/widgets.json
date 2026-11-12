@@ -1,5 +1,5 @@
 {
-  "_note": "Each diagram in the Claude Doc is a widget. Publishing exports its picture to figures/<slug>.png with a screenshot read and records the widget's publish number as 'pub'. 'mermaid_pub' is the publish that diagrams/<slug>.mmd was last checked against; 'rfcsync.py stale' lists any that differ.",
+  "_note": "Each diagram in the Claude Doc is a widget. Publishing exports its picture to figures/<slug>.png with a screenshot read and records the widget's publish number as 'pub'. 'mermaid_pub' is the publish that diagrams/<slug>.mmd was last checked against; 'rfcsync.py stale' lists any that differ. 'caption' is the embed's caption in the doc: it maps each placeholder of the export to its slug, so a reworded caption keeps its files.",
   "doc": "dbfbfc6b-6c59-40e8-bb58-d19e63397bd8",
   "tab": "9ca35cab-c599",
   "body": "0e7ba022-1c2d",
@@ -7,72 +7,86 @@
     "the-whole-design-1-key-1-kind-of-token": {
       "widget": "35e0e5ff-45f0",
       "pub": 3,
-      "mermaid_pub": 3
+      "mermaid_pub": 3,
+      "caption": "Figure 5.1. The whole design: one account key, one kind of token, a database and a blob store"
     },
     "where-the-account-key-lives-2-places-in-the-clear": {
       "widget": "9f49696d-be23",
       "pub": 2,
-      "mermaid_pub": 2
+      "mermaid_pub": 2,
+      "caption": "Figure 6.1. Where the account key lives in the clear, and where only locked copies exist"
     },
     "create-4-parties": {
       "widget": "896331c4-4bd5",
       "pub": 4,
-      "mermaid_pub": 4
+      "mermaid_pub": 4,
+      "caption": "Figure 6.2. Create: the desktop makes the account key and uploads only a locked copy"
     },
     "read-3-parties": {
       "widget": "668100ba-9428",
       "pub": 4,
-      "mermaid_pub": 4
+      "mermaid_pub": 4,
+      "caption": "Figure 6.3. Read: a token opens its copy of the account key for one request"
     },
     "update-4-parties": {
       "widget": "c2047c16-2d77",
       "pub": 4,
-      "mermaid_pub": 4
+      "mermaid_pub": 4,
+      "caption": "Figure 6.4. Update: a new reader or writer gets its own token and its own locked copy"
     },
     "expire-3-parties": {
       "widget": "1fa25546-a571",
       "pub": 3,
-      "mermaid_pub": 3
+      "mermaid_pub": 3,
+      "caption": "Figure 6.5. Expire: an expired token is refused and its copy is deleted"
     },
     "delete-4-parties": {
       "widget": "a8d533ce-43df",
       "pub": 3,
-      "mermaid_pub": 3
+      "mermaid_pub": 3,
+      "caption": "Figure 6.6. Delete: access ends when a token's hash and its copy are deleted"
     },
     "collect-and-push-4-parties": {
       "widget": "584cc33e-ddf9",
       "pub": 4,
-      "mermaid_pub": 4
+      "mermaid_pub": 4,
+      "caption": "Figure 6.7. Collect and push: messages are encrypted on the desktop before upload"
     },
     "approve-a-reader-or-writer-4-parties": {
       "widget": "6e5b65d0-56ab",
       "pub": 5,
-      "mermaid_pub": 5
+      "mermaid_pub": 5,
+      "caption": "Figure 6.8. Approve a reader or writer: one approval, one token, one locked copy"
     },
     "search-and-retrieve-3-parties-one-request": {
       "widget": "21cf472e-870b",
       "pub": 4,
-      "mermaid_pub": 4
+      "mermaid_pub": 4,
+      "caption": "Figure 6.9. Search and retrieve: the account key is opened for one request only"
     },
     "update-4-parties-2": {
       "widget": "304fc30a-1810",
       "pub": 5,
-      "mermaid_pub": 5
+      "mermaid_pub": 5,
+      "caption": "Figure 6.10. Update: a writer's change is encrypted on the server inside its request"
     },
     "revoke-and-recover-4-parties": {
       "widget": "e3ccb454-d405",
       "pub": 3,
-      "mermaid_pub": 3
+      "mermaid_pub": 3,
+      "caption": "Figure 6.11. Revoke and recover: one deletion cuts a holder off, and recovery needs another approved device"
     },
     "latency-budget-targets-at-the-95th-percentile-not-measurements": {
       "widget": "2788f926-627b",
       "pub": 3,
-      "mermaid_pub": 3
+      "mermaid_pub": 3,
+      "caption": "Figure 7.1. Latency budget: targets at the 95th percentile, not measurements"
     },
     "shared-vs-dedicated-3-users": {
       "widget": "07118307-ef2e",
       "pub": 1,
-      "mermaid_pub": 1
+      "mermaid_pub": 1,
+      "caption": "Figure A.1. One shared database compared with one database per user"
     }
   }
 }

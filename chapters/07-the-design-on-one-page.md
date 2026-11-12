@@ -1,11 +1,11 @@
-# The design on one page
+# 5. The design on one page
 
 There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts everything, and SHA-256 does the rest as a hash, as HMAC and as HKDF. Everything else follows from them.
 
-<!-- diagram: the whole design · 1 key, 1 kind of token -->
+<!-- diagram: Figure 5.1. The whole design: one account key, one kind of token, a database and a blob store -->
 ![Plaintext exists only on the desktop and inside an approved request](../figures/the-whole-design-1-key-1-kind-of-token.png)
 
-*[This diagram as text](13-appendix-b-the-diagrams-as-text.md#the-whole-design-1-key-1-kind-of-token)*
+**Figure 5.1.** The whole design: one account key, one kind of token, a database and a blob store · [Text version](14-appendix-b-the-diagrams-as-text.md#the-whole-design-1-key-1-kind-of-token)
 <!-- /diagram -->
 
 - **One key.** On installation, the desktop sync application asks the operating system for 256 random bits, and those bits are the "account key". The user's OS key store holds the account key and releases it only to approved application(s). The account key never encrypts anything itself. Instead, HKDF-SHA256 turns it into two working keys, one per job:  (1) a content key that encrypts each message (AES-256-GCM) and (2) a tag key that computes the search tags (HMAC-SHA256). A third, the storage key, is derived the same way for attachments. They are re-derived whenever they are needed, so nothing extra is stored, and learning one working key reveals neither the other nor the account key. Because both come from the one account key, a reader that can open its copy of the account key can both read messages and search them.

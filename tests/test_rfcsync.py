@@ -58,20 +58,42 @@ class RoundTrip(unittest.TestCase):
             md = rfcsync.to_diagrams(text, rfcsync.DiagramNames(), missing, appendix_href="13-appendix-b.md",
                                      chapter="07-how.md", heading="How it works", found=found)
             self.assertIn("<!-- diagram: a flow · 3 parties -->\n![Only a locked copy leaves](../figures/a-flow-3-parties.png)"
-                          "\n\n*[This diagram as text](13-appendix-b.md#a-flow-3-parties)*\n<!-- /diagram -->", md)
+                          "\n\n*[Text version](13-appendix-b.md#a-flow-3-parties)*\n<!-- /diagram -->", md)
             # the second has a picture but no text version yet: no link, and it is reported
             self.assertIn("![a flow · 3 parties](../figures/a-flow-3-parties-2.png)\n<!-- /diagram -->", md)
             self.assertEqual(missing, ["diagrams/a-flow-3-parties-2.mmd"])
             self.assertEqual([d.slug for d in found], ["a-flow-3-parties", "a-flow-3-parties-2"])
             self.assertEqual(rfcsync.to_placeholders(md, rfcsync.DiagramNames(), appendix_href="13-appendix-b.md"), text)
             with self.assertRaises(ValueError):  # a block edited by hand is refused
-                rfcsync.to_placeholders(md.replace("This diagram as text", "Text"), rfcsync.DiagramNames(),
+                rfcsync.to_placeholders(md.replace("Text version", "Text"), rfcsync.DiagramNames(),
                                         appendix_href="13-appendix-b.md")
             appendix = rfcsync.appendix_text("B", found)
             self.assertTrue(appendix.startswith(rfcsync.APPENDIX_MARK + "\n# Appendix B. The diagrams as text\n"))
-            self.assertIn('<a id="a-flow-3-parties"></a>\n\n## Only a locked copy leaves\n\n'
+            self.assertIn('<a id="a-flow-3-parties"></a>\n\n## a flow · 3 parties\n\n*Only a locked copy leaves*\n\n'
                           "In [How it works](07-how.md). The desktop sends a locked copy.\n\n```mermaid\nsequenceDiagram", appendix)
             self.assertNotIn("a-flow-3-parties-2", appendix)
+
+    def test_the_docs_figure_caption_stays_under_the_picture_and_carries_the_link(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            self._tmp_tree(tmp)
+            (rfcsync.FIGURES / "create.png").write_bytes(b"png")
+            (rfcsync.DIAGRAMS / "create.mmd").write_text("sequenceDiagram\n  accTitle: Born on the desktop\n")
+            names = {"Figure 6.2. Create: a locked copy": "create"}
+            text = ("&#91;embedded content: Figure 6.2. Create: a locked copy\\]\n\n"
+                    "**Figure 6.2.** Create: a locked copy\n\nnext paragraph")
+            md = rfcsync.to_diagrams(text, rfcsync.DiagramNames(names), [], appendix_href="13-b.md")
+            self.assertEqual(md, "<!-- diagram: Figure 6.2. Create: a locked copy -->\n"
+                                 "![Born on the desktop](../figures/create.png)\n\n"
+                                 "**Figure 6.2.** Create: a locked copy · [Text version](13-b.md#create)\n"
+                                 "<!-- /diagram -->\n\nnext paragraph")
+            self.assertEqual(rfcsync.to_placeholders(md, rfcsync.DiagramNames(names), appendix_href="13-b.md"), text)
+
+    def test_a_renumbered_section_keeps_its_file_name(self) -> None:
+        section = rfcsync.Section(heading="5. The design on one page", body="")
+        self.assertEqual(rfcsync.chapter_name(7, section), "07-the-design-on-one-page.md")
+        self.assertEqual(rfcsync.chapter_name(13, rfcsync.Section("Appendix A. Single or multi-tenant", "")),
+                         "13-appendix-a-single-or-multi-tenant.md")
 
     def test_a_diagram_without_a_picture_stays_a_placeholder_and_is_reported(self) -> None:
         import tempfile

@@ -1,4 +1,4 @@
-# What it defends against
+# 3. What it defends against
 
 The design has one goal: a copy of the stored data is useless without a credential the user approved. It does not hide data from the server while the server answers an approved request.
 

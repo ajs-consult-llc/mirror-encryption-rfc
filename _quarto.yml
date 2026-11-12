@@ -29,17 +29,18 @@ book:
     - chapters/01-document-control.md
     - chapters/02-executive-summary.md
     - chapters/03-contents.md
-    - chapters/04-what-it-defends-against.md
-    - chapters/05-system-requirements.md
-    - chapters/06-the-design-on-one-page.md
-    - chapters/07-how-it-works.md
-    - chapters/08-latency-budget.md
-    - chapters/09-what-it-does-not-protect.md
-    - chapters/10-decisions-made-to-simplify.md
-    - chapters/11-questions-for-reviewers.md
+    - chapters/04-figures.md
+    - chapters/05-what-it-defends-against.md
+    - chapters/06-system-requirements.md
+    - chapters/07-the-design-on-one-page.md
+    - chapters/08-how-it-works.md
+    - chapters/09-latency-budget.md
+    - chapters/10-what-it-does-not-protect.md
+    - chapters/11-decisions-made-to-simplify.md
+    - chapters/12-questions-for-reviewers.md
   appendices:
-    - chapters/12-appendix-a-single-or-multi-tenant.md
-    - chapters/13-appendix-b-the-diagrams-as-text.md
+    - chapters/13-appendix-a-single-or-multi-tenant.md
+    - chapters/14-appendix-b-the-diagrams-as-text.md
 
 number-sections: false
 
