@@ -82,12 +82,14 @@ ul.task-list li input[type="checkbox"] {
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/latency-budget-targets-at-the-95th-percentile-not-measurements.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:image:alt" content="Encryption adds well under a second, and the answer lands inside the 10-second budget">
 <meta property="og:image:height" content="706">
 <meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="Latency budget – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/latency-budget-targets-at-the-95th-percentile-not-measurements.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="Encryption adds well under a second, and the answer lands inside the 10-second budget">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
@@ -242,12 +244,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Encryption costs the answer well under a second: the mirror’s whole share is targeted at 0.4 seconds, inside a 1-second budget, so most of the 10 seconds belongs to the AI.</p>
 <!-- diagram: latency budget · targets at the 95th percentile, not measurements -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>Encryption adds well under a second, and the answer lands inside the 10-second budget</figcaption>
-<p><img src="../figures/latency-budget-targets-at-the-95th-percentile-not-measurements.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/latency-budget-targets-at-the-95th-percentile-not-measurements.png" class="img-fluid" alt="Encryption adds well under a second, and the answer lands inside the 10-second budget"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#latency-budget-targets-at-the-95th-percentile-not-measurements">This diagram as text</a></em> <!-- /diagram --></p>
 <p>These are targets, not measurements. Before launch they are measured on a synthetic account the size of the largest real one, about 1.6 million messages. A new message is searchable once its upload completes; the target is under 2 seconds from arriving on the desktop.</p>
 

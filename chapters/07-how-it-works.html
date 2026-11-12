@@ -82,12 +82,14 @@ ul.task-list li input[type="checkbox"] {
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/revoke-and-recover-4-parties.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:image:alt" content="Revoking deletes a copy, and recovery needs another approved device">
 <meta property="og:image:height" content="854">
 <meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="How it works – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/revoke-and-recover-4-parties.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="Revoking deletes a copy, and recovery needs another approved device">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
@@ -266,12 +268,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="key-management-lifecycle">Key management lifecycle</h2>
 <p>The account key is created once on the desktop, opened only inside approved requests, changed only by adding or removing locked copies, and destroyed by deleting every copy.</p>
 <!-- diagram: where the account key lives · 2 places in the clear -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>The account key exists in the clear in only two places</figcaption>
-<p><img src="../figures/where-the-account-key-lives-2-places-in-the-clear.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/where-the-account-key-lives-2-places-in-the-clear.png" class="img-fluid" alt="The account key exists in the clear in only two places"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#where-the-account-key-lives-2-places-in-the-clear">This diagram as text</a></em> <!-- /diagram --></p>
 <p>Only a desktop keystore holds the account key at rest. The server holds it in memory for one request at a time; everything else holds a locked copy, a token, or nothing.</p>
 <p>Every change to who can read the mirror is a copy of the account key added or deleted; the account key itself changes only if it is rotated.</p>
@@ -279,12 +276,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="create">Create</h3>
 <p>On first run, the desktop app generates the account key from 256 random bits and stores it in the OS keystore. It then signs in, receives its own desktop token, wraps the account key under a key derived from that token, and uploads only that locked copy. The server stores the copy beside the token’s hash; it never sees the account key and never keeps the token.</p>
 <!-- diagram: create · 4 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>The account key is born on the desktop, and only a locked copy reaches the server</figcaption>
-<p><img src="../figures/create-4-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/create-4-parties.png" class="img-fluid" alt="The account key is born on the desktop, and only a locked copy reaches the server"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#create-4-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p><strong>Why this is best practice.</strong> The key is made from a cryptographically secure random source on the device that will hold it, which is what <a href="https://csrc.nist.gov/pubs/sp/800/133/r2/final">NIST SP 800-133 Rev.&nbsp;2</a> recommends, and it is stored in the OS key store, hardware-backed where the platform offers it, rather than in a file. The server receives only a wrapped copy (<a href="https://csrc.nist.gov/pubs/sp/800/38/f/final">NIST SP 800-38F</a>), so nothing the server stores can open the data. That separation is the core idea of client-side and envelope encryption.</p>
 </section>
@@ -292,12 +284,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="read">Read</h3>
 <p>A reader’s request carries its token. The server finds the reader’s locked copy by the token’s hash, derives the unwrapping key from the token with HKDF, and opens the account key in memory. It looks up the query’s tags, decrypts only the candidate rows and returns the results. When the request ends, the account key is dropped; nothing of it is written to disk or logs.</p>
 <!-- diagram: read · 3 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>The account key is unwrapped for one request and never written down</figcaption>
-<p><img src="../figures/read-3-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/read-3-parties.png" class="img-fluid" alt="The account key is unwrapped for one request and never written down"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#read-3-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p><strong>Why this is best practice.</strong> The key is opened only in memory, only for one request, and then dropped. That follows <a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final">NIST SP 800-57 Part 1</a>: keep plaintext keys out of persistent storage and out of logs, and limit how long they exist. The unwrapping key is derived from the token with HKDF (<a href="https://www.rfc-editor.org/rfc/rfc5869">RFC 5869</a>), the standard way to turn a high-entropy secret into a key, and the server looks tokens up by hash, so its stored data holds no usable credential.</p>
 </section>
@@ -305,12 +292,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="update">Update</h3>
 <p>When the user approves a new reader or writer, the approval happens inside a session that already holds the account key. The server makes a new token, wraps the account key under a key derived from it, stores that copy beside the new token’s hash, and hands the new token to the new holder once. Renewing a token follows the same steps, then deletes the old token’s hash and copy. The account key itself does not change.</p>
 <!-- diagram: update · 4 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>A new holder gets its own copy, made inside the user’s session</figcaption>
-<p><img src="../figures/update-4-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/update-4-parties.png" class="img-fluid" alt="A new holder gets its own copy, made inside the user's session"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#update-4-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p><strong>Why this is best practice.</strong> Granting access means wrapping the same key once more, not re-encrypting data or sharing one credential among holders. This is envelope encryption, the pattern cloud key-management services use, and it means every holder can be revoked on its own. Handing a new token over once and rotating it on renewal follows the OAuth security best current practice (<a href="https://www.rfc-editor.org/rfc/rfc9700">RFC 9700</a>).</p>
 </section>
@@ -318,12 +300,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="expire">Expire</h3>
 <p>Every token has an end time, stored beside its hash. The server refuses an expired token on every request, and a periodic sweep then deletes the expired token’s hash and its copy of the account key. A holder renews before its end time by presenting its current token, which follows Update; a refresh token presented twice revokes its whole chain. The lifetime for each kind of holder is question 4. Backups can still hold an expired copy for up to 30 days (see What it does not protect).</p>
 <!-- diagram: expire · 3 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>An expired token finds no copy and is refused</figcaption>
-<p><img src="../figures/expire-3-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/expire-3-parties.png" class="img-fluid" alt="An expired token finds no copy and is refused"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#expire-3-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p><strong>Why this is best practice.</strong> Every token has a fixed lifetime, and its copy of the key is deleted when that lifetime ends, so a leaked token stops working without anyone acting. Bounded lifetimes are what <a href="https://www.rfc-editor.org/rfc/rfc9700">RFC 9700</a> recommends for tokens, and NIST calls them cryptoperiods (<a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final">SP 800-57 Part 1</a>).</p>
 </section>
@@ -337,12 +314,7 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>Backups still hold old copies until they expire, up to 30 days. If every holder is lost, the next desktop makes a new account key and collects again from the sources.</p>
 <!-- diagram: delete · 4 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>Deleting copies is how access ends</figcaption>
-<p><img src="../figures/delete-4-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/delete-4-parties.png" class="img-fluid" alt="Deleting copies is how access ends"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#delete-4-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p><strong>Why this is best practice.</strong> Deleting every copy of the key, as account deletion does, is cryptographic erase, a sanitization method NIST recognizes (<a href="https://csrc.nist.gov/pubs/sp/800/88/r1/final">SP 800-88 Rev.&nbsp;1</a>). It works at once, even when ciphertext remains in storage the user cannot reach. Revoking a single holder is weaker: it ends that holder’s access through the service, but other copies of the same key remain. Revocation takes effect server-side on the token’s next use, as OAuth token revocation specifies (<a href="https://www.rfc-editor.org/rfc/rfc7009">RFC 7009</a>). The known exception is backups, which keep old copies for up to 30 days.</p>
 </section>
@@ -360,12 +332,7 @@ ul.task-list li input[type="checkbox"] {
 <li>The message is searchable as soon as it is stored.</li>
 </ol>
 <!-- diagram: collect and push · 4 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>Messages are encrypted on the desktop before they leave it</figcaption>
-<p><img src="../figures/collect-and-push-4-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/collect-and-push-4-parties.png" class="img-fluid" alt="Messages are encrypted on the desktop before they leave it"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#collect-and-push-4-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p>Only ciphertext and tags leave the desktop; the server cannot open them without an approved token.</p>
 <p><strong>Why this is best practice.</strong> Encrypting on the client before upload, so the storage provider holds only ciphertext, is the model behind end-to-end encrypted storage and client-side encryption. Each message is sealed with AES-256-GCM (<a href="https://csrc.nist.gov/pubs/sp/800/38/d/final">NIST SP 800-38D</a>), an authenticated cipher that detects any change to the ciphertext, and it is bound to its account and message ids as associated data (<a href="https://www.rfc-editor.org/rfc/rfc5116">RFC 5116</a>), so a row cannot be moved to another account or message. TLS protects the upload in transit (<a href="https://www.rfc-editor.org/rfc/rfc8446">RFC 8446</a>).</p>
@@ -379,12 +346,7 @@ ul.task-list li input[type="checkbox"] {
 <li>The token is handed to the new reader or writer once. The server keeps only its hash.</li>
 </ol>
 <!-- diagram: approve a reader or writer · 4 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>Approving a reader or writer creates one token and one copy of the account key</figcaption>
-<p><img src="../figures/approve-a-reader-or-writer-4-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/approve-a-reader-or-writer-4-parties.png" class="img-fluid" alt="Approving a reader or writer creates one token and one copy of the account key"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#approve-a-reader-or-writer-4-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p>The server keeps only the token’s hash; the token itself is handed over once.</p>
 <p><strong>Why this is best practice.</strong> AI clients are approved through OAuth consent with PKCE, as the OAuth security best current practice requires (<a href="https://www.rfc-editor.org/rfc/rfc9700">RFC 9700</a>), and a second device is approved by comparing a short code on both screens, a relative of the device flow in <a href="https://www.rfc-editor.org/rfc/rfc8628">RFC 8628</a>. Giving each holder its own token and its own wrapped copy of the key is least privilege: no credential is shared, so each one can be revoked alone. Storing only a hash of each token means a database copy yields no usable credential, as <a href="https://pages.nist.gov/800-63-3/sp800-63b.html">NIST SP 800-63B</a> requires for stored passwords.</p>
@@ -399,12 +361,7 @@ ul.task-list li input[type="checkbox"] {
 <li>It returns the results and drops the account key.</li>
 </ol>
 <!-- diagram: search and retrieve · 3 parties, one request -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>The account key is unlocked for one request and dropped when it ends</figcaption>
-<p><img src="../figures/search-and-retrieve-3-parties-one-request.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/search-and-retrieve-3-parties-one-request.png" class="img-fluid" alt="The account key is unlocked for one request and dropped when it ends"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#search-and-retrieve-3-parties-one-request">This diagram as text</a></em> <!-- /diagram --></p>
 <p>Only the candidate rows are decrypted, and the account key lives only for the request.</p>
 <p><strong>Why this is best practice.</strong> Search runs on keyed tags, the standard construction for searching encrypted data (<a href="https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf">Song, Wagner and Perrig, IEEE S&amp;P 2000</a>). The query is reduced to trigrams and the real match is checked afterwards, as in production regex search (<a href="https://swtch.com/~rsc/regexp/regexp4.html">Russ Cox, trigram index</a>). Holding the key in memory for one request only follows <a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final">NIST SP 800-57 Part 1</a> on limiting how long plaintext keys exist. The known cost is access-pattern leakage (<a href="https://eprint.iacr.org/2016/718">Cash et al., CCS 2015</a>), which question 1 puts to reviewers.</p>
@@ -418,12 +375,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Every reader sees it on its next request.</li>
 </ol>
 <!-- diagram: update · 4 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>A writer’s change is encrypted on the server and seen on the next read</figcaption>
-<p><img src="../figures/update-4-parties-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/update-4-parties-2.png" class="img-fluid" alt="A writer's change is encrypted on the server and seen on the next read"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#update-4-parties-2">This diagram as text</a></em> <!-- /diagram --></p>
 <p>Writes follow the same rule as reads: the account key is opened only inside the writer’s request.</p>
 <p><strong>Why this is best practice.</strong> A write uses the same authenticated encryption as a read, so the server never stores an edited row in the clear. Every write gets a fresh random nonce, which is what keeps AES-GCM secure when the same key encrypts many messages (<a href="https://csrc.nist.gov/pubs/sp/800/38/d/final">NIST SP 800-38D</a>, section 8). The tags are recomputed with HMAC-SHA256 (<a href="https://csrc.nist.gov/pubs/fips/198-1/final">FIPS 198-1</a>), so the search index never falls out of step with the content.</p>
@@ -438,12 +390,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Every holder lost.</strong> The mirror cannot be read. A new desktop makes a new account key and collects again from the sources.</li>
 </ul>
 <!-- diagram: revoke and recover · 4 parties -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>Revoking deletes a copy, and recovery needs another approved device</figcaption>
-<p><img src="../figures/revoke-and-recover-4-parties.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/revoke-and-recover-4-parties.png" class="img-fluid" alt="Revoking deletes a copy, and recovery needs another approved device"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#revoke-and-recover-4-parties">This diagram as text</a></em> <!-- /diagram --></p>
 <p>Cutting off a reader is one deletion; a replacement desktop is approved like any other holder.</p>
 <p><strong>Why this is best practice.</strong> Revoking a token server-side, so that it fails on its next use, is what OAuth token revocation specifies (<a href="https://www.rfc-editor.org/rfc/rfc7009">RFC 7009</a>). Deleting that token’s copy ends its access through the service. Only deleting every copy is cryptographic erase, the sanitization method NIST recognizes (<a href="https://csrc.nist.gov/pubs/sp/800/88/r1/final">SP 800-88 Rev.&nbsp;1</a>). Recovering through another approved device, rather than through a reset the operator controls, keeps the operator unable to open the data. End-to-end encrypted services use the same approach, and when every holder is lost the honest result is that the data cannot be read.</p>

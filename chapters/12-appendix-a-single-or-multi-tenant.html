@@ -82,12 +82,14 @@ ul.task-list li input[type="checkbox"] {
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/shared-vs-dedicated-3-users.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:image:alt" content="Keys isolate stored data either way, and separate instances contain a breach">
 <meta property="og:image:height" content="792">
 <meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="Appendix A — Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/shared-vs-dedicated-3-users.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="Keys isolate stored data either way, and separate instances contain a breach">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
@@ -283,12 +285,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <!-- diagram: shared vs dedicated · 3 users -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<figcaption>Keys isolate stored data either way, and separate instances contain a breach</figcaption>
-<p><img src="../figures/shared-vs-dedicated-3-users.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<p><img src="../figures/shared-vs-dedicated-3-users.png" class="img-fluid" alt="Keys isolate stored data either way, and separate instances contain a breach"></p>
 <p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#shared-vs-dedicated-3-users">This diagram as text</a></em> <!-- /diagram --></p>
 <p>The recommendation is one codebase that runs either way. Shared by default, with row-level security in the database as a second line behind the keys. A dedicated instance, run by the operator or by the user, for anyone who wants the smaller blast radius. The keys stay with the user in both.</p>
 
