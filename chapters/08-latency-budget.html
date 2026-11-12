@@ -76,21 +76,17 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <meta property="og:title" content="Latency budget – Security Reference Architecture for Cloud Data Mirrors">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/latency-budget-targets-at-the-95th-percentile-not-measurements.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
-<meta property="og:image:height" content="630">
-<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="706">
+<meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="Latency budget – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/latency-budget-targets-at-the-95th-percentile-not-measurements.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -207,6 +203,11 @@ ul.task-list li input[type="checkbox"] {
   <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Single or multi-tenant</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-appendix-b-the-diagrams-as-text.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The diagrams as text</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -241,33 +242,13 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Encryption costs the answer well under a second: the mirror’s whole share is targeted at 0.4 seconds, inside a 1-second budget, so most of the 10 seconds belongs to the AI.</p>
 <!-- diagram: latency budget · targets at the 95th percentile, not measurements -->
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-
-<pre class="mermaid mermaid-js">flowchart TB
-  accTitle: Encryption adds well under a second, and the answer lands inside the 10-second budget
-  accDescr: Question to first response is 7.4 seconds at the 95th percentile, of which the mirror is 0.405 seconds. These are targets, not measurements. The AI provider reads the question and calls the mirror in an assumed 3 seconds. The mirror then takes 0.405 seconds of its 1-second budget: 0.2 seconds for the request to the server and back over the network, 0.005 seconds on the server to find the token and unlock the key, 0.1 seconds in the database to look up the query's tags, and 0.1 seconds on the server to decrypt and check 200 candidates. The AI provider then writes the first words from the results in an assumed 4 seconds, so the first response arrives at 7.4 seconds, inside the 10-second budget.
-  Q(["The user asks a question · 0 s"]) --&gt; A["AI provider reads the question&lt;br/&gt;and calls the mirror&lt;br/&gt;3 s, assumed"]
-  A --&gt; M
-  subgraph M["The mirror · 0.405 s of its 1 s budget"]
-    direction TB
-    M1["Request to the server and back&lt;br/&gt;network · 0.2 s"] --&gt; M2["Find the token and unlock the key&lt;br/&gt;server · 0.005 s"] --&gt; M3["Look up the query's tags&lt;br/&gt;database · 0.1 s"] --&gt; M4["Decrypt and check 200 candidates&lt;br/&gt;server · 0.1 s"]
-  end
-  M --&gt; W["AI provider writes the first&lt;br/&gt;words from the results&lt;br/&gt;4 s, assumed"]
-  W --&gt; F(["First response at 7.4 s,&lt;br/&gt;inside the 10 s budget"])
-  F ~~~ N["Targets at the 95th percentile,&lt;br/&gt;not measurements."]:::note
-  classDef mirror stroke:#2f5f86,fill:#e8eff6,color:#1f2933
-  class M1,M2,M3,M4 mirror
-  classDef note fill:none,stroke:none,color:#5f7183
-</pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>Encryption adds well under a second, and the answer lands inside the 10-second budget</figcaption>
+<p><img src="../figures/latency-budget-targets-at-the-95th-percentile-not-measurements.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
-<p></p><figcaption> Encryption adds well under a second, and the answer lands inside the 10 s budget</figcaption> </figure><p></p>
-</div>
-</div>
-</div>
+<p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#latency-budget-targets-at-the-95th-percentile-not-measurements">This diagram as text</a></em> <!-- /diagram --></p>
 <p>These are targets, not measurements. Before launch they are measured on a synthetic account the size of the largest real one, about 1.6 million messages. A new message is searchable once its upload completes; the target is under 2 seconds from arriving on the desktop.</p>
 
 

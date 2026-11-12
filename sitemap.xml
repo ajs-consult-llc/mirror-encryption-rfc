@@ -2,58 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/index.html</loc>
-    <lastmod>2026-11-12T00:44:02.402Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.848Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/updates.html</loc>
-    <lastmod>2026-11-12T00:43:44.893Z</lastmod>
+    <lastmod>2026-11-12T00:54:42.761Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/01-document-control.html</loc>
-    <lastmod>2026-11-12T00:44:02.403Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.849Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/02-executive-summary.html</loc>
-    <lastmod>2026-11-12T00:44:02.403Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.849Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/03-contents.html</loc>
-    <lastmod>2026-11-12T00:44:02.403Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.849Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/04-what-it-defends-against.html</loc>
-    <lastmod>2026-11-12T00:44:02.403Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.849Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/05-system-requirements.html</loc>
-    <lastmod>2026-11-12T00:44:02.403Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.849Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/06-the-design-on-one-page.html</loc>
-    <lastmod>2026-11-12T00:44:02.403Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.849Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/07-how-it-works.html</loc>
-    <lastmod>2026-11-12T00:44:02.403Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.849Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/08-latency-budget.html</loc>
-    <lastmod>2026-11-12T00:44:02.404Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.850Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/09-what-it-does-not-protect.html</loc>
-    <lastmod>2026-11-12T00:44:02.404Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.850Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/10-decisions-made-to-simplify.html</loc>
-    <lastmod>2026-11-12T00:44:02.404Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.850Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/11-questions-for-reviewers.html</loc>
-    <lastmod>2026-11-12T00:44:02.404Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.850Z</lastmod>
   </url>
   <url>
     <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/12-appendix-a-single-or-multi-tenant.html</loc>
-    <lastmod>2026-11-12T00:44:02.404Z</lastmod>
+    <lastmod>2026-11-12T00:55:01.850Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ajs-consult-llc.github.io/mirror-encryption-rfc/chapters/13-appendix-b-the-diagrams-as-text.html</loc>
+    <lastmod>2026-11-12T00:55:01.850Z</lastmod>
   </url>
 </urlset>

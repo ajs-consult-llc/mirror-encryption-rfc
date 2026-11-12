@@ -76,21 +76,17 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <meta property="og:title" content="The design on one page – Security Reference Architecture for Cloud Data Mirrors">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/the-whole-design-1-key-1-kind-of-token.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
-<meta property="og:image:height" content="630">
-<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="890">
+<meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="The design on one page – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/the-whole-design-1-key-1-kind-of-token.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -207,6 +203,11 @@ ul.task-list li input[type="checkbox"] {
   <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Single or multi-tenant</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-appendix-b-the-diagrams-as-text.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The diagrams as text</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -241,30 +242,13 @@ ul.task-list li input[type="checkbox"] {
 
 <p>There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts everything, and SHA-256 does the rest as a hash, as HMAC and as HKDF. Everything else follows from them.</p>
 <!-- diagram: the whole design · 1 key, 1 kind of token -->
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-
-<pre class="mermaid mermaid-js">flowchart TB
-  accTitle: Plaintext exists only on the desktop and inside an approved request
-  accDescr: One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
-  S["Sources on the desktop&lt;br/&gt;mail, chats, calendars"] --&gt;|reads| D["Desktop app&lt;br/&gt;makes and keeps the key&lt;br/&gt;encrypts each message&lt;br/&gt;computes search tags"]
-  R["Readers and writers&lt;br/&gt;AI assistants, web app&lt;br/&gt;second devices, scripts&lt;br/&gt;each with its own token"]
-  D --&gt;|"ciphertext + tags,&lt;br/&gt;attachments as they are"| V["Server&lt;br/&gt;finds the token's copy&lt;br/&gt;opens the key per request&lt;br/&gt;searches, decrypts hits&lt;br/&gt;drops the key afterwards"]
-  R --&gt;|token and request| V
-  V -.-&gt;|results| R
-  V &lt;--&gt;|store, look up| B[("Database&lt;br/&gt;ciphertext, search tags&lt;br/&gt;token hashes&lt;br/&gt;locked copies of the key")]
-  V &lt;--&gt;|store, read| O[("Blob store&lt;br/&gt;attachments, encrypted&lt;br/&gt;under the storage key,&lt;br/&gt;sent with each request&lt;br/&gt;and never kept")]
-  B ~~~ N["The server never stores the account&lt;br/&gt;key, a token or plaintext. The blob&lt;br/&gt;store sees each attachment in the&lt;br/&gt;clear while it handles a request,&lt;br/&gt;and keeps only ciphertext."]:::note
-  classDef note fill:none,stroke:none,color:#5f7183
-</pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>Plaintext exists only on the desktop and inside an approved request</figcaption>
+<p><img src="../figures/the-whole-design-1-key-1-kind-of-token.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
-<p></p><figcaption> Plaintext exists only on the desktop and inside an approved request</figcaption> </figure><p></p>
-</div>
-</div>
-</div>
+<p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#the-whole-design-1-key-1-kind-of-token">This diagram as text</a></em> <!-- /diagram --></p>
 <ul>
 <li><strong>One key.</strong> On installation, the desktop sync application asks the operating system for 256 random bits, and those bits are the “account key”. The user’s OS key store holds the account key and releases it only to approved application(s). The account key never encrypts anything itself. Instead, HKDF-SHA256 turns it into two working keys, one per job: (1) a content key that encrypts each message (AES-256-GCM) and (2) a tag key that computes the search tags (HMAC-SHA256). A third, the storage key, is derived the same way for attachments. They are re-derived whenever they are needed, so nothing extra is stored, and learning one working key reveals neither the other nor the account key. Because both come from the one account key, a reader that can open its copy of the account key can both read messages and search them.</li>
 </ul>

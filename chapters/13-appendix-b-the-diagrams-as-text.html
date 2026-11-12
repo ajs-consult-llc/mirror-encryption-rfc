@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix B — The diagrams as text – Security Reference Architecture for Cloud Data Mirrors</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/12-appendix-a-single-or-multi-tenant.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4f67ab1e4efc86feb5e21e0983fc9301.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<meta property="og:title" content="Appendix B — The diagrams as text – Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1200">
+<meta name="twitter:title" content="Appendix B — The diagrams as text – Security Reference Architecture for Cloud Data Mirrors">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/13-appendix-b-the-diagrams-as-text.html"><span class="chapter-title">The diagrams as text</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Security Reference Architecture for Cloud Data Mirrors</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../updates.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Updates</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Document control</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-contents.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Contents</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it defends against</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-system-requirements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">System Requirements</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-the-design-on-one-page.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The design on one page</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How it works</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-latency-budget.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Latency budget</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it does not protect</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisions made to simplify</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Questions for reviewers</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Single or multi-tenant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-appendix-b-the-diagrams-as-text.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">The diagrams as text</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#plaintext-exists-only-on-the-desktop-and-inside-an-approved-request" id="toc-plaintext-exists-only-on-the-desktop-and-inside-an-approved-request" class="nav-link active" data-scroll-target="#plaintext-exists-only-on-the-desktop-and-inside-an-approved-request">Plaintext exists only on the desktop and inside an approved request</a></li>
+  <li><a href="#the-account-key-exists-in-the-clear-in-only-two-places" id="toc-the-account-key-exists-in-the-clear-in-only-two-places" class="nav-link" data-scroll-target="#the-account-key-exists-in-the-clear-in-only-two-places">The account key exists in the clear in only two places</a></li>
+  <li><a href="#the-account-key-is-born-on-the-desktop-and-only-a-locked-copy-reaches-the-server" id="toc-the-account-key-is-born-on-the-desktop-and-only-a-locked-copy-reaches-the-server" class="nav-link" data-scroll-target="#the-account-key-is-born-on-the-desktop-and-only-a-locked-copy-reaches-the-server">The account key is born on the desktop, and only a locked copy reaches the server</a></li>
+  <li><a href="#the-account-key-is-unwrapped-for-one-request-and-never-written-down" id="toc-the-account-key-is-unwrapped-for-one-request-and-never-written-down" class="nav-link" data-scroll-target="#the-account-key-is-unwrapped-for-one-request-and-never-written-down">The account key is unwrapped for one request and never written down</a></li>
+  <li><a href="#a-new-holder-gets-its-own-copy-made-inside-the-users-session" id="toc-a-new-holder-gets-its-own-copy-made-inside-the-users-session" class="nav-link" data-scroll-target="#a-new-holder-gets-its-own-copy-made-inside-the-users-session">A new holder gets its own copy, made inside the user’s session</a></li>
+  <li><a href="#an-expired-token-finds-no-copy-and-is-refused" id="toc-an-expired-token-finds-no-copy-and-is-refused" class="nav-link" data-scroll-target="#an-expired-token-finds-no-copy-and-is-refused">An expired token finds no copy and is refused</a></li>
+  <li><a href="#deleting-copies-is-how-access-ends" id="toc-deleting-copies-is-how-access-ends" class="nav-link" data-scroll-target="#deleting-copies-is-how-access-ends">Deleting copies is how access ends</a></li>
+  <li><a href="#messages-are-encrypted-on-the-desktop-before-they-leave-it" id="toc-messages-are-encrypted-on-the-desktop-before-they-leave-it" class="nav-link" data-scroll-target="#messages-are-encrypted-on-the-desktop-before-they-leave-it">Messages are encrypted on the desktop before they leave it</a></li>
+  <li><a href="#approving-a-reader-or-writer-creates-one-token-and-one-copy-of-the-account-key" id="toc-approving-a-reader-or-writer-creates-one-token-and-one-copy-of-the-account-key" class="nav-link" data-scroll-target="#approving-a-reader-or-writer-creates-one-token-and-one-copy-of-the-account-key">Approving a reader or writer creates one token and one copy of the account key</a></li>
+  <li><a href="#the-account-key-is-unlocked-for-one-request-and-dropped-when-it-ends" id="toc-the-account-key-is-unlocked-for-one-request-and-dropped-when-it-ends" class="nav-link" data-scroll-target="#the-account-key-is-unlocked-for-one-request-and-dropped-when-it-ends">The account key is unlocked for one request and dropped when it ends</a></li>
+  <li><a href="#a-writers-change-is-encrypted-on-the-server-and-seen-on-the-next-read" id="toc-a-writers-change-is-encrypted-on-the-server-and-seen-on-the-next-read" class="nav-link" data-scroll-target="#a-writers-change-is-encrypted-on-the-server-and-seen-on-the-next-read">A writer’s change is encrypted on the server and seen on the next read</a></li>
+  <li><a href="#revoking-deletes-a-copy-and-recovery-needs-another-approved-device" id="toc-revoking-deletes-a-copy-and-recovery-needs-another-approved-device" class="nav-link" data-scroll-target="#revoking-deletes-a-copy-and-recovery-needs-another-approved-device">Revoking deletes a copy, and recovery needs another approved device</a></li>
+  <li><a href="#encryption-adds-well-under-a-second-and-the-answer-lands-inside-the-10-second-budget" id="toc-encryption-adds-well-under-a-second-and-the-answer-lands-inside-the-10-second-budget" class="nav-link" data-scroll-target="#encryption-adds-well-under-a-second-and-the-answer-lands-inside-the-10-second-budget">Encryption adds well under a second, and the answer lands inside the 10-second budget</a></li>
+  <li><a href="#keys-isolate-stored-data-either-way-and-separate-instances-contain-a-breach" id="toc-keys-isolate-stored-data-either-way-and-separate-instances-contain-a-breach" class="nav-link" data-scroll-target="#keys-isolate-stored-data-either-way-and-separate-instances-contain-a-breach">Keys isolate stored data either way, and separate instances contain a breach</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/13-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/13-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/13-appendix-b-the-diagrams-as-text.html"><span class="chapter-title">The diagrams as text</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Appendix B — The diagrams as text</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- generated by tools/rfcsync.py from diagrams/*.mmd: not in the doc, and join skips it -->
+<p>Every diagram in this document, written out: a description in words, for screen readers and search, and its source in <a href="https://mermaid.js.org">Mermaid</a>, which GitHub draws and anyone can edit in a pull request. The pictures in the chapters are exported from the editor’s document; these text versions are kept in step with them, and the sync tool reports any picture that has changed since its text version was last checked.</p>
+<p><a id="the-whole-design-1-key-1-kind-of-token"></a></p>
+<section id="plaintext-exists-only-on-the-desktop-and-inside-an-approved-request" class="level2">
+<h2 class="anchored" data-anchor-id="plaintext-exists-only-on-the-desktop-and-inside-an-approved-request">Plaintext exists only on the desktop and inside an approved request</h2>
+<p>In <a href="../chapters/06-the-design-on-one-page.html">The design on one page</a>. One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token’s copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">flowchart TB
+  accTitle: Plaintext exists only on the desktop and inside an approved request
+  accDescr: One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
+  S["Sources on the desktop&lt;br/&gt;mail, chats, calendars"] --&gt;|reads| D["Desktop app&lt;br/&gt;makes and keeps the key&lt;br/&gt;encrypts each message&lt;br/&gt;computes search tags"]
+  R["Readers and writers&lt;br/&gt;AI assistants, web app&lt;br/&gt;second devices, scripts&lt;br/&gt;each with its own token"]
+  D --&gt;|"ciphertext + tags,&lt;br/&gt;attachments as they are"| V["Server&lt;br/&gt;finds the token's copy&lt;br/&gt;opens the key per request&lt;br/&gt;searches, decrypts hits&lt;br/&gt;drops the key afterwards"]
+  R --&gt;|token and request| V
+  V -.-&gt;|results| R
+  V &lt;--&gt;|store, look up| B[("Database&lt;br/&gt;ciphertext, search tags&lt;br/&gt;token hashes&lt;br/&gt;locked copies of the key")]
+  V &lt;--&gt;|store, read| O[("Blob store&lt;br/&gt;attachments, encrypted&lt;br/&gt;under the storage key,&lt;br/&gt;sent with each request&lt;br/&gt;and never kept")]
+  B ~~~ N["The server never stores the account&lt;br/&gt;key, a token or plaintext. The blob&lt;br/&gt;store sees each attachment in the&lt;br/&gt;clear while it handles a request,&lt;br/&gt;and keeps only ciphertext."]:::note
+  classDef note fill:none,stroke:none,color:#5f7183
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="where-the-account-key-lives-2-places-in-the-clear"></a></p>
+</section>
+<section id="the-account-key-exists-in-the-clear-in-only-two-places" class="level2">
+<h2 class="anchored" data-anchor-id="the-account-key-exists-in-the-clear-in-only-two-places">The account key exists in the clear in only two places</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, and in server memory, with its two derived keys, for one approved request only. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, board and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">flowchart TB
+  accTitle: The account key exists in the clear in only two places
+  accDescr: Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, and in server memory, with its two derived keys, for one approved request only. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, board and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once.
+  subgraph never["Never holds the key"]
+    direction TB
+    N1["AIs, board and scripts&lt;br/&gt;hold a token, never the&lt;br/&gt;key, the server unlocks&lt;br/&gt;it for them"]
+    N2["AI providers&lt;br/&gt;see only the results&lt;br/&gt;they asked for"]
+    N3["Logs and operator staff&lt;br/&gt;no key, no token,&lt;br/&gt;no plaintext"]
+    N1 ~~~ N2 ~~~ N3
+  end
+  subgraph locked["Only a locked copy"]
+    direction TB
+    L1["Database&lt;br/&gt;one copy per approved&lt;br/&gt;token, wrapped under&lt;br/&gt;a key from it"]
+    L2["Backups&lt;br/&gt;deleted copies stay&lt;br/&gt;until the backup expires,&lt;br/&gt;up to 30 days"]
+    L1 ~~~ L2
+  end
+  subgraph clear["In the clear"]
+    direction TB
+    K1["Desktop OS keystore&lt;br/&gt;the key at rest, on each&lt;br/&gt;approved desktop, made&lt;br/&gt;on the first one"]
+    K2["Server memory&lt;br/&gt;the key and its two&lt;br/&gt;derived keys, for one&lt;br/&gt;approved request only"]
+    K1 ~~~ K2
+  end
+  classDef hot stroke:#c8932e,fill:#fbf3e3,color:#1f2933
+  class K1,K2 hot
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="create-4-parties"></a></p>
+</section>
+<section id="the-account-key-is-born-on-the-desktop-and-only-a-locked-copy-reaches-the-server" class="level2">
+<h2 class="anchored" data-anchor-id="the-account-key-is-born-on-the-desktop-and-only-a-locked-copy-reaches-the-server">The account key is born on the desktop, and only a locked copy reaches the server</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Create. The desktop app generates the account key from 256 random bits and stores it in the OS keystore. It signs in and asks the server for a desktop token, and the server replies with one. The desktop app wraps the account key under a key derived from the token and sends the locked copy to the server, which stores the token’s hash and the copy in the database. The account key never leaves the desktop in the clear.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: The account key is born on the desktop, and only a locked copy reaches the server
+  accDescr: Create. The desktop app generates the account key from 256 random bits and stores it in the OS keystore. It signs in and asks the server for a desktop token, and the server replies with one. The desktop app wraps the account key under a key derived from the token and sends the locked copy to the server, which stores the token's hash and the copy in the database. The account key never leaves the desktop in the clear.
+  participant D as Desktop app
+  participant S as Server
+  participant DB as Database
+  Note over D: generate the account key from 256&lt;br/&gt;random bits
+  Note over D: store the account key in the OS&lt;br/&gt;keystore
+  D-&gt;&gt;S: sign in, ask for a desktop token
+  S--&gt;&gt;D: a desktop token
+  Note over D: wrap the account key under a key&lt;br/&gt;derived from the token
+  D-&gt;&gt;S: the locked copy
+  S-&gt;&gt;DB: store the token's hash and the copy
+  Note over D: The account key never leaves the&lt;br/&gt;desktop in the clear.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="read-3-parties"></a></p>
+</section>
+<section id="the-account-key-is-unwrapped-for-one-request-and-never-written-down" class="level2">
+<h2 class="anchored" data-anchor-id="the-account-key-is-unwrapped-for-one-request-and-never-written-down">The account key is unwrapped for one request and never written down</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Read. A reader or writer sends a request carrying its token. The server looks up the token’s hash in the database and gets back its locked copy. A key derived from the token unwraps the account key, in memory only. The server looks up the query’s tags and gets back ciphertext rows, decrypts the candidates and builds the answer, and returns the results. The request ends and the account key is dropped.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: The account key is unwrapped for one request and never written down
+  accDescr: Read. A reader or writer sends a request carrying its token. The server looks up the token's hash in the database and gets back its locked copy. A key derived from the token unwraps the account key, in memory only. The server looks up the query's tags and gets back ciphertext rows, decrypts the candidates and builds the answer, and returns the results. The request ends and the account key is dropped.
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  R-&gt;&gt;S: a request carrying its token
+  S-&gt;&gt;DB: look up the token's hash
+  DB--&gt;&gt;S: its locked copy
+  Note over S: a key derived from the token&lt;br/&gt;unwraps the account key, in memory&lt;br/&gt;only
+  S-&gt;&gt;DB: look up the query's tags
+  DB--&gt;&gt;S: ciphertext rows
+  Note over S: decrypt the candidates, build the&lt;br/&gt;answer
+  S--&gt;&gt;R: the results
+  Note over S,DB: The request ends and the account&lt;br/&gt;key is dropped.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="update-4-parties"></a></p>
+</section>
+<section id="a-new-holder-gets-its-own-copy-made-inside-the-users-session" class="level2">
+<h2 class="anchored" data-anchor-id="a-new-holder-gets-its-own-copy-made-inside-the-users-session">A new holder gets its own copy, made inside the user’s session</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Update. The user approves a new reader or writer, inside a session that holds the account key. The server makes a new token and wraps the account key under a key derived from it, stores the new token’s hash and the copy in the database, and hands the new token to the reader or writer once. Renewal runs the same steps, then deletes the old token’s hash and copy.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: A new holder gets its own copy, made inside the user's session
+  accDescr: Update. The user approves a new reader or writer, inside a session that holds the account key. The server makes a new token and wraps the account key under a key derived from it, stores the new token's hash and the copy in the database, and hands the new token to the reader or writer once. Renewal runs the same steps, then deletes the old token's hash and copy.
+  participant U as User
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  U-&gt;&gt;S: approve, inside a session that holds the account key
+  Note over S: make a new token, wrap the account&lt;br/&gt;key under a key derived from it
+  S-&gt;&gt;DB: store the new token's hash and the copy
+  S--&gt;&gt;R: the new token, handed over once
+  Note over R,DB: Renewal runs the same steps, then&lt;br/&gt;deletes the old token's hash and&lt;br/&gt;copy.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="expire-3-parties"></a></p>
+</section>
+<section id="an-expired-token-finds-no-copy-and-is-refused" class="level2">
+<h2 class="anchored" data-anchor-id="an-expired-token-finds-no-copy-and-is-refused">An expired token finds no copy and is refused</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Expire. The server finds copies past their expiry in the database and deletes each one’s hash and copy. When a reader or writer then sends a request with the expired token, the server refuses it, and the holder must renew or be approved again. The account key itself is rotated before its nonce budget runs out, by re-encrypting or by re-wrapping data keys (questions 2 to 4).</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: An expired token finds no copy and is refused
+  accDescr: Expire. The server finds copies past their expiry in the database and deletes each one's hash and copy. When a reader or writer then sends a request with the expired token, the server refuses it, and the holder must renew or be approved again. The account key itself is rotated before its nonce budget runs out, by re-encrypting or by re-wrapping data keys (questions 2 to 4).
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  S-&gt;&gt;DB: find copies past their expiry
+  S-&gt;&gt;DB: delete each one's hash and copy
+  R-&gt;&gt;S: a request with the expired token
+  S--&gt;&gt;R: refused, renew or re-approve
+  Note over R,DB: The account key is rotated before&lt;br/&gt;its nonce budget runs out, by&lt;br/&gt;re-encrypting or re-wrapping data&lt;br/&gt;keys (questions 2 to 4).
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="delete-4-parties"></a></p>
+</section>
+<section id="deleting-copies-is-how-access-ends" class="level2">
+<h2 class="anchored" data-anchor-id="deleting-copies-is-how-access-ends">Deleting copies is how access ends</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Delete. The user revokes a token, or deletes the account. The server deletes that token’s hash and copy, or every copy and row. Backups keep old copies until they expire, up to 30 days. If every holder is lost, the next desktop makes a new account key and collects again.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: Deleting copies is how access ends
+  accDescr: Delete. The user revokes a token, or deletes the account. The server deletes that token's hash and copy, or every copy and row. Backups keep old copies until they expire, up to 30 days. If every holder is lost, the next desktop makes a new account key and collects again.
+  participant U as User
+  participant S as Server
+  participant DB as Database
+  U-&gt;&gt;S: revoke a token, or delete the account
+  S-&gt;&gt;DB: delete the hash and copy, or every copy and row
+  Note over S,DB: Backups keep old copies until they&lt;br/&gt;expire, up to 30 days.
+  Note over U: If every holder is lost, the next&lt;br/&gt;desktop makes a new account key&lt;br/&gt;and collects again.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="collect-and-push-4-parties"></a></p>
+</section>
+<section id="messages-are-encrypted-on-the-desktop-before-they-leave-it" class="level2">
+<h2 class="anchored" data-anchor-id="messages-are-encrypted-on-the-desktop-before-they-leave-it">Messages are encrypted on the desktop before they leave it</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: Messages are encrypted on the desktop before they leave it
+  accDescr: Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
+  participant D as Desktop app
+  participant S as Server
+  participant DB as Database
+  Note over D: read a new message from a local&lt;br/&gt;source, mail, chat or calendar
+  Note over D: encrypt it under the account key,&lt;br/&gt;compute its search tags
+  D-&gt;&gt;S: ciphertext and tags over TLS, with its token
+  S-&gt;&gt;DB: store them, the server cannot read them
+  Note over S,DB: The message is searchable as soon&lt;br/&gt;as it is stored.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="approve-a-reader-or-writer-4-parties"></a></p>
+</section>
+<section id="approving-a-reader-or-writer-creates-one-token-and-one-copy-of-the-account-key" class="level2">
+<h2 class="anchored" data-anchor-id="approving-a-reader-or-writer-creates-one-token-and-one-copy-of-the-account-key">Approving a reader or writer creates one token and one copy of the account key</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Approve a reader or writer. The user approves it by OAuth consent, by the web app opened from the desktop, or with a matching code. Inside the user’s session, the server makes a token and a copy of the account key locked under it, stores the token’s hash and the copy in the database, and hands the token to the reader or writer once.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: Approving a reader or writer creates one token and one copy of the account key
+  accDescr: Approve a reader or writer. The user approves it by OAuth consent, by the web app opened from the desktop, or with a matching code. Inside the user's session, the server makes a token and a copy of the account key locked under it, stores the token's hash and the copy in the database, and hands the token to the reader or writer once.
+  participant U as User
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  U-&gt;&gt;S: approve by OAuth consent, the web app opened from the desktop, or a matching code
+  Note over S: inside the user's session, make a&lt;br/&gt;token and a copy of the account&lt;br/&gt;key locked under it
+  S-&gt;&gt;DB: store the token's hash and the copy
+  S--&gt;&gt;R: the token, handed over once
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="search-and-retrieve-3-parties-one-request"></a></p>
+</section>
+<section id="the-account-key-is-unlocked-for-one-request-and-dropped-when-it-ends" class="level2">
+<h2 class="anchored" data-anchor-id="the-account-key-is-unlocked-for-one-request-and-dropped-when-it-ends">The account key is unlocked for one request and dropped when it ends</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Search and retrieve. A reader or writer sends a query with its token. The server finds the token’s copy by its hash, unlocks the account key for this request and turns the query into tags. It finds the candidates in the index and gets back candidate rows, still ciphertext. It decrypts only the candidates, checks the real match, and returns the results. The request ends and the account key is dropped.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: The account key is unlocked for one request and dropped when it ends
+  accDescr: Search and retrieve. A reader or writer sends a query with its token. The server finds the token's copy by its hash, unlocks the account key for this request and turns the query into tags. It finds the candidates in the index and gets back candidate rows, still ciphertext. It decrypts only the candidates, checks the real match, and returns the results. The request ends and the account key is dropped.
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  R-&gt;&gt;S: a query, with its token
+  S-&gt;&gt;DB: find the token's copy by its hash
+  Note over S: unlock the account key for this&lt;br/&gt;request, turn the query into tags
+  S-&gt;&gt;DB: find the candidates in the index
+  DB--&gt;&gt;S: candidate rows, still ciphertext
+  Note over S: decrypt only the candidates, check&lt;br/&gt;the real match
+  S--&gt;&gt;R: the results
+  Note over S,DB: The request ends and the account&lt;br/&gt;key is dropped.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="update-4-parties-2"></a></p>
+</section>
+<section id="a-writers-change-is-encrypted-on-the-server-and-seen-on-the-next-read" class="level2">
+<h2 class="anchored" data-anchor-id="a-writers-change-is-encrypted-on-the-server-and-seen-on-the-next-read">A writer’s change is encrypted on the server and seen on the next read</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Update. A reader or writer sends a change with its token, such as an AI tool call or a web-app edit. The server unlocks the account key, encrypts the change, recomputes its tags and stores it. On any reader’s next request, the server returns the updated message.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: A writer's change is encrypted on the server and seen on the next read
+  accDescr: Update. A reader or writer sends a change with its token, such as an AI tool call or a web-app edit. The server unlocks the account key, encrypts the change, recomputes its tags and stores it. On any reader's next request, the server returns the updated message.
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  R-&gt;&gt;S: a change with its token, an AI tool call or a web-app edit
+  Note over S: unlock the account key, encrypt&lt;br/&gt;the change, recompute its tags
+  S-&gt;&gt;DB: store it
+  R-&gt;&gt;S: any reader's next request
+  S--&gt;&gt;R: the updated message
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="revoke-and-recover-4-parties"></a></p>
+</section>
+<section id="revoking-deletes-a-copy-and-recovery-needs-another-approved-device" class="level2">
+<h2 class="anchored" data-anchor-id="revoking-deletes-a-copy-and-recovery-needs-another-approved-device">Revoking deletes a copy, and recovery needs another approved device</h2>
+<p>In <a href="../chapters/07-how-it-works.html">How it works</a>. Revoke and recover. The user revokes a token, or a lost desktop, and the server deletes its hash and its copy in the database. A new desktop asks the server to join, the user approves the new desktop, and the server gives the new desktop its own token, which opens its own copy of the account key. If every holder is lost, the mirror cannot be read, and a new desktop makes a new account key and collects again from the sources.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">sequenceDiagram
+  accTitle: Revoking deletes a copy, and recovery needs another approved device
+  accDescr: Revoke and recover. The user revokes a token, or a lost desktop, and the server deletes its hash and its copy in the database. A new desktop asks the server to join, the user approves the new desktop, and the server gives the new desktop its own token, which opens its own copy of the account key. If every holder is lost, the mirror cannot be read, and a new desktop makes a new account key and collects again from the sources.
+  participant U as User
+  participant D as Desktop app
+  participant S as Server
+  participant DB as Database
+  U-&gt;&gt;S: revoke a token, or a lost desktop
+  S-&gt;&gt;DB: delete its hash and its copy
+  D-&gt;&gt;S: a new desktop asks to join
+  U-&gt;&gt;S: approve the new desktop
+  S--&gt;&gt;D: its own token, which opens its own copy of the account key
+  Note over D,DB: If every holder is lost, the&lt;br/&gt;mirror cannot be read. A new&lt;br/&gt;desktop makes a new account key&lt;br/&gt;and collects again from the&lt;br/&gt;sources.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="latency-budget-targets-at-the-95th-percentile-not-measurements"></a></p>
+</section>
+<section id="encryption-adds-well-under-a-second-and-the-answer-lands-inside-the-10-second-budget" class="level2">
+<h2 class="anchored" data-anchor-id="encryption-adds-well-under-a-second-and-the-answer-lands-inside-the-10-second-budget">Encryption adds well under a second, and the answer lands inside the 10-second budget</h2>
+<p>In <a href="../chapters/08-latency-budget.html">Latency budget</a>. Question to first response is 7.4 seconds at the 95th percentile, of which the mirror is 0.405 seconds. These are targets, not measurements. The AI provider reads the question and calls the mirror in an assumed 3 seconds. The mirror then takes 0.405 seconds of its 1-second budget: 0.2 seconds for the request to the server and back over the network, 0.005 seconds on the server to find the token and unlock the key, 0.1 seconds in the database to look up the query’s tags, and 0.1 seconds on the server to decrypt and check 200 candidates. The AI provider then writes the first words from the results in an assumed 4 seconds, so the first response arrives at 7.4 seconds, inside the 10-second budget.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">flowchart TB
+  accTitle: Encryption adds well under a second, and the answer lands inside the 10-second budget
+  accDescr: Question to first response is 7.4 seconds at the 95th percentile, of which the mirror is 0.405 seconds. These are targets, not measurements. The AI provider reads the question and calls the mirror in an assumed 3 seconds. The mirror then takes 0.405 seconds of its 1-second budget: 0.2 seconds for the request to the server and back over the network, 0.005 seconds on the server to find the token and unlock the key, 0.1 seconds in the database to look up the query's tags, and 0.1 seconds on the server to decrypt and check 200 candidates. The AI provider then writes the first words from the results in an assumed 4 seconds, so the first response arrives at 7.4 seconds, inside the 10-second budget.
+  Q(["The user asks a question · 0 s"]) --&gt; A["AI provider reads the question&lt;br/&gt;and calls the mirror&lt;br/&gt;3 s, assumed"]
+  A --&gt; M
+  subgraph M["The mirror · 0.405 s of its 1 s budget"]
+    direction TB
+    M1["Request to the server and back&lt;br/&gt;network · 0.2 s"] --&gt; M2["Find the token and unlock the key&lt;br/&gt;server · 0.005 s"] --&gt; M3["Look up the query's tags&lt;br/&gt;database · 0.1 s"] --&gt; M4["Decrypt and check 200 candidates&lt;br/&gt;server · 0.1 s"]
+  end
+  M --&gt; W["AI provider writes the first&lt;br/&gt;words from the results&lt;br/&gt;4 s, assumed"]
+  W --&gt; F(["First response at 7.4 s,&lt;br/&gt;inside the 10 s budget"])
+  F ~~~ N["Targets at the 95th percentile,&lt;br/&gt;not measurements."]:::note
+  classDef mirror stroke:#2f5f86,fill:#e8eff6,color:#1f2933
+  class M1,M2,M3,M4 mirror
+  classDef note fill:none,stroke:none,color:#5f7183
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><a id="shared-vs-dedicated-3-users"></a></p>
+</section>
+<section id="keys-isolate-stored-data-either-way-and-separate-instances-contain-a-breach" class="level2">
+<h2 class="anchored" data-anchor-id="keys-isolate-stored-data-either-way-and-separate-instances-contain-a-breach">Keys isolate stored data either way, and separate instances contain a breach</h2>
+<p>In <a href="../chapters/12-appendix-a-single-or-multi-tenant.html">Appendix A. Single or multi-tenant</a>. Each user’s key stays on their desktop in both designs, and colours mark whose key locks which rows. With one shared database, users A, B and C, holding keys A, B and C, all use one shared server, which opens key A, B or C inside each user’s request, and one shared database with row-level security, where user A’s rows are locked under key A, user B’s under key B and user C’s under key C. A server breach sees every active user’s requests. There is one system to run, and metadata is visible to the operator. With one instance per user, user A uses server A, which holds key A only, and database A, which holds user A’s rows under key A, and the same for users B and C. A server breach sees one user’s requests. There is one system per user to run and pay for.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+<pre class="mermaid mermaid-js">flowchart TB
+  accTitle: Keys isolate stored data either way, and separate instances contain a breach
+  accDescr: Each user's key stays on their desktop in both designs, and colours mark whose key locks which rows. With one shared database, users A, B and C, holding keys A, B and C, all use one shared server, which opens key A, B or C inside each user's request, and one shared database with row-level security, where user A's rows are locked under key A, user B's under key B and user C's under key C. A server breach sees every active user's requests. There is one system to run, and metadata is visible to the operator. With one instance per user, user A uses server A, which holds key A only, and database A, which holds user A's rows under key A, and the same for users B and C. A server breach sees one user's requests. There is one system per user to run and pay for.
+  subgraph shared["One shared database"]
+    direction TB
+    SA["User A&lt;br/&gt;holds key A"]:::a
+    SB["User B&lt;br/&gt;holds key B"]:::b
+    SC["User C&lt;br/&gt;holds key C"]:::c
+    SA &amp; SB &amp; SC --&gt; SS["One shared server&lt;br/&gt;opens key A, B or C&lt;br/&gt;inside each user's request"]
+    SS --&gt; SD[("One shared database,&lt;br/&gt;with row-level security&lt;br/&gt;A's rows under key A&lt;br/&gt;B's rows under key B&lt;br/&gt;C's rows under key C")]
+  end
+  subgraph dedicated["One instance per user"]
+    direction TB
+    UA["User A&lt;br/&gt;holds key A"]:::a --&gt; VA["Server A&lt;br/&gt;key A only"] --&gt; BA[("Database A&lt;br/&gt;A's rows&lt;br/&gt;under key A")]:::a
+    UB["User B&lt;br/&gt;holds key B"]:::b --&gt; VB["Server B&lt;br/&gt;key B only"] --&gt; BB[("Database B&lt;br/&gt;B's rows&lt;br/&gt;under key B")]:::b
+    UC["User C&lt;br/&gt;holds key C"]:::c --&gt; VC["Server C&lt;br/&gt;key C only"] --&gt; BC[("Database C&lt;br/&gt;C's rows&lt;br/&gt;under key C")]:::c
+  end
+  shared ~~~ dedicated
+  classDef a stroke:#2f6fd0,fill:#e3edfb,color:#1f2933
+  classDef b stroke:#e0663a,fill:#fbe9e2,color:#1f2933
+  classDef c stroke:#2a9d6f,fill:#e0f3ea,color:#1f2933
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ajs-consult-llc\.github\.io\/mirror-encryption-rfc\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="pagination-link" aria-label="Single or multi-tenant">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Single or multi-tenant</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/13-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/13-appendix-b-the-diagrams-as-text.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>

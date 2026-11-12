@@ -36,6 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../chapters/13-appendix-b-the-diagrams-as-text.html" rel="next">
 <link href="../chapters/11-questions-for-reviewers.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -75,21 +76,17 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <meta property="og:title" content="Appendix A — Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/shared-vs-dedicated-3-users.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
-<meta property="og:image:height" content="630">
-<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="792">
+<meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="Appendix A — Single or multi-tenant – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/shared-vs-dedicated-3-users.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -206,6 +203,11 @@ ul.task-list li input[type="checkbox"] {
   <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Single or multi-tenant</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-appendix-b-the-diagrams-as-text.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The diagrams as text</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -281,39 +283,13 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <!-- diagram: shared vs dedicated · 3 users -->
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-
-<pre class="mermaid mermaid-js">flowchart TB
-  accTitle: Keys isolate stored data either way, and separate instances contain a breach
-  accDescr: Each user's key stays on their desktop in both designs, and colours mark whose key locks which rows. With one shared database, users A, B and C, holding keys A, B and C, all use one shared server, which opens key A, B or C inside each user's request, and one shared database with row-level security, where user A's rows are locked under key A, user B's under key B and user C's under key C. A server breach sees every active user's requests. There is one system to run, and metadata is visible to the operator. With one instance per user, user A uses server A, which holds key A only, and database A, which holds user A's rows under key A, and the same for users B and C. A server breach sees one user's requests. There is one system per user to run and pay for.
-  subgraph shared["One shared database"]
-    direction TB
-    SA["User A&lt;br/&gt;holds key A"]:::a
-    SB["User B&lt;br/&gt;holds key B"]:::b
-    SC["User C&lt;br/&gt;holds key C"]:::c
-    SA &amp; SB &amp; SC --&gt; SS["One shared server&lt;br/&gt;opens key A, B or C&lt;br/&gt;inside each user's request"]
-    SS --&gt; SD[("One shared database,&lt;br/&gt;with row-level security&lt;br/&gt;A's rows under key A&lt;br/&gt;B's rows under key B&lt;br/&gt;C's rows under key C")]
-  end
-  subgraph dedicated["One instance per user"]
-    direction TB
-    UA["User A&lt;br/&gt;holds key A"]:::a --&gt; VA["Server A&lt;br/&gt;key A only"] --&gt; BA[("Database A&lt;br/&gt;A's rows&lt;br/&gt;under key A")]:::a
-    UB["User B&lt;br/&gt;holds key B"]:::b --&gt; VB["Server B&lt;br/&gt;key B only"] --&gt; BB[("Database B&lt;br/&gt;B's rows&lt;br/&gt;under key B")]:::b
-    UC["User C&lt;br/&gt;holds key C"]:::c --&gt; VC["Server C&lt;br/&gt;key C only"] --&gt; BC[("Database C&lt;br/&gt;C's rows&lt;br/&gt;under key C")]:::c
-  end
-  shared ~~~ dedicated
-  classDef a stroke:#2f6fd0,fill:#e3edfb,color:#1f2933
-  classDef b stroke:#e0663a,fill:#fbe9e2,color:#1f2933
-  classDef c stroke:#2a9d6f,fill:#e0f3ea,color:#1f2933
-</pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>Keys isolate stored data either way, and separate instances contain a breach</figcaption>
+<p><img src="../figures/shared-vs-dedicated-3-users.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
-<p></p><figcaption> Keys isolate stored data either way, and separate instances contain a breach</figcaption> </figure><p></p>
-</div>
-</div>
-</div>
+<p><em><a href="../chapters/13-appendix-b-the-diagrams-as-text.html#shared-vs-dedicated-3-users">This diagram as text</a></em> <!-- /diagram --></p>
 <p>The recommendation is one codebase that runs either way. Shared by default, with row-level security in the database as a second line behind the keys. A dedicated instance, run by the operator or by the user, for anyone who wants the smaller blast radius. The keys stay with the user in both.</p>
 
 
@@ -802,6 +778,9 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/13-appendix-b-the-diagrams-as-text.html" class="pagination-link" aria-label="The diagrams as text">
+        <span class="nav-page-text"><span class="chapter-title">The diagrams as text</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
