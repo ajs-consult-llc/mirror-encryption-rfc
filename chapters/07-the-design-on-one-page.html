@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Questions for reviewers – Security Reference Architecture for Cloud Data Mirrors</title>
+<title>5. The design on one page – Security Reference Architecture for Cloud Data Mirrors</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/12-appendix-a-single-or-multi-tenant.html" rel="next">
-<link href="../chapters/10-decisions-made-to-simplify.html" rel="prev">
+<link href="../chapters/08-how-it-works.html" rel="next">
+<link href="../chapters/06-system-requirements.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -78,16 +78,18 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Questions for reviewers – Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:title" content="5. The design on one page – Security Reference Architecture for Cloud Data Mirrors">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/the-whole-design-1-key-1-kind-of-token.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
-<meta property="og:image:height" content="630">
-<meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="Questions for reviewers – Security Reference Architecture for Cloud Data Mirrors">
+<meta property="og:image:alt" content="Plaintext exists only on the desktop and inside an approved request">
+<meta property="og:image:height" content="890">
+<meta property="og:image:width" content="1344">
+<meta name="twitter:title" content="5. The design on one page – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/assets/social/cloud-data-mirror-social.png">
+<meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/the-whole-design-1-key-1-kind-of-token.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="Plaintext exists only on the desktop and inside an approved request">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
@@ -99,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/11-questions-for-reviewers.html"><span class="chapter-title">Questions for reviewers</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/07-the-design-on-one-page.html"><span class="chapter-title">5. The design on one page</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -139,12 +141,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Document control</span></a>
+  <a href="../chapters/01-document-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Document control</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Executive summary</span></a>
+  <a href="../chapters/02-executive-summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. Executive summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -154,42 +156,47 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/04-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it defends against</span></a>
+  <a href="../chapters/04-figures.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Figures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/05-system-requirements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">System Requirements</span></a>
+  <a href="../chapters/05-what-it-defends-against.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. What it defends against</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/06-the-design-on-one-page.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The design on one page</span></a>
+  <a href="../chapters/06-system-requirements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. System Requirements</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/07-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How it works</span></a>
+  <a href="../chapters/07-the-design-on-one-page.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">5. The design on one page</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/08-latency-budget.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Latency budget</span></a>
+  <a href="../chapters/08-how-it-works.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6. How it works</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/09-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What it does not protect</span></a>
+  <a href="../chapters/09-latency-budget.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. Latency budget</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/10-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisions made to simplify</span></a>
+  <a href="../chapters/10-what-it-does-not-protect.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. What it does not protect</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/11-questions-for-reviewers.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Questions for reviewers</span></a>
+  <a href="../chapters/11-decisions-made-to-simplify.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. Decisions made to simplify</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-questions-for-reviewers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Questions for reviewers</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -200,12 +207,12 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Single or multi-tenant</span></a>
+  <a href="../chapters/13-appendix-a-single-or-multi-tenant.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Single or multi-tenant</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/13-appendix-b-the-diagrams-as-text.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The diagrams as text</span></a>
+  <a href="../chapters/14-appendix-b-the-diagrams-as-text.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The diagrams as text</span></a>
   </div>
 </li>
       </ul>
@@ -223,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Questions for reviewers</span></h1>
+<h1 class="title"><span class="chapter-title">5. The design on one page</span></h1>
 </div>
 
 
@@ -240,16 +247,42 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>These seven are where review is wanted most.</p>
-<ol type="1">
-<li><strong>Search leakage.</strong> Is a keyed trigram index acceptable for this threat model, or should tag sets be padded?</li>
-<li><strong>Nonce budget.</strong> One content key encrypts every message for the account’s life with random 96-bit nonces, and NIST SP 800-38D limits that to 2³² uses per key. The largest account today holds about 1.6 million messages, far below that. Proposed answer: derive a new content key each year with HKDF from the account key and the year, so the limit applies per year and nothing extra is stored. Is that enough, or is a cipher that tolerates nonce reuse (AES-GCM-SIV, XAES-256-GCM) still worth adding?</li>
-<li><strong>Rotating the account key.</strong> Proposed answer: rotation is a re-push. The desktop makes a new account key, re-encrypts the mirror under it, including what writers added, uploads it again and deletes the old copies. That is the same path as when every holder is lost. It costs a full upload, so it is for a suspected compromise, not a schedule. Is that acceptable, or are data keys wrapped by the account key worth their extra machinery?</li>
-<li><strong>Token lifetimes.</strong> What expiry and renewal should each kind have: desktop, AI access and refresh, web app session, script?</li>
-<li><strong>A second desktop.</strong> Is a matching code shown on both screens enough to approve one? And how should the new desktop’s token reach it without the server storing it: handed to a waiting request in memory, or sealed to a key the new desktop sends?</li>
-<li><strong>Support audit.</strong> Is the service’s own log enough for support access, or is an independent audit worth a second key?</li>
-<li><strong>Attestation.</strong> Is proving which code the server runs worth adding later, to close the first limit?</li>
-</ol>
+<p>There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts everything, and SHA-256 does the rest as a hash, as HMAC and as HKDF. Everything else follows from them.</p>
+<!-- diagram: Figure 5.1. The whole design: one account key, one kind of token, a database and a blob store -->
+<p><img src="../figures/the-whole-design-1-key-1-kind-of-token.png" class="img-fluid" alt="Plaintext exists only on the desktop and inside an approved request"></p>
+<p><strong>Figure 5.1.</strong> The whole design: one account key, one kind of token, a database and a blob store · <a href="../chapters/14-appendix-b-the-diagrams-as-text.html#the-whole-design-1-key-1-kind-of-token">Text version</a> <!-- /diagram --></p>
+<ul>
+<li><strong>One key.</strong> On installation, the desktop sync application asks the operating system for 256 random bits, and those bits are the “account key”. The user’s OS key store holds the account key and releases it only to approved application(s). The account key never encrypts anything itself. Instead, HKDF-SHA256 turns it into two working keys, one per job: (1) a content key that encrypts each message (AES-256-GCM) and (2) a tag key that computes the search tags (HMAC-SHA256). A third, the storage key, is derived the same way for attachments. They are re-derived whenever they are needed, so nothing extra is stored, and learning one working key reveals neither the other nor the account key. Because both come from the one account key, a reader that can open its copy of the account key can both read messages and search them.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Why this is current best practice: a full-strength random key from an approved generator (<a href="https://csrc.nist.gov/pubs/sp/800/133/r2/final">NIST SP 800-133 Rev.&nbsp;2</a>); one key per purpose, never one key for two jobs (<a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final">NIST SP 800-57 Part 1 Rev.&nbsp;5</a>, key separation); and working keys derived with HKDF (<a href="https://www.rfc-editor.org/rfc/rfc5869">RFC 5869</a>), the extract-then-expand construction NIST approves in <a href="https://csrc.nist.gov/pubs/sp/800/56/c/r2/final">SP 800-56C Rev.&nbsp;2</a> and the one TLS 1.3 uses for all its keys (<a href="https://www.rfc-editor.org/rfc/rfc8446">RFC 8446</a>).</p>
+</blockquote>
+<ul>
+<li><strong>Encrypted at the source.</strong> The desktop app encrypts each message with AES-256-GCM, bound to the account and the message’s id, and computes its search tags with HMAC-SHA256. Only ciphertext and tags leave the desktop. Attachments are the exception: the desktop uploads them as they are, and the storage service encrypts each one under a storage key that is derived from the account key, supplied with the request and never kept (see Decisions made to simplify).</li>
+</ul>
+<blockquote class="blockquote">
+<p>Why this is current best practice: AES-256-GCM is the NIST-approved authenticated encryption mode (<a href="https://csrc.nist.gov/pubs/sp/800/38/d/final">SP 800-38D</a>, over AES in <a href="https://csrc.nist.gov/pubs/fips/197/final">FIPS 197</a>), so tampering is detected, not just hidden. Binding each ciphertext to its account and message id as associated data follows the AEAD design in <a href="https://www.rfc-editor.org/rfc/rfc5116">RFC 5116</a>, which stops a stored ciphertext being swapped into another row or account. HMAC-SHA256 is the approved keyed hash (<a href="https://csrc.nist.gov/pubs/fips/198-1/final">FIPS 198-1</a>), and keyed tags over fragments are the classic construction for search over encrypted data (<a href="https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf">Song, Wagner and Perrig, IEEE S&amp;P 2000</a>). Its known limit, that equal fragments produce equal tags, is question 1, and GCM’s nonce limit is question 2.</p>
+</blockquote>
+<ul>
+<li><strong>One kind of token.</strong> Every reader or writer the user approves gets a random 256-bit token: a connected AI, the web app, a second device, a script. The server keeps the token’s SHA-256, to find it, and one copy of the account key locked under a key derived from the token (AES-256-GCM, the cipher that also encrypts messages). One token, one copy.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Why this is current best practice: high-entropy bearer tokens are the OAuth standard (<a href="https://www.rfc-editor.org/rfc/rfc6750">RFC 6750</a>), and short lifetimes with refresh-token rotation follow the OAuth security best current practice (<a href="https://www.rfc-editor.org/rfc/rfc9700">RFC 9700</a>). Keeping only a hash of each token means a database copy yields no usable credential, the same rule <a href="https://pages.nist.gov/800-63-3/sp800-63b.html">NIST SP 800-63B</a> sets for stored passwords. Locking one copy of the account key per holder with AES-256-GCM, an authenticated cipher that NIST also approves for wrapping keys (<a href="https://csrc.nist.gov/pubs/sp/800/38/f/final">NIST SP 800-38F</a>) is envelope encryption, the pattern cloud key-management services use.</p>
+</blockquote>
+<ul>
+<li><strong>Search without plaintext.</strong> Inside an approved request the server unlocks the account key, turns the query into tags, finds candidates in an ordinary database index, and decrypts only those.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Why this is current best practice: keyed tags are the standard construction for search over encrypted data (<a href="https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf">Song, Wagner and Perrig, IEEE S&amp;P 2000</a>). Filtering on trigrams and then checking the real match is how production regex search works (<a href="https://swtch.com/~rsc/regexp/regexp4.html">Russ Cox, Regular Expression Matching with a Trigram Index</a>). The known cost is access-pattern leakage (<a href="https://eprint.iacr.org/2016/718">Cash et al., Leakage-Abuse Attacks Against Searchable Encryption, CCS 2015</a>), which is why this design names it as a limit and asks reviewers about it (question 1).</p>
+</blockquote>
+<ul>
+<li><strong>Revocation is deletion.</strong> Deleting a token’s hash and its copy cuts that reader or writer off at once.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Why this is current best practice: revoking one holder deletes its only way to open the key through the service. Deleting every copy, as account deletion does, is cryptographic erase, a sanitization method NIST recognizes (<a href="https://csrc.nist.gov/pubs/sp/800/88/r1/final">SP 800-88 Rev.&nbsp;1</a>). Revoking a token server-side, effective on its next use, is what OAuth token revocation specifies (<a href="https://www.rfc-editor.org/rfc/rfc7009">RFC 7009</a>). Two gaps remain: backups hold old copies for up to 30 days, and the other copies of the same key stay valid (see What it does not protect).</p>
+</blockquote>
+<p>The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token.</p>
+<p><strong>One rule for every credential.</strong> Each credential has its own locked copy of the account key. Every hand-off opens the copy with the old credential, locks a new copy under the new one, and deletes the old. An OAuth authorization code, the web app’s connect code and a renewed token are all hand-offs of this kind, so the server never needs to store a token while one is in transit. A recovery code is the same thing on paper.</p>
 
 
 
@@ -732,13 +765,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/10-decisions-made-to-simplify.html" class="pagination-link" aria-label="Decisions made to simplify">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Decisions made to simplify</span></span>
+      <a href="../chapters/06-system-requirements.html" class="pagination-link" aria-label="4. System Requirements">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">4. System Requirements</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/12-appendix-a-single-or-multi-tenant.html" class="pagination-link" aria-label="Single or multi-tenant">
-        <span class="nav-page-text"><span class="chapter-title">Single or multi-tenant</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/08-how-it-works.html" class="pagination-link" aria-label="6. How it works">
+        <span class="nav-page-text"><span class="chapter-title">6. How it works</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -747,4 +780,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/11-questions-for-reviewers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/11-questions-for-reviewers.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/07-the-design-on-one-page.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/chapters/07-the-design-on-one-page.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
