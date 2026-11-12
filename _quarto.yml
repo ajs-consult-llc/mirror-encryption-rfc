@@ -32,11 +32,11 @@ book:
       chapters:
         - updates.qmd
         - chapters/01-document-control.md
-    - chapters/02-executive-summary.md
     - part: "Contents"
       chapters:
-        - chapters/03-contents.md
-        - chapters/04-figures.md
+        - chapters/02-contents.md
+        - chapters/03-figures.md
+    - chapters/04-executive-summary.md
     - chapters/05-what-it-defends-against.md
     - chapters/06-system-requirements.md
     - chapters/07-the-design-on-one-page.md
