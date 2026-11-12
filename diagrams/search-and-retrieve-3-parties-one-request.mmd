@@ -1,6 +1,3 @@
----
-title: "The account key is unlocked for one request and dropped when it ends"
----
 sequenceDiagram
   accTitle: The account key is unlocked for one request and dropped when it ends
   accDescr: Search and retrieve. A reader or writer sends a query with its token. The server finds the token's copy by its hash, unlocks the account key for this request and turns the query into tags. It finds the candidates in the index and gets back candidate rows, still ciphertext. It decrypts only the candidates, checks the real match, and returns the results. The request ends and the account key is dropped.

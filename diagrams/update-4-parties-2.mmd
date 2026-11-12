@@ -1,6 +1,3 @@
----
-title: "A writer's change is encrypted on the server and seen on the next read"
----
 sequenceDiagram
   accTitle: A writer's change is encrypted on the server and seen on the next read
   accDescr: Update. A reader or writer sends a change with its token, such as an AI tool call or a web-app edit. The server unlocks the account key, encrypts the change, recomputes its tags and stores it. On any reader's next request, the server returns the updated message.

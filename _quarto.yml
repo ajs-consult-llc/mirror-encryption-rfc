@@ -39,6 +39,7 @@ book:
     - chapters/11-questions-for-reviewers.md
   appendices:
     - chapters/12-appendix-a-single-or-multi-tenant.md
+    - chapters/13-appendix-b-the-diagrams-as-text.md
 
 number-sections: false
 

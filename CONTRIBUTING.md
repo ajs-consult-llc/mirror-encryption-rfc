@@ -15,10 +15,11 @@ attacks on attribution it is built to stop, are in Appendix A of the document.
 
 ## Proposing a text change
 
-1. Edit the chapter in `chapters/` (plain Markdown), or a diagram in `diagrams/` (Mermaid). Never
-   edit the Mermaid inside a chapter: it is copied from `diagrams/`, and a check refuses a
-   mismatch. Do not edit `_quarto.yml`, `index.md`'s first line, or anything under `.sync/`;
-   they are generated.
+1. Edit the chapter in `chapters/` (plain Markdown). To change a diagram, edit its text version
+   in `diagrams/` (Mermaid) and say in the pull request what the picture should show; the editor
+   redraws the picture in the doc. Do not edit the diagram blocks inside a chapter, the last
+   appendix ("The diagrams as text"), `_quarto.yml`, `index.md`'s first line, or anything under
+   `.sync/`; they are generated, and a check refuses a hand edit.
 2. Sign every commit with a GPG or SSH key registered to your GitHub account, and add a
    Developer Certificate of Origin sign-off (https://developercertificate.org/):
    ```sh
@@ -38,5 +39,5 @@ Unverified.
 
 ## Security problems
 
-Do not report a vulnerability in the running service here. Chapter 17 of the document says
-where to send it privately.
+Do not report a vulnerability in the running service here. Email aaron@matterboard.ai with
+SECURITY in the subject.

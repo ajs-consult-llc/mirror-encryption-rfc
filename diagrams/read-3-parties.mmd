@@ -1,6 +1,3 @@
----
-title: "The account key is unwrapped for one request and never written down"
----
 sequenceDiagram
   accTitle: The account key is unwrapped for one request and never written down
   accDescr: Read. A reader or writer sends a request carrying its token. The server looks up the token's hash in the database and gets back its locked copy. A key derived from the token unwraps the account key, in memory only. The server looks up the query's tags and gets back ciphertext rows, decrypts the candidates and builds the answer, and returns the results. The request ends and the account key is dropped.

@@ -11,7 +11,8 @@ script rewrites the build copy:
   caption (Mermaid centres a sequence diagram's title badly and cuts long ones off; a caption
   wraps), shown above the figure by _quarto.yml;
 - index.md and chapters/*.md become .qmd, and _quarto.yml's book list follows;
-- an appendix chapter's heading drops its own "Appendix A. ", which Quarto adds itself.
+- an appendix chapter's heading drops its own "Appendix A. ", which Quarto adds itself;
+- a link to another chapter's .md points at its .qmd, which Quarto turns into the page's link.
 """
 from __future__ import annotations
 
@@ -22,7 +23,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 FENCE = re.compile(r"^```mermaid\n(?P<body>.*?)^```$", re.M | re.S)
 TITLE = re.compile(r'\A---\ntitle: "(?P<title>[^"\n]+)"\n---\n')
-APPENDIX_HEADING = re.compile(r"\A# Appendix [A-Z]\. ")
+APPENDIX_HEADING = re.compile(r"\A(<!--[^\n]*-->\n)?# Appendix [A-Z]\. ")
+CHAPTER_LINK = re.compile(r"\]\(((?:chapters/)?\d{2}-[a-z0-9-]+)\.md(#[^)]*)?\)")
 
 
 def cell(body: str) -> str:
@@ -34,7 +36,9 @@ def cell(body: str) -> str:
 
 
 def convert(text: str) -> str:
-    return FENCE.sub(lambda m: cell(m.group("body")), text)
+    """Fences become Quarto cells, and links between chapters follow them to .qmd."""
+    text = FENCE.sub(lambda m: cell(m.group("body")), text)
+    return CHAPTER_LINK.sub(lambda m: f"]({m.group(1)}.qmd{m.group(2) or ''})", text)
 
 
 def appendix_chapters(quarto_yml: str) -> list[str]:
@@ -50,7 +54,7 @@ def main(root: Path = ROOT) -> int:
         rel = md.relative_to(root).as_posix()
         text = convert(md.read_text(encoding="utf-8"))
         if rel in appendices:
-            text = APPENDIX_HEADING.sub("# ", text, count=1)
+            text = APPENDIX_HEADING.sub(lambda m: (m.group(1) or "") + "# ", text, count=1)
         md.with_suffix(".qmd").write_text(text, encoding="utf-8")
         md.unlink()
     yml_path.write_text(re.sub(r"^(    - (?:index|chapters/\S+))\.md$", r"\1.qmd", yml, flags=re.M), encoding="utf-8")
