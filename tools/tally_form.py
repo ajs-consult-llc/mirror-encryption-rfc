@@ -23,7 +23,7 @@ NAME = "Cloud Data Mirror RFC: review updates"  # the form's name inside Tally
 DOC_TITLE = "Security Reference Architecture for Cloud Data Mirrors (RFC)"
 # The graphic, from a commit in the public repository: pinned, so the link cannot break.
 IMAGE_URL = ("https://raw.githubusercontent.com/ajs-consult-llc/mirror-encryption-rfc/"
-             "e3fd25115ec63dcd060164b381367d11e47ace58/assets/social/ai-optimized-data-mirror-banner.png")
+             "8e5037870da87c89aebba5da04180a4f3a927849/assets/social/cloud-data-mirror-banner.png")
 IMAGE_ALT = ("Cloud Data Mirror: your data, encrypted with your key, readable only by the AI "
              "you approve.")
 LABEL = "Get review updates by email"
