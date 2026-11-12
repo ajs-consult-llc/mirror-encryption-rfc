@@ -65,35 +65,35 @@
     ]
   },
   {
-    "objectID": "chapters/02-executive-summary.html",
-    "href": "chapters/02-executive-summary.html",
-    "title": "1. Executive summary",
-    "section": "",
-    "text": "Comment or suggest a change. Select any text to comment on it. Press Suggest edits to change the wording right on this page, then send your changes. Or comment at the end of the page with your GitHub account.\nSuggest edits\nHow suggestions are credited · Edit the Markdown on GitHub\n\nToday, AI assistants connect directly to a user’s private correspondence via a variety of partially and fully supported, secure (and insecure) connectors. Under this status quo, AI providers become the custodians of this data, to the end of enabling bleeding edge automation and research capabilities to their users. Simply put, users should not need to hand over custody of their data in exchange for access to the best AIs. This document proposes a security architecture for a messaging mirror that can be securely, safely and privately operated by the user themselves or by a trusted 3rd party.\nThe proposal. One random key is made on the user’s own computer, and messages are encrypted there before they are uploaded. Each device or AI the user approves gets its own token, and the server can open the data only while one of them is making a request, so a copy of the database alone is useless. This is not end-to-end encryption: the server sees what it serves while it serves it, and What it does not protect lists the limits.\nThe problem. Data ownership concerns are among the most significant impediments to the proliferation of beneficial AI, especially in security, safety and privacy critical use cases. There currently exists no complete security reference architecture to enable individuals or organizations to securely, safely and privately host their own data mirrors in a way that is integrated and compatible with AI assistants. Closed-source solutions to data mirroring require users to trust the implementation, and this document is meant to align users on “the right way” to achieve this goal so trust can be attained.\nThe alternative. Without a community effort to develop a security, privacy and safety standard around private data, the most likely outcome is for AIs to become more entrenched in their position as system of record for user’s private data optimally stored for use by AI. Private 3rd party companies hosting closed source messaging mirrors require the user to trust that bond, which is a non-starter for anyone hosting sensitive or mission critical data. As well, the technical requirements of building such data management systems require seasoned, credentialed software engineering veterans and are thus costly and/or out of reach for most potential users of powerful AI.\nWhat is asked of you. Help us figure out what’s worth building that will actually get adopted because it is trusted. Attack the design. What it does not protect, the search leakage (question 1) and the questions for reviewers matter most.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>1. Executive summary</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/03-contents.html",
-    "href": "chapters/03-contents.html",
+    "objectID": "chapters/02-contents.html",
+    "href": "chapters/02-contents.html",
     "title": "Contents",
     "section": "",
     "text": "Comment or suggest a change. Select any text to comment on it. Press Suggest edits to change the wording right on this page, then send your changes. Or comment at the end of the page with your GitHub account.\nSuggest edits\nHow suggestions are credited · Edit the Markdown on GitHub\n\n\nDocument control\n\nSubmission phases\n\n\n\nExecutive summary\nWhat it defends against\nSystem Requirements\nThe design on one page\nHow it works\n\n5.1 Key management lifecycle\n\n5.1.1 Create\n5.1.2 Read\n5.1.3 Update\n5.1.4 Expire\n5.1.5 Delete\n\n5.2 How data moves\n\n5.2.1 Collect and push\n5.2.2 Approve a reader or writer\n5.2.3 Search and retrieve\n5.2.4 Update\n5.2.5 Revoke and recover\n\n\nLatency budget\nWhat it does not protect\nDecisions made to simplify\nQuestions for reviewers\n\nAppendix A. Single or multi-tenant",
     "crumbs": [
       "Contents",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Contents</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Contents</span>"
     ]
   },
   {
-    "objectID": "chapters/04-figures.html",
-    "href": "chapters/04-figures.html",
+    "objectID": "chapters/03-figures.html",
+    "href": "chapters/03-figures.html",
     "title": "Figures",
     "section": "",
     "text": "Comment or suggest a change. Select any text to comment on it. Press Suggest edits to change the wording right on this page, then send your changes. Or comment at the end of the page with your GitHub account.\nSuggest edits\nHow suggestions are credited · Edit the Markdown on GitHub\n\n\n\n\n\n\n\n\n\nFigure\nCaption\nSection\n\n\n\n\n4.1\nThe whole design: one account key, one kind of token, a database and a blob store\n4\n\n\n5.1\nWhere the account key lives in the clear, and where only locked copies exist\n5.1\n\n\n5.2\nCreate: the desktop makes the account key and uploads only a locked copy\n5.1.1\n\n\n5.3\nRead: a token opens its copy of the account key for one request\n5.1.2\n\n\n5.4\nUpdate: a new reader or writer gets its own token and its own locked copy\n5.1.3\n\n\n5.5\nExpire: an expired token is refused and its copy is deleted\n5.1.4\n\n\n5.6\nDelete: access ends when a token’s hash and its copy are deleted\n5.1.5\n\n\n5.7\nCollect and push: messages are encrypted on the desktop before upload\n5.2.1\n\n\n5.8\nApprove a reader or writer: one approval, one token, one locked copy\n5.2.2\n\n\n5.9\nSearch and retrieve: the account key is opened for one request only\n5.2.3\n\n\n5.10\nUpdate: a writer’s change is encrypted on the server inside its request\n5.2.4\n\n\n5.11\nRevoke and recover: one deletion cuts a holder off, and recovery needs another approved device\n5.2.5\n\n\n6.1\nLatency budget: targets at the 95th percentile, not measurements\n6\n\n\nA.1\nOne shared database compared with one database per user\nAppendix A",
     "crumbs": [
       "Contents",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Figures</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Figures</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/04-executive-summary.html",
+    "href": "chapters/04-executive-summary.html",
+    "title": "1. Executive summary",
+    "section": "",
+    "text": "Comment or suggest a change. Select any text to comment on it. Press Suggest edits to change the wording right on this page, then send your changes. Or comment at the end of the page with your GitHub account.\nSuggest edits\nHow suggestions are credited · Edit the Markdown on GitHub\n\nToday, AI assistants connect directly to a user’s private correspondence via a variety of partially and fully supported, secure (and insecure) connectors. Under this status quo, AI providers become the custodians of this data, to the end of enabling bleeding edge automation and research capabilities to their users. Simply put, users should not need to hand over custody of their data in exchange for access to the best AIs. This document proposes a security architecture for a messaging mirror that can be securely, safely and privately operated by the user themselves or by a trusted 3rd party.\nThe proposal. One random key is made on the user’s own computer, and messages are encrypted there before they are uploaded. Each device or AI the user approves gets its own token, and the server can open the data only while one of them is making a request, so a copy of the database alone is useless. This is not end-to-end encryption: the server sees what it serves while it serves it, and What it does not protect lists the limits.\nThe problem. Data ownership concerns are among the most significant impediments to the proliferation of beneficial AI, especially in security, safety and privacy critical use cases. There currently exists no complete security reference architecture to enable individuals or organizations to securely, safely and privately host their own data mirrors in a way that is integrated and compatible with AI assistants. Closed-source solutions to data mirroring require users to trust the implementation, and this document is meant to align users on “the right way” to achieve this goal so trust can be attained.\nThe alternative. Without a community effort to develop a security, privacy and safety standard around private data, the most likely outcome is for AIs to become more entrenched in their position as system of record for user’s private data optimally stored for use by AI. Private 3rd party companies hosting closed source messaging mirrors require the user to trust that bond, which is a non-starter for anyone hosting sensitive or mission critical data. As well, the technical requirements of building such data management systems require seasoned, credentialed software engineering veterans and are thus costly and/or out of reach for most potential users of powerful AI.\nWhat is asked of you. Help us figure out what’s worth building that will actually get adopted because it is trusted. Attack the design. What it does not protect, the search leakage (question 1) and the questions for reviewers matter most.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>1. Executive summary</span>"
     ]
   },
   {
