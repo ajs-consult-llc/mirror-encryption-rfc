@@ -62,20 +62,20 @@ def landing(s: dict, submission_page: str | None) -> str:
         "",
         # The white version, marked as the page's link preview: Quarto would otherwise send the first
         # image on the page, and a transparent preview looks broken on dark-mode feeds.
-        "![AI-Optimized Data Mirror RFC: your data, encrypted with your key, readable only by the AI you approve]"
-        "(assets/social/ai-optimized-data-mirror-social.png){.preview-image}",
+        "![Cloud Data Mirror RFC: your data, encrypted with your key, readable only by the AI you approve]"
+        "(assets/social/cloud-data-mirror-social.png){.preview-image}",
         "",
         "::: {.callout-note appearance=\"simple\"}",
         f"**Request for comments. Round {s['round']} is open until {s['closes']}.**",
         ":::",
         "",
-        "**What this is.** A security reference architecture for AI-optimized data mirrors: a private "
+        "**What this is.** A security reference architecture for cloud data mirrors: a private "
         "copy of a person's messages and data that only the readers they choose, including their AI "
         f"assistants, can search. {s['owner']} publishes it for open review.",
         "",
         "**How to take part**",
         "",
-        "1. **Read it.** Start with the executive summary. The download button in the menu gives a PDF.",
+        "1. **Read it.** Start with the executive summary.",
         f"2. **Comment.** {comment}{how}",
         "3. **Follow the review.** [Updates](updates.html): sign up by email, use the feed, or watch on GitHub.",
         f"4. **Found a security problem in the running service?** Email {s['security_contact']} with "

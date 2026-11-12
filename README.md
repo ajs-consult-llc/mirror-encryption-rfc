@@ -1,15 +1,16 @@
-# Security Reference Architecture for AI-Optimized Data Mirrors
+# Security Reference Architecture for Cloud Data Mirrors
 
-![AI-Optimized Data Mirror RFC](assets/social/ai-optimized-data-mirror.png)
+![Cloud Data Mirror RFC](assets/social/cloud-data-mirror.png)
 
-A request for comments on a security reference architecture for AI-optimized data mirrors:
+A request for comments on a security reference architecture for cloud data mirrors:
 private copies of people's data that only the devices and AIs they approve can read. Owned by AJS Consult LLC; edited by Aaron Soellinger; licensed
 CC BY 4.0.
 
-- **Read it:** https://ajs-consult-llc.github.io/mirror-encryption-rfc/ (HTML, with a PDF download)
+- **Read it:** https://ajs-consult-llc.github.io/mirror-encryption-rfc/
 - **Comment or propose a change:** see [CONTRIBUTING.md](CONTRIBUTING.md). Only signed, attributed
-  submissions are official (Appendix A of the document).
-- **Report a vulnerability in the running service:** privately, as chapter 17 says. Never in an issue.
+  submissions are official.
+- **Report a vulnerability in the running service:** privately, by email to aaron@matterboard.ai with
+  SECURITY in the subject. Never in an issue.
 
 ## How this repository works
 
@@ -59,7 +60,7 @@ dates, links and the security contact.
 ```sh
 python3 -m unittest discover -s tests      # the sync tool's tests
 python3 tools/rfcsync.py check             # the chapters still equal the last export
-quarto render                              # HTML and PDF into _book/
+quarto render                              # the website into _book/
 ```
 
-Quarto 1.11 or later. PDF is rendered with Typst, which Quarto includes; no LaTeX is needed.
+Quarto 1.11 or later.

@@ -1,4 +1,4 @@
-# Security Reference Architecture for AI-optimized Data Mirrors
+# Security Reference Architecture for Cloud Data Mirrors
 
 Nov 11, 2026 · @aaron soellinger
 
