@@ -36,7 +36,7 @@
     "href": "updates.html#all-updates",
     "title": "Updates",
     "section": "All updates",
-    "text": "All updates\nNo updates yet.",
+    "text": "All updates\n\nRound 1 of public review is open\n2026-11-12 · round-1-open\nThe Security Reference Architecture for Cloud Data Mirrors is open for public review until 11 December 2026, 23:59 UTC.\nIt proposes how to keep a private copy of a person’s messages and data, a data mirror, that only the readers they choose, including their AI assistants, can search. AJS Consult LLC publishes it so that people outside the company can test the design before anyone relies on it.\n\nRead the RFC: https://ajs-consult-llc.github.io/mirror-encryption-rfc/\nComment or suggest changes on any page: select text to comment on it, press Suggest edits to change the wording right on the page and send your changes, or use the comment box at the end of the page. Suggestions and comments made with a GitHub account are credited to it.\nFollow the review by email, feed or GitHub: https://ajs-consult-llc.github.io/mirror-encryption-rfc/updates.html\n\nA decision on every comment will be published by 18 December 2026. Please report a security problem in the running service privately to aaron@matterboard.ai, with SECURITY in the subject, never in a comment.",
     "crumbs": [
       "About this RFC",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Updates</span>"
