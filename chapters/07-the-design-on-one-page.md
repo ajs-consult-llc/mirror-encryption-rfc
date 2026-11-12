@@ -28,6 +28,6 @@ There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts ev
 
 > Why this is current best practice: revoking one holder deletes its only way to open the key through the service. Deleting every copy, as account deletion does, is cryptographic erase, a sanitization method NIST recognizes ([SP 800-88 Rev. 1](https://csrc.nist.gov/pubs/sp/800/88/r1/final)). Revoking a token server-side, effective on its next use, is what OAuth token revocation specifies ([RFC 7009](https://www.rfc-editor.org/rfc/rfc7009)). Two gaps remain: backups hold old copies for up to 30 days, and the other copies of the same key stay valid (see What it does not protect).
 
-The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token.
+The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token. An attested worker, if the user unlocks one, is the exception: it holds its own key for the length of its lease (5.5).
 
 **One rule for every credential.** Each credential has its own locked copy of the account key. Every hand-off opens the copy with the old credential, locks a new copy under the new one, and deletes the old. An OAuth authorization code, the web app's connect code and a renewed token are all hand-offs of this kind, so the server never needs to store a token while one is in transit. A recovery code is the same thing on paper.

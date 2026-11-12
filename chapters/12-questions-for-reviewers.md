@@ -1,6 +1,6 @@
 # 9. Questions for reviewers
 
-These seven are where review is wanted most.
+These nine are where review is wanted most.
 
 1. **Search leakage.** Is a keyed trigram index acceptable for this threat model, or should tag sets be padded?
 2. **Nonce budget.** One content key encrypts every message for the account's life with random 96-bit nonces, and NIST SP 800-38D limits that to 2³² uses per key. The largest account today holds about 1.6 million messages, far below that. Proposed answer: derive a new content key each year with HKDF from the account key and the year, so the limit applies per year and nothing extra is stored. Is that enough, or is a cipher that tolerates nonce reuse (AES-GCM-SIV, XAES-256-GCM) still worth adding?
@@ -8,4 +8,6 @@ These seven are where review is wanted most.
 4. **Token lifetimes.** What expiry and renewal should each kind have: desktop, AI access and refresh, web app session, script?
 5. **A second desktop.** Is a matching code shown on both screens enough to approve one, given the cross-device risks set out in RFC 10027? And how should the new desktop's token reach it without the server storing it: handed to a waiting request in memory, or sealed to a key the new desktop sends?
 6. **Support audit.** Is the service's own log enough for support access, or is an independent audit worth a second key?
-7. **Attestation.** Is proving which code the server runs worth adding later, to close the first limit?
+7. **Attestation.** Is proving which code the server runs worth adding later, to close the first limit? For the hosted bridge and the attested worker it is not optional: is the unlock in 5.4.2, where the user's device checks the image against a published log before it seals the bridge key, the right shape?
+8. **What a hosted endpoint is.** By the definition in [Knodel et al. (2025)](https://arxiv.org/abs/2412.20231), a cloud machine is never endpoint-local, however it is keyed, so this design is not end-to-end encryption, and a hosted bridge does not make it so. The [MIMI architecture](https://datatracker.ietf.org/doc/draft-ietf-mimi-arch/) treats a member as any client that holds the group's keys. Is a hosted endpoint, keyed by the user, attested and on a lease, an endpoint of the user's end-to-end encrypted systems, or a third party? Views from the MIMI working group and CFRG are especially welcome.
+9. **Searching what the bridge writes.** The hosted bridge holds no tag key, so its messages become searchable only when the next approved request, or the desktop, tags them. Is that delay acceptable, or should the bridge hold the tag key, trading the leak in question 1 for search at once?

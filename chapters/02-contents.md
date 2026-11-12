@@ -20,6 +20,12 @@
      - 5.2.3 Search and retrieve
      - 5.2.4 Update
      - 5.2.5 Revoke and recover
+   - 5.3 The chain of joins
+   - 5.4 Two ways to collect: the desktop node and the hosted bridge
+     - 5.4.1 The desktop node
+     - 5.4.2 The hosted bridge
+     - 5.4.3 Which sources each pattern carries
+   - 5.5 Model outputs stay encrypted back to the user
 6. Latency budget
 7. What it does not protect
 8. Decisions made to simplify

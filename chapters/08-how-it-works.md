@@ -12,7 +12,7 @@ The account key is created once on the desktop, opened only inside approved requ
 **Figure 5.1.** Where the account key lives in the clear, and where only locked copies exist · [Text version](14-appendix-b-the-diagrams-as-text.md#where-the-account-key-lives-2-places-in-the-clear)
 <!-- /diagram -->
 
-Only a desktop keystore holds the account key at rest. The server holds it in memory for one request at a time; everything else holds a locked copy, a token, or nothing.
+Only a desktop keystore holds the account key at rest. The server holds it in memory for one request at a time; everything else holds a locked copy, a token, or nothing. An attested worker, if the user unlocks one, holds it in memory for the length of its lease (5.5).
 
 Every change to who can read the mirror is a copy of the account key added or deleted; the account key itself changes only if it is rotated.
 
@@ -178,3 +178,57 @@ Cutting off an AI or a lost device takes effect at once and touches no one else;
 Cutting off a reader is one deletion; a replacement desktop is approved like any other holder.
 
 **Why this is best practice.** Revoking a token server-side, so that it fails on its next use, is what OAuth token revocation specifies ([RFC 7009](https://www.rfc-editor.org/rfc/rfc7009)). Deleting that token's copy ends its access through the service. Only deleting every copy is cryptographic erase, the sanitization method NIST recognizes ([SP 800-88 Rev. 1](https://csrc.nist.gov/pubs/sp/800/88/r1/final)). Recovering through another approved device, rather than through a reset the operator controls, keeps the operator unable to open the data. End-to-end encrypted services use the same approach, and when every holder is lost the honest result is that the data cannot be read.
+
+## 5.3 The chain of joins
+
+The service joins systems that were built separately, and each join decides who can read. End-to-end encryption survives a join only where the join point is one of the user's own endpoints, and the whole chain is only as strong as its weakest hop.
+
+| Hop | Join point | Who can read at that point | What sets the guarantee |
+| --- | --- | --- | --- |
+| An end-to-end encrypted chat to the collector | The collector node | With the desktop node, only the user's own devices. With a hosted bridge, the bridge as well (5.4.2) | The chat's own protocol, then this design |
+| A hosted source (mail, calendars, contacts, device clouds) to the collector | The collector node | The source's provider, which already could | The source's provider: these sources were never end-to-end encrypted |
+| The collector to the mirror | The server, inside an approved request | The server, during that request | This design: encryption under the user's keys. End-to-end encryption ends here |
+| The mirror to an AI reader | The AI provider | The AI provider | The provider's terms and retention |
+| An output to a delivery channel | A mail or chat service | That service, and any recipient | The user's choice for each delivery (5.5) |
+
+**Why this is best practice.** The IETF's MIMI working group joins separately run messaging services by making every client a member of one end-to-end security state: servers relay ciphertext and take part only as senders who can authenticate, not read ([draft-ietf-mimi-arch](https://datatracker.ietf.org/doc/draft-ietf-mimi-arch/), over MLS, [RFC 9420](https://www.rfc-editor.org/rfc/rfc9420)). A join point that decrypts and re-encrypts is a participant, and confidentiality is broken wherever content can be decrypted between the ends ([draft-knodel-e2ee-definition](https://datatracker.ietf.org/doc/draft-knodel-e2ee-definition/), section 2). The security questions interoperability raises, identity, protocols and abuse, are laid out by [Len, Ghosh, Grubbs and Rösler (2023)](https://eprint.iacr.org/2023/386). This design states the guarantee of every hop rather than claiming one for the whole chain.
+
+## 5.4 Two ways to collect: the desktop node and the hosted bridge
+
+Every source is collected by a node that only the user's key can unlock: the desktop app the user runs, or a bridge the service hosts for them. Both write into the same mirror, under the same account key.
+
+### 5.4.1 The desktop node
+
+The desktop node is the pattern in 5.2.1. It holds the account key, reads each source on the user's machine, and encrypts and tags each message before upload. It is the strongest pattern: an end-to-end encrypted chat stays end-to-end encrypted as far as the user's own device. Its cost is that every user must run one, and the mirror is only as fresh as that machine.
+
+### 5.4.2 The hosted bridge
+
+A hosted bridge does the desktop's collecting on the service's machines, so the user needs no desktop running. For an end-to-end encrypted chat it is a server-side bridge: a linked device of the user's account that sees every message it carries. The design cannot change that. What it can do is make sure the bridge runs only for the user, unlocked by the user's key.
+
+1. **It starts locked.** At rest, the bridge's state (its linked-device keys, session state and source credentials) is ciphertext under a bridge key derived from the account key with HKDF. A copy of that state cannot run, and cannot fork a chat's message ratchet.
+2. **The user's device unlocks it after checking what it runs.** The bridge runs in a confidential virtual machine. On start it makes a one-time key pair and an attestation that binds the public key to the measurement of its image. An approved device of the user checks that measurement against a published, append-only log of release images, then seals the bridge key to the one-time public key. After any restart the bridge stays locked until a device unlocks it again, and the chat services hold messages meanwhile.
+3. **The unlock is a lease.** The unlock expires (proposed: 7 days), and the user's approved devices renew it in the background. When no device renews it, the bridge erases the bridge key and stops.
+4. **It can write but not read back.** The bridge seals each message with HPKE to the account's public key, an X25519 key pair whose private half is derived from the account key. Only an approved request can open it; that request re-encrypts the message under the content key and computes its tags, so the mirror keeps one format at rest. A compromised bridge exposes the messages passing through it while it is compromised, not the mirror's history. The bridge holds no tag key (question 9).
+5. **Revocation reaches the source.** Revoking the bridge ends its lease, unlinks its device from each chat service, and rotates the bridge key. Without the unlink, the bridge's identity at the chat service outlives anything the service controls.
+
+### 5.4.3 Which sources each pattern carries
+
+| Source | Desktop node | Hosted bridge |
+| --- | --- | --- |
+| Hosted mail, calendars, contacts, and device or industrial clouds | Yes | Yes. These sources were never end-to-end encrypted, so the bridge adds the service as one more party that sees them, not a new kind of exposure |
+| End-to-end encrypted chats whose service allows a third-party linked client | Yes | Yes, as a linked device (5.4.2), within that service's terms |
+| End-to-end encrypted chats that require the vendor's own hardware or client | Yes | No |
+
+**Why this is best practice.** Releasing a secret only to a machine that proves which code it runs is remote attestation ([RFC 9334](https://www.rfc-editor.org/rfc/rfc9334), the RATS architecture). Cloud key services already release keys only to an attested image ([Google Confidential Space](https://cloud.google.com/confidential-computing/confidential-space/docs/confidential-space-overview)), and having the user's device check the image against a public log before it sends anything is how [Apple Private Cloud Compute](https://security.apple.com/blog/private-cloud-compute/) works. Sealing to a public key with HPKE ([RFC 9180](https://www.rfc-editor.org/rfc/rfc9180)) lets a writer add data it can never read back. None of this makes the bridge an endpoint by the definition in [Knodel et al. (2025)](https://arxiv.org/abs/2412.20231); that is question 8.
+
+## 5.5 Model outputs stay encrypted back to the user
+
+Everything a model writes for the user is stored and delivered under the same rule as the user's own messages: readable only through a credential the user approved.
+
+1. **Every output is a write.** A briefing, a summary, a note a model keeps between runs, a title or a label is encrypted under the content key, with its own tags, inside the request or worker that made it (5.2.4). Nothing a model writes is stored in the clear, including fields that look like metadata, such as a briefing's title.
+2. **Outputs remember their sources.** Each derived row records, encrypted, the ids of the rows it was made from. Deleting or revoking a source deletes, or marks for regeneration, what was derived from it, so a summary cannot outlive the messages it summarises.
+3. **Unattended output runs only where the user's key is unlocked.** In order of preference: when the user opens it, inside that session; inside the desktop's or the bridge's own push; or in an attested worker unlocked and leased exactly like the hosted bridge (5.4.2), with its own key and lease so it can be revoked on its own. Unlike the bridge, the worker reads the mirror, so it is the one place unattended reading happens.
+4. **Delivery carries a pointer by default.** A notification says a briefing is ready and links to it; the text opens inside an approved session. Sending the full text to a channel that can read it, such as email or a chat bot, is a choice the user makes for each delivery, labelled as plaintext to that channel. Sending it to other people is the user's own disclosure.
+5. **Outputs are rendered as untrusted.** Incoming messages from anyone shape what a model writes, so an output may carry an injected instruction or link. Outputs are shown without remote content, and links are shown in full or limited to an allowlist, so an output cannot send data out just by being displayed.
+
+**Why this is best practice.** A summary is a function of the content, and [Knodel et al. (2025)](https://arxiv.org/abs/2412.20231) treat any non-trivial function of protected content as that content, so it needs the same protection. Prompt injection through content a model reads is the first risk in the [OWASP Top 10 for LLM applications](https://genai.owasp.org/llmrisk/llm01-prompt-injection/), and it becomes exploitable when private data, untrusted content and a way to send data out meet in one system ([Willison, "The lethal trifecta"](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/)). A pointer by default and rendering without remote content remove the third.
