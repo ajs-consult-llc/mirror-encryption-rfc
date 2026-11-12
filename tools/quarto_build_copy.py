@@ -12,7 +12,8 @@ script rewrites the build copy:
   wraps), shown above the figure by _quarto.yml;
 - index.md and chapters/*.md become .qmd, and _quarto.yml's book list follows;
 - an appendix chapter's heading drops its own "Appendix A. ", which Quarto adds itself;
-- a link to another chapter's .md points at its .qmd, which Quarto turns into the page's link.
+- a link to another chapter's .md points at its .qmd, which Quarto turns into the page's link;
+- a diagram's picture keeps its title as alt text only, since the picture shows the title itself.
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FENCE = re.compile(r"^```mermaid\n(?P<body>.*?)^```$", re.M | re.S)
 TITLE = re.compile(r'\A---\ntitle: "(?P<title>[^"\n]+)"\n---\n')
 APPENDIX_HEADING = re.compile(r"\A(<!--[^\n]*-->\n)?# Appendix [A-Z]\. ")
+PICTURE = re.compile(r"^!\[(?P<alt>[^\]]*)\]\((?P<src>(?:\.\./)?figures/[^)\s]+\.png)\)$", re.M)
 CHAPTER_LINK = re.compile(r"\]\(((?:chapters/)?\d{2}-[a-z0-9-]+)\.md(#[^)]*)?\)")
 
 
@@ -38,6 +40,9 @@ def cell(body: str) -> str:
 def convert(text: str) -> str:
     """Fences become Quarto cells, and links between chapters follow them to .qmd."""
     text = FENCE.sub(lambda m: cell(m.group("body")), text)
+    # A picture exported from the doc already carries its title; as alt text only, Quarto does not
+    # repeat it as a caption above the picture.
+    text = PICTURE.sub(lambda m: f'![]({m.group("src")}){{fig-alt="{m.group("alt")}"}}', text)
     return CHAPTER_LINK.sub(lambda m: f"]({m.group(1)}.qmd{m.group(2) or ''})", text)
 
 

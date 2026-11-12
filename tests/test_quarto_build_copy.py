@@ -17,6 +17,12 @@ class BuildCopy(unittest.TestCase):
         self.assertEqual(qb.convert("```mermaid\nflowchart LR\n  a --> b\n```"),
                          "```{mermaid}\nflowchart LR\n  a --> b\n```")
 
+    def test_a_diagram_picture_keeps_its_title_as_alt_text_not_a_caption(self) -> None:
+        self.assertEqual(qb.convert("x\n![Only a locked copy leaves](../figures/create-4-parties.png)\ny"),
+                         'x\n![](../figures/create-4-parties.png){fig-alt="Only a locked copy leaves"}\ny')
+        other = "![A logo](assets/logo.png)"
+        self.assertEqual(qb.convert(other), other)
+
     def test_other_code_is_left_alone(self) -> None:
         text = "```sh\ngit commit -S\n```"
         self.assertEqual(qb.convert(text), text)
