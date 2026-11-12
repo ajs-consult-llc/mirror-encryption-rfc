@@ -47,6 +47,7 @@ DIAGRAMS = ROOT / "diagrams"
 FIGURES = ROOT / "figures"
 SYNC = ROOT / ".sync"
 TEMPLATE = ROOT / "tools" / "_quarto.template.yml"
+PARTS = ROOT / "tools" / "book_parts.json"
 QUARTO = ROOT / "_quarto.yml"
 INDEX = ROOT / "index.md"
 
@@ -331,10 +332,11 @@ def split(export_path: Path) -> list[Path]:
     if generated.exists():
         appendices.append(generated)
     items = lambda paths: "\n".join(f"    - {p.relative_to(ROOT)}" for p in paths)  # noqa: E731
+    headings = {p: SECTION_NUMBER.sub("", sec.heading) for p, sec in zip(written, parsed.sections)}
     QUARTO.write_text(
         TEMPLATE.read_text(encoding="utf-8")
         .replace("{title}", parsed.title.replace('"', '\\"'))
-        .replace("{chapters}", items(chapters))
+        .replace("{chapters}", book_chapters(chapters, headings))
         .replace("{appendices}", f"  appendices:\n{items(appendices)}" if appendices else ""),
         encoding="utf-8",
     )
@@ -342,6 +344,26 @@ def split(export_path: Path) -> list[Path]:
         what = "the picture stays a placeholder" if path.startswith("figures/") else "no text version in the appendix"
         print(f"warning: {path} is missing; {what}", file=sys.stderr)
     return written
+
+
+def book_chapters(chapters: list[Path], headings: dict[Path, str]) -> str:
+    """The book's chapter list for _quarto.yml: Home, then the doc's sections in order, with the
+    pages tools/book_parts.json names gathered under their part's heading."""
+    cfg = json.loads(PARTS.read_text(encoding="utf-8")) if PARTS.exists() else {"parts": []}
+    entries: list[tuple[str, str]] = [("updates", "updates.qmd")]  # (name a part can use, path)
+    entries += [(headings[p], str(p.relative_to(ROOT))) for p in chapters]
+    part_of = {page: part for part in cfg["parts"] for page in part["pages"]}
+    out = [f"    - text: {json.dumps(cfg.get('home', 'Home'))}", f"      href: {INDEX.name}"]
+    placed: set[str] = set()
+    for name, path in entries:
+        part = part_of.get(name)
+        if part is None:
+            out.append(f"    - {path}")
+        elif part["title"] not in placed:
+            placed.add(part["title"])
+            out += [f"    - part: {json.dumps(part['title'])}", "      chapters:"]
+            out += [f"        - {p}" for n, p in entries if part_of.get(n) is part]
+    return "\n".join(out)
 
 
 def book_title() -> str:

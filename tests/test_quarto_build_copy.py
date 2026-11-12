@@ -51,6 +51,12 @@ class BuildCopy(unittest.TestCase):
             self.assertIn(f"{base}/edit/main/index.md", out)
             self.assertNotIn(".qmd", out)
 
+    def test_grouped_and_labelled_book_entries_follow_the_qmd(self) -> None:
+        yml = ("  chapters:\n    - text: \"Home\"\n      href: index.md\n    - part: \"About\"\n      chapters:\n"
+               "        - updates.qmd\n        - chapters/01-a.md\n    - chapters/02-b.md\n")
+        self.assertEqual(qb.BOOK_ENTRY.sub(r"\1.qmd", yml),
+                         yml.replace("index.md", "index.qmd").replace("01-a.md", "01-a.qmd").replace("02-b.md", "02-b.qmd"))
+
     def test_other_code_is_left_alone(self) -> None:
         text = "```sh\ngit commit -S\n```"
         self.assertEqual(qb.convert(text), text)
