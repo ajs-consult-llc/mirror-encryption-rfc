@@ -1,5 +1,5 @@
 name: Submission
-description: An official, attributed comment or objection on the RFC (Appendix A).
+description: An official, attributed comment or objection on the RFC.
 title: "[Submission] "
 labels: [submission]
 body:
@@ -7,12 +7,12 @@ body:
     attributes:
       value: |
         This files an official submission, credited to the GitHub account that opens it.
-        Do not report a security problem in the running service here: see chapter 17, Vulnerability disclosure.
+        Do not report a security problem in the running service here: email aaron@matterboard.ai with SECURITY in the subject.
   - type: input
     id: section
     attributes:
       label: Section
-      description: The section or appendix this is about, for example "10. Searching encrypted data".
+      description: The section or appendix this is about, for example "6.2.3 Search and retrieve".
     validations:
       required: true
   - type: textarea

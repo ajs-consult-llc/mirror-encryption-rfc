@@ -51,11 +51,11 @@ def chapter_link(slug_part: str) -> str | None:
 
 
 def landing(s: dict, submission_page: str | None) -> str:
-    comment = (f"[In the review copy]({s['comment_url']}), signed in to a Google account. "
-               "Each comment is credited to the account that wrote it."
-               if s.get("comment_url") else
-               "In the review copy, signed in to a Google account. Its link is posted on the "
-               "[Updates](updates.html) page when the round opens.")
+    comment = ("On any page: select text to comment on it, press **Suggest edits** to change the "
+               "wording right on the page and send your changes, or comment at the end of the page. "
+               "Suggestions and comments made with a GitHub account are credited to it.")
+    if s.get("comment_url"):
+        comment += f" Or comment [in the review copy]({s['comment_url']})."
     how = f" [How submissions work]({submission_page})." if submission_page else ""
     return "\n".join([
         LANDING_START,
@@ -76,7 +76,7 @@ def landing(s: dict, submission_page: str | None) -> str:
         "**How to take part**",
         "",
         "1. **Read it.** Start with the executive summary.",
-        f"2. **Comment.** {comment}{how}",
+        f"2. **Comment or suggest changes.** {comment}{how}",
         "3. **Follow the review.** [Updates](updates.html): sign up by email, use the feed, or watch on GitHub.",
         f"4. **Found a security problem in the running service?** Email {s['security_contact']} with "
         "SECURITY in the subject. Never post it in a comment.",

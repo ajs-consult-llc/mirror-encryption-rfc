@@ -1,0 +1,29 @@
+name: Suggested edit
+description: Wording changes made on the site with "Suggest edits", credited to your GitHub account.
+title: "Suggested edit: "
+labels: ["suggested edit"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        These are the changes you made on the page. Removed words are ~~struck through~~ and added words are **bold**.
+        You can still change anything here before you submit. Submitting files them as a suggestion credited to your GitHub account.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The page you edited.
+    validations:
+      required: true
+  - type: textarea
+    id: changes
+    attributes:
+      label: Changes
+      description: Each change, and the section it is in.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why (optional)
+      description: Anything the editor should know about these changes.

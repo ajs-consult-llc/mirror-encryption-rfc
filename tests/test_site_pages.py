@@ -57,9 +57,9 @@ class Landing(unittest.TestCase):
         self.assertIn("Round 1 is open until 11 December 2026, 23:59 UTC", block)
         self.assertIn("sec@example.com", block)
         self.assertIn("[How submissions work](chapters/20-appendix-a-submission-process.html)", block)
-        self.assertIn("posted on the [Updates](updates.html) page", block)  # no review link yet
+        self.assertIn("press **Suggest edits** to change the wording", block)  # no review link yet
         linked = site_pages.landing({**SETTINGS, "comment_url": "https://docs.google.com/x"}, None)
-        self.assertIn("[In the review copy](https://docs.google.com/x)", linked)
+        self.assertIn("[in the review copy](https://docs.google.com/x)", linked)
 
     def test_placing_it_twice_leaves_one_and_stripping_restores_the_index(self) -> None:
         block = site_pages.landing(SETTINGS, None)

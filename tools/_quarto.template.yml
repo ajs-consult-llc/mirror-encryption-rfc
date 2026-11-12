@@ -31,6 +31,22 @@ book:
 
 number-sections: false
 
+# Readers comment two ways: Hypothesis (select any text and annotate it; discussion only) and
+# giscus (a box at the end of each page, signed in with GitHub and kept as GitHub Discussions in
+# this repository; credited). Suggest edits (assets/site/suggest-edits.html) sends wording changes
+# as a GitHub issue. CONTRIBUTING.md says what each one counts as.
+comments:
+  hypothesis: true
+  giscus:
+    repo: ajs-consult-llc/mirror-encryption-rfc
+    repo-id: R_kgDOVq8EvA
+    category: General
+    category-id: DIC_kwDOVq8EvM4DK7dz
+    mapping: pathname
+    reactions-enabled: true
+    input-position: top
+    loading: lazy
+
 # The doc has no bibliography, and its byline's "@name" mention is not a citation.
 from: markdown-citations
 
@@ -45,4 +61,5 @@ format:
     # see where you are, with every subsection (6.1, 6.1.1, ...) listed.
     toc-location: left
     toc-expand: true
+    include-after-body: assets/site/suggest-edits.html
     fig-cap-location: top

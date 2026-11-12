@@ -45,6 +45,11 @@ jobs:
       - name: Render the site
         run: quarto render
 
+      # Quarto names the .qmd it rendered in each page's Edit and View source links; point them
+      # back at the .md files that exist in the repository.
+      - name: Source links point at the repository's files
+        run: python3 tools/quarto_build_copy.py --after-render
+
       - uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
