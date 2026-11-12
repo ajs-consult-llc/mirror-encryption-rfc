@@ -23,9 +23,9 @@ book:
   open-graph: true
   twitter-card:
     card-style: summary_large_image
+  # The chapter list is generated from the doc's sections; tools/book_parts.json groups some of
+  # them under one heading in the left panel.
   chapters:
-    - index.md
-    - updates.qmd
 {chapters}
 {appendices}
 

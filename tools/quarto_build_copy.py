@@ -80,6 +80,10 @@ def with_box(text: str, rel_md: str) -> str:
     return text
 
 
+# A book entry naming one of the converted files: "- chapters/x.md", or "href: index.md" under a label.
+BOOK_ENTRY = re.compile(r"^(\s*(?:- |href: )(?:index|chapters/\S+))\.md$", re.M)
+
+
 def appendix_chapters(quarto_yml: str) -> list[str]:
     tail = quarto_yml.split("  appendices:", 1)
     return re.findall(r"^    - (\S+\.md)$", tail[1], re.M) if len(tail) == 2 else []
@@ -99,7 +103,7 @@ def main(root: Path = ROOT) -> int:
             text = APPENDIX_HEADING.sub(lambda m: (m.group(1) or "") + "# ", text, count=1)
         md.with_suffix(".qmd").write_text(text, encoding="utf-8")
         md.unlink()
-    yml_path.write_text(re.sub(r"^(    - (?:index|chapters/\S+))\.md$", r"\1.qmd", yml, flags=re.M), encoding="utf-8")
+    yml_path.write_text(BOOK_ENTRY.sub(r"\1.qmd", yml), encoding="utf-8")
     print(f"build copy: {len(list((root / 'chapters').glob('*.qmd'))) + 1} .qmd files")
     return 0
 

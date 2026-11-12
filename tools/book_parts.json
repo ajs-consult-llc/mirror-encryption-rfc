@@ -1,0 +1,8 @@
+{
+  "_note": "How the site's left panel groups pages. 'home' is the label for the front page. Each part lists the pages it holds, by section heading without its number, or 'updates' for the Updates page; the part sits where its first page would. Sections not named here stay at the top level.",
+  "home": "Home",
+  "parts": [
+    {"title": "About this RFC", "pages": ["updates", "Document control"]},
+    {"title": "Contents", "pages": ["Contents", "Figures"]}
+  ]
+}
