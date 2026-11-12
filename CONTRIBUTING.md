@@ -8,10 +8,12 @@ attacks on attribution it is built to stop, are in Appendix A of the document.
 
 | Channel | Counts as | Credited to |
 | --- | --- | --- |
-| A pull request whose every commit is signed | An official text change | The GitHub account whose registered key signed each commit |
+| **Suggest edits** on any page of the site, sent as a GitHub issue | An official text suggestion | The GitHub account that submits the issue |
+| The comment box at the end of any page (GitHub Discussions) | An official comment | The GitHub account that posts it |
+| A pull request whose every commit is signed (GitHub's web editor signs for you) | An official text change | The GitHub account whose registered key signed each commit |
 | An issue opened with the **Submission** form | An official comment or objection | The GitHub account that opened it |
 | A signed email to the submissions address | An official submission, for people without GitHub | The holder of the signing key |
-| A comment in a shared copy of the document, or unsigned email | Discussion only | Not credited until filed through a channel above |
+| A highlight comment on the site (Hypothesis), a comment in a shared copy of the document, or unsigned email | Discussion only | Not credited until filed through a channel above |
 
 ## Proposing a text change
 

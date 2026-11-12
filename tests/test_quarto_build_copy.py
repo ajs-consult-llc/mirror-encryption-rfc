@@ -23,6 +23,34 @@ class BuildCopy(unittest.TestCase):
         other = "![A logo](assets/logo.png)"
         self.assertEqual(qb.convert(other), other)
 
+    def test_a_chapter_gets_the_take_part_box_under_its_heading(self) -> None:
+        out = qb.with_box("# 6. How it works\n\nText.", "chapters/08-how-it-works.md")
+        self.assertTrue(out.startswith("# 6. How it works\n\n```{=html}\n<div class=\"rfc-take-part\" id=\"rfc-take-part\">"))
+        self.assertIn('id="rfc-suggest"', out)
+        self.assertIn("/edit/main/chapters/08-how-it-works.md", out)
+        self.assertTrue(out.endswith("```\n\n\nText."))
+
+    def test_source_links_go_back_to_the_repositorys_files(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "chapters").mkdir()
+            (root / "_book" / "chapters").mkdir(parents=True)
+            (root / "chapters" / "08-how.qmd").write_text("# How\n")
+            (root / "chapters" / "14-appendix-b.qmd").write_text(qb.GENERATED_MARK + " -->\n# B\n")
+            base = f"https://github.com/{qb.REPO}"
+            page = (f'<a href="{base}/edit/main/chapters/08-how.qmd">e</a><a href="{base}/blob/main/chapters/08-how.qmd">v</a>'
+                    f'<a href="{base}/edit/main/chapters/14-appendix-b.qmd">g</a><a href="{base}/edit/main/updates.qmd">u</a>'
+                    f'<a href="{base}/edit/main/index.qmd">i</a>')
+            (root / "_book" / "chapters" / "x.html").write_text(page)
+            qb.after_render(root)
+            out = (root / "_book" / "chapters" / "x.html").read_text()
+            self.assertIn(f"{base}/edit/main/chapters/08-how.md", out)
+            self.assertIn(f"{base}/blob/main/chapters/08-how.md", out)
+            self.assertIn(f"{base}/tree/main/diagrams", out)
+            self.assertIn(f"{base}/releases", out)
+            self.assertIn(f"{base}/edit/main/index.md", out)
+            self.assertNotIn(".qmd", out)
+
     def test_other_code_is_left_alone(self) -> None:
         text = "```sh\ngit commit -S\n```"
         self.assertEqual(qb.convert(text), text)
@@ -40,7 +68,8 @@ class BuildCopy(unittest.TestCase):
             self.assertEqual(sorted(p.name for p in (root / "chapters").iterdir()), ["01-a.qmd", "02-appendix-a-b.qmd"])
             self.assertTrue((root / "index.qmd").exists() and not (root / "index.md").exists())
             self.assertIn("```{mermaid}", (root / "chapters" / "01-a.qmd").read_text())
-            self.assertEqual((root / "chapters" / "02-appendix-a-b.qmd").read_text(), "# Single or multi-tenant\n")
+            appendix = (root / "chapters" / "02-appendix-a-b.qmd").read_text()
+            self.assertTrue(appendix.startswith("# Single or multi-tenant\n"))
             yml = (root / "_quarto.yml").read_text()
             self.assertIn("    - index.qmd\n", yml)
             self.assertIn("    - chapters/02-appendix-a-b.qmd\n", yml)
