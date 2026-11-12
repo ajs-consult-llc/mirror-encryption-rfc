@@ -32,44 +32,55 @@ EXPORT = "\n".join([
 
 
 class RoundTrip(unittest.TestCase):
-    def test_diagrams_round_trip_and_number_repeated_captions(self) -> None:
-        import tempfile
-        with tempfile.TemporaryDirectory() as tmp:
-            saved = rfcsync.ROOT, rfcsync.DIAGRAMS
-            rfcsync.ROOT = Path(tmp)
-            rfcsync.DIAGRAMS = Path(tmp) / "diagrams"
-            try:
-                rfcsync.DIAGRAMS.mkdir()
-                (rfcsync.DIAGRAMS / "a-flow-3-parties.mmd").write_text("sequenceDiagram\n  A->>B: one\n")
-                (rfcsync.DIAGRAMS / "a-flow-3-parties-2.mmd").write_text("sequenceDiagram\n  A->>B: two\n")
-                text = ("x\n&#91;embedded content: a flow · 3 parties\\]\ny\n"
-                        "&#91;embedded content: a flow · 3 parties\\]\nz")
-                missing: list[str] = []
-                md = rfcsync.to_diagrams(text, rfcsync.DiagramNames(), missing)
-                self.assertEqual(missing, [])
-                self.assertIn("<!-- diagram: a flow · 3 parties -->\n```mermaid\nsequenceDiagram\n  A->>B: one\n```", md)
-                self.assertIn("A->>B: two", md)
-                self.assertEqual(rfcsync.to_placeholders(md, rfcsync.DiagramNames()), text)
-                # Quarto's spelling of the fence is accepted too
-                self.assertEqual(rfcsync.to_placeholders(md.replace("```mermaid", "```{mermaid}"), rfcsync.DiagramNames()), text)
-                # editing the Mermaid inside a chapter is refused
-                with self.assertRaises(ValueError):
-                    rfcsync.to_placeholders(md.replace("one", "ONE"), rfcsync.DiagramNames())
-            finally:
-                rfcsync.ROOT, rfcsync.DIAGRAMS = saved
+    def _tmp_tree(self, tmp: str) -> None:
+        self._saved = rfcsync.ROOT, rfcsync.DIAGRAMS, rfcsync.FIGURES
+        rfcsync.ROOT = Path(tmp)
+        rfcsync.DIAGRAMS, rfcsync.FIGURES = Path(tmp) / "diagrams", Path(tmp) / "figures"
+        rfcsync.DIAGRAMS.mkdir()
+        rfcsync.FIGURES.mkdir()
+        self.addCleanup(self._restore)
 
-    def test_a_missing_diagram_stays_a_placeholder_and_is_reported(self) -> None:
+    def _restore(self) -> None:
+        rfcsync.ROOT, rfcsync.DIAGRAMS, rfcsync.FIGURES = self._saved
+
+    def test_a_diagram_becomes_its_picture_and_a_link_to_its_text_version(self) -> None:
         import tempfile
         with tempfile.TemporaryDirectory() as tmp:
-            saved = rfcsync.ROOT, rfcsync.DIAGRAMS
-            rfcsync.ROOT, rfcsync.DIAGRAMS = Path(tmp), Path(tmp) / "diagrams"
-            try:
-                missing: list[str] = []
-                text = "&#91;embedded content: nothing yet\\]"
-                self.assertEqual(rfcsync.to_diagrams(text, rfcsync.DiagramNames(), missing), text)
-                self.assertEqual(missing, ["diagrams/nothing-yet.mmd"])
-            finally:
-                rfcsync.ROOT, rfcsync.DIAGRAMS = saved
+            self._tmp_tree(tmp)
+            for slug in ("a-flow-3-parties", "a-flow-3-parties-2"):
+                (rfcsync.FIGURES / f"{slug}.png").write_bytes(b"png")
+            (rfcsync.DIAGRAMS / "a-flow-3-parties.mmd").write_text(
+                "sequenceDiagram\n  accTitle: Only a locked copy leaves\n  accDescr: The desktop sends a locked copy.\n  A->>B: one\n")
+            text = ("x\n&#91;embedded content: a flow · 3 parties\\]\ny\n"
+                    "&#91;embedded content: a flow · 3 parties\\]\nz")
+            missing: list[str] = []
+            found: list[rfcsync.Diagram] = []
+            md = rfcsync.to_diagrams(text, rfcsync.DiagramNames(), missing, appendix_href="13-appendix-b.md",
+                                     chapter="07-how.md", heading="How it works", found=found)
+            self.assertIn("<!-- diagram: a flow · 3 parties -->\n![Only a locked copy leaves](../figures/a-flow-3-parties.png)"
+                          "\n\n*[This diagram as text](13-appendix-b.md#a-flow-3-parties)*\n<!-- /diagram -->", md)
+            # the second has a picture but no text version yet: no link, and it is reported
+            self.assertIn("![a flow · 3 parties](../figures/a-flow-3-parties-2.png)\n<!-- /diagram -->", md)
+            self.assertEqual(missing, ["diagrams/a-flow-3-parties-2.mmd"])
+            self.assertEqual([d.slug for d in found], ["a-flow-3-parties", "a-flow-3-parties-2"])
+            self.assertEqual(rfcsync.to_placeholders(md, rfcsync.DiagramNames(), appendix_href="13-appendix-b.md"), text)
+            with self.assertRaises(ValueError):  # a block edited by hand is refused
+                rfcsync.to_placeholders(md.replace("This diagram as text", "Text"), rfcsync.DiagramNames(),
+                                        appendix_href="13-appendix-b.md")
+            appendix = rfcsync.appendix_text("B", found)
+            self.assertTrue(appendix.startswith(rfcsync.APPENDIX_MARK + "\n# Appendix B. The diagrams as text\n"))
+            self.assertIn('<a id="a-flow-3-parties"></a>\n\n## Only a locked copy leaves\n\n'
+                          "In [How it works](07-how.md). The desktop sends a locked copy.\n\n```mermaid\nsequenceDiagram", appendix)
+            self.assertNotIn("a-flow-3-parties-2", appendix)
+
+    def test_a_diagram_without_a_picture_stays_a_placeholder_and_is_reported(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            self._tmp_tree(tmp)
+            missing: list[str] = []
+            text = "&#91;embedded content: nothing yet\\]"
+            self.assertEqual(rfcsync.to_diagrams(text, rfcsync.DiagramNames(), missing), text)
+            self.assertEqual(missing, ["figures/nothing-yet.png"])
 
     def test_headings_shift_outside_fences_only(self) -> None:
         shifted = rfcsync.shift_headings("## A\n```\n## code\n```\n### B", -1)

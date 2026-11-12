@@ -3,23 +3,10 @@
 There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts everything, and SHA-256 does the rest as a hash, as HMAC and as HKDF. Everything else follows from them.
 
 <!-- diagram: the whole design · 1 key, 1 kind of token -->
-```mermaid
----
-title: "Plaintext exists only on the desktop and inside an approved request"
----
-flowchart TB
-  accTitle: Plaintext exists only on the desktop and inside an approved request
-  accDescr: One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
-  S["Sources on the desktop<br/>mail, chats, calendars"] -->|reads| D["Desktop app<br/>makes and keeps the key<br/>encrypts each message<br/>computes search tags"]
-  R["Readers and writers<br/>AI assistants, web app<br/>second devices, scripts<br/>each with its own token"]
-  D -->|"ciphertext + tags,<br/>attachments as they are"| V["Server<br/>finds the token's copy<br/>opens the key per request<br/>searches, decrypts hits<br/>drops the key afterwards"]
-  R -->|token and request| V
-  V -.->|results| R
-  V <-->|store, look up| B[("Database<br/>ciphertext, search tags<br/>token hashes<br/>locked copies of the key")]
-  V <-->|store, read| O[("Blob store<br/>attachments, encrypted<br/>under the storage key,<br/>sent with each request<br/>and never kept")]
-  B ~~~ N["The server never stores the account<br/>key, a token or plaintext. The blob<br/>store sees each attachment in the<br/>clear while it handles a request,<br/>and keeps only ciphertext."]:::note
-  classDef note fill:none,stroke:none,color:#5f7183
-```
+![Plaintext exists only on the desktop and inside an approved request](../figures/the-whole-design-1-key-1-kind-of-token.png)
+
+*[This diagram as text](13-appendix-b-the-diagrams-as-text.md#the-whole-design-1-key-1-kind-of-token)*
+<!-- /diagram -->
 
 - **One key.** On installation, the desktop sync application asks the operating system for 256 random bits, and those bits are the "account key". The user's OS key store holds the account key and releases it only to approved application(s). The account key never encrypts anything itself. Instead, HKDF-SHA256 turns it into two working keys, one per job:  (1) a content key that encrypts each message (AES-256-GCM) and (2) a tag key that computes the search tags (HMAC-SHA256). A third, the storage key, is derived the same way for attachments. They are re-derived whenever they are needed, so nothing extra is stored, and learning one working key reveals neither the other nor the account key. Because both come from the one account key, a reader that can open its copy of the account key can both read messages and search them.
 

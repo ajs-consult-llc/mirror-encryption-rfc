@@ -1,6 +1,3 @@
----
-title: "The account key is born on the desktop, and only a locked copy reaches the server"
----
 sequenceDiagram
   accTitle: The account key is born on the desktop, and only a locked copy reaches the server
   accDescr: Create. The desktop app generates the account key from 256 random bits and stores it in the OS keystore. It signs in and asks the server for a desktop token, and the server replies with one. The desktop app wraps the account key under a key derived from the token and sends the locked copy to the server, which stores the token's hash and the copy in the database. The account key never leaves the desktop in the clear.

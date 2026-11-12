@@ -1,6 +1,3 @@
----
-title: "Keys isolate stored data either way, and separate instances contain a breach"
----
 flowchart TB
   accTitle: Keys isolate stored data either way, and separate instances contain a breach
   accDescr: Each user's key stays on their desktop in both designs, and colours mark whose key locks which rows. With one shared database, users A, B and C, holding keys A, B and C, all use one shared server, which opens key A, B or C inside each user's request, and one shared database with row-level security, where user A's rows are locked under key A, user B's under key B and user C's under key C. A server breach sees every active user's requests. There is one system to run, and metadata is visible to the operator. With one instance per user, user A uses server A, which holds key A only, and database A, which holds user A's rows under key A, and the same for users B and C. A server breach sees one user's requests. There is one system per user to run and pay for.

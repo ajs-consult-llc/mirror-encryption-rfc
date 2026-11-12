@@ -31,17 +31,17 @@ keeps them in step; never copy text between them by hand.
    `file` = the tab, `format` = `markdown`). The result is too large to show and is saved to a
    file; decode it: `python3 tools/rfcsync.py decode <saved file> /tmp/rfc-export.md`.
    Its notes count the diagrams the export replaced with placeholders.
-3. Diagrams. `split` warns for any diagram without a `diagrams/<slug>.mmd`. For each, take a
-   screenshot read of the widget (ids in `.sync/widgets.json`; find new ones in an outline read of
-   the body node: `<embed caption=… ref='node/<id>'>`) and write the Mermaid by hand: a
-   `sequenceDiagram` for flows (solid arrows requests, dashed replies), a `flowchart` for
-   structures, a `gantt` for timings. Start it with front matter `---` / `title: "<the widget's title>"` / `---`
-   (GitHub shows it above the diagram; the site shows it as the caption), then give it `accTitle`
-   (the same title) and `accDescr` (everything the picture says, as sentences). Keep each label line
-   under about 24 characters with `<br/>`, notes under about 34, and lay flows out top to bottom:
-   the page column is narrow, and a wide diagram shrinks until it cannot be read. Avoid `;` and extra `:` in message text, which
-   Mermaid misreads. If a widget changed, update its file the same way. Screenshots are rate-limited
-   to about five a minute; on `render_rate`, wait `retryAfterMs`.
+3. Diagrams. Each widget in the doc becomes a picture in its chapter and a text version in the
+   last appendix. For every diagram in `.sync/widgets.json` (new ones: an outline read of the body
+   node shows `<embed caption=… ref='node/<id>'>`), take a screenshot read of the widget and copy
+   the PNG the result names into `figures/<slug>.png`; set its `pub` to the result's `rendered`
+   publish number. Screenshots are rate-limited to about five a minute; on `render_rate`, wait
+   `retryAfterMs`. Then `python3 tools/rfcsync.py stale`: for each diagram it lists, rewrite
+   `diagrams/<slug>.mmd` from the new picture and set `mermaid_pub` to `pub`. A text version is
+   Mermaid with `accTitle` (the widget's title) and `accDescr` (everything the picture says, as
+   sentences): a `sequenceDiagram` for flows (solid arrows requests, dashed replies), a
+   `flowchart` for structures. Keep label lines under about 24 characters with `<br/>`, notes
+   under about 34, flows top to bottom, and no `;` or extra `:` in message text.
 4. `git switch -c doc/$(date +%Y-%m-%d)` and `python3 tools/rfcsync.py split /tmp/rfc-export.md`.
    It rewrites the chapters and `_quarto.yml`, records the new base, and refuses unless the
    round trip is exact. Warnings name any diagram still missing an image.

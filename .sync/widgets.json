@@ -1,22 +1,78 @@
 {
-  "_note": "Which diagram in the Claude Doc each diagrams/*.mmd mirrors. The doc's diagrams are widgets; the repository keeps them as Mermaid. When a widget changes, update its .mmd by hand (look at it with a screenshot read), keeping accTitle and accDescr.",
+  "_note": "Each diagram in the Claude Doc is a widget. Publishing exports its picture to figures/<slug>.png with a screenshot read and records the widget's publish number as 'pub'. 'mermaid_pub' is the publish that diagrams/<slug>.mmd was last checked against; 'rfcsync.py stale' lists any that differ.",
   "doc": "dbfbfc6b-6c59-40e8-bb58-d19e63397bd8",
   "tab": "9ca35cab-c599",
   "body": "0e7ba022-1c2d",
   "diagrams": {
-    "the-whole-design-1-key-1-kind-of-token.mmd": "35e0e5ff-45f0",
-    "where-the-account-key-lives-2-places-in-the-clear.mmd": "9f49696d-be23",
-    "create-4-parties.mmd": "896331c4-4bd5",
-    "read-3-parties.mmd": "668100ba-9428",
-    "update-4-parties.mmd": "c2047c16-2d77",
-    "expire-3-parties.mmd": "1fa25546-a571",
-    "delete-4-parties.mmd": "a8d533ce-43df",
-    "collect-and-push-4-parties.mmd": "584cc33e-ddf9",
-    "approve-a-reader-or-writer-4-parties.mmd": "6e5b65d0-56ab",
-    "search-and-retrieve-3-parties-one-request.mmd": "21cf472e-870b",
-    "update-4-parties-2.mmd": "304fc30a-1810",
-    "revoke-and-recover-4-parties.mmd": "e3ccb454-d405",
-    "latency-budget-targets-at-the-95th-percentile-not-measurements.mmd": "2788f926-627b",
-    "shared-vs-dedicated-3-users.mmd": "07118307-ef2e"
+    "the-whole-design-1-key-1-kind-of-token": {
+      "widget": "35e0e5ff-45f0",
+      "pub": 3,
+      "mermaid_pub": 3
+    },
+    "where-the-account-key-lives-2-places-in-the-clear": {
+      "widget": "9f49696d-be23",
+      "pub": 2,
+      "mermaid_pub": 2
+    },
+    "create-4-parties": {
+      "widget": "896331c4-4bd5",
+      "pub": 4,
+      "mermaid_pub": 4
+    },
+    "read-3-parties": {
+      "widget": "668100ba-9428",
+      "pub": 4,
+      "mermaid_pub": 4
+    },
+    "update-4-parties": {
+      "widget": "c2047c16-2d77",
+      "pub": 4,
+      "mermaid_pub": 4
+    },
+    "expire-3-parties": {
+      "widget": "1fa25546-a571",
+      "pub": 3,
+      "mermaid_pub": 3
+    },
+    "delete-4-parties": {
+      "widget": "a8d533ce-43df",
+      "pub": 3,
+      "mermaid_pub": 3
+    },
+    "collect-and-push-4-parties": {
+      "widget": "584cc33e-ddf9",
+      "pub": 4,
+      "mermaid_pub": 4
+    },
+    "approve-a-reader-or-writer-4-parties": {
+      "widget": "6e5b65d0-56ab",
+      "pub": 5,
+      "mermaid_pub": 5
+    },
+    "search-and-retrieve-3-parties-one-request": {
+      "widget": "21cf472e-870b",
+      "pub": 4,
+      "mermaid_pub": 4
+    },
+    "update-4-parties-2": {
+      "widget": "304fc30a-1810",
+      "pub": 5,
+      "mermaid_pub": 5
+    },
+    "revoke-and-recover-4-parties": {
+      "widget": "e3ccb454-d405",
+      "pub": 3,
+      "mermaid_pub": 3
+    },
+    "latency-budget-targets-at-the-95th-percentile-not-measurements": {
+      "widget": "2788f926-627b",
+      "pub": 3,
+      "mermaid_pub": 3
+    },
+    "shared-vs-dedicated-3-users": {
+      "widget": "07118307-ef2e",
+      "pub": 1,
+      "mermaid_pub": 1
+    }
   }
 }

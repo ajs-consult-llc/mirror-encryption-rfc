@@ -1,6 +1,3 @@
----
-title: "Messages are encrypted on the desktop before they leave it"
----
 sequenceDiagram
   accTitle: Messages are encrypted on the desktop before they leave it
   accDescr: Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
