@@ -1,0 +1,16 @@
+sequenceDiagram
+  accTitle: The bridge seals each message to the account's public key and cannot read it back
+  accDescr: Writing through a hosted bridge. The collector node, as a hosted bridge, receives a message from a chat service as a linked device. It seals the message with HPKE to the account's public key and sends the sealed message to the server, which stores it in the database. The next approved request from a reader or writer, with its token, reaches the server. Inside that request the server opens the sealed message, re-encrypts it under the content key and computes its tags. It stores it in the database in the mirror's one format. Revoking the bridge ends its lease, unlinks its device from each chat service and rotates the bridge key.
+  participant U as User
+  participant C as Collector node
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  Note over C: as a hosted bridge: receive a<br/>message from a chat service,<br/>as a linked device
+  Note over C: seal it with HPKE to the<br/>account's public key
+  C->>S: the sealed message
+  S->>DB: store it
+  R->>S: the next approved request,<br/>with its token
+  Note over S: open the sealed message,<br/>re-encrypt it under the content<br/>key, compute its tags
+  S->>DB: store it in the mirror's<br/>one format
+  Note over U,C: Revoking the bridge ends its<br/>lease, unlinks its device from<br/>each chat service and rotates<br/>the bridge key.

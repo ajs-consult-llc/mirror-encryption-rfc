@@ -1,0 +1,13 @@
+sequenceDiagram
+  accTitle: The bridge stays locked until the user's device has checked what it runs
+  accDescr: Unlocking the hosted bridge. The hosted bridge starts locked: its state is ciphertext under the bridge key. On start it makes a one-time key pair and an attestation of its image. It sends the approved device an attestation binding the one-time public key to the image's measurement. The approved device checks the measurement against the published, append-only log of release images. It then sends the bridge the bridge key, sealed to the one-time public key. The unlock is a lease (proposed: 7 days). Approved devices renew it in the background. If none does, the bridge erases the bridge key and stops. After any restart the bridge is locked again until a device unlocks it.
+  participant D as Approved device
+  participant B as Hosted bridge
+  participant L as Release log
+  Note over B: starts locked: its state is<br/>ciphertext under the bridge key
+  Note over B: on start: make a one-time key<br/>pair and an attestation of its<br/>image
+  B->>D: attestation binding the one-time<br/>public key to the image's<br/>measurement
+  D->>L: check the measurement against the<br/>published, append-only log of<br/>release images
+  D->>B: the bridge key, sealed to the<br/>one-time public key
+  Note over D,B: The unlock is a lease (proposed<br/>7 days). Approved devices renew it<br/>in the background. If none does,<br/>the bridge erases the bridge key<br/>and stops.
+  Note over D,L: After any restart the bridge is<br/>locked again until a device<br/>unlocks it.

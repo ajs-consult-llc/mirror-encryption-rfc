@@ -1,11 +1,11 @@
 sequenceDiagram
-  accTitle: Messages are encrypted on the desktop before they leave it
-  accDescr: Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
-  participant D as Desktop app
+  accTitle: Messages are encrypted on the collector node before they leave it
+  accDescr: Collect and push. The collector node reads a new message from a source, such as mail, chat or calendar. It encrypts the message with the keys its model holds (5.1). It sends the encrypted message to the server over TLS. The server stores it and cannot read it. The message is searchable as soon as it is stored and tagged.
+  participant C as Collector node
   participant S as Server
   participant DB as Database
-  Note over D: read a new message from a local<br/>source, mail, chat or calendar
-  Note over D: encrypt it under the account key,<br/>compute its search tags
-  D->>S: ciphertext and tags over TLS, with its token
-  S->>DB: store them, the server cannot read them
-  Note over S,DB: The message is searchable as soon<br/>as it is stored.
+  Note over C: read a new message from a<br/>source, mail, chat or calendar
+  Note over C: encrypt it with the keys its<br/>model holds (5.1)
+  C->>S: the encrypted message, over TLS
+  S->>DB: store it, the server cannot read it
+  Note over S,DB: The message is searchable as soon<br/>as it is stored and tagged.

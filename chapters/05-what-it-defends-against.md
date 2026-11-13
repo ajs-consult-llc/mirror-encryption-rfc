@@ -7,5 +7,5 @@ The design has one goal: a copy of the stored data is useless without a credenti
 | Someone who steals the database, a backup or a disk | Yes. They hold ciphertext, search tags and token hashes, and no key. The tags still leak some structure (see What it does not protect). Attachments are encrypted by the storage service under a key it does not keep, so a copy of the bucket is unreadable as well. |
 | The operator's staff reading stored data | Yes, in the same way |
 | A reader or writer after the user revokes it | Yes, through the service: its token no longer finds a copy |
-| A compromised server, or an operator who changes the server's code | No. It sees the account key during any approved request and could keep it. |
+| A compromised server, or an operator who changes the server's code | No. It sees the account key during any approved request and could keep it. Mitigated, not closed: the security-critical code is published, and the service is run to recognised cloud security standards ([ISO/IEC 27017](https://www.iso.org/standard/27017), the [CSA Cloud Controls Matrix](https://cloudsecurityalliance.org/research/cloud-controls-matrix) and [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)). |
 | Malware on the user's desktop | No. The desktop holds the account key. |
