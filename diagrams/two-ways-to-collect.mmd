@@ -1,0 +1,9 @@
+flowchart LR
+  accTitle: Two collectors, one mirror: the bridge can write but not read back
+  accDescr: Two ways to collect. Both are unlocked only by the user's key and write into the same mirror. The sources (hosted mail, calendars, contacts, device clouds and encrypted chats) feed either the desktop node or the hosted bridge. The desktop node runs on the user's own machine, holds the account key, and encrypts and tags before upload. The hosted bridge runs on the service's machines, is locked until the user's device unlocks it on a lease, and seals messages it cannot read back. Both write to the mirror: the same mirror for both, under one account key, with one format at rest. An approved request opens each sealed message, re-encrypts it under the content key and computes its tags. Encrypted chats that need the vendor's own hardware or client are carried by the desktop node only.
+  S["Sources<br/>hosted mail, calendars,<br/>contacts, device clouds<br/>and encrypted chats"] --> D["Desktop node<br/>on the user's own machine<br/>holds the account key<br/>encrypts and tags<br/>before upload"]
+  S --> B["Hosted bridge<br/>on the service's machines<br/>locked until the user's<br/>device unlocks it,<br/>on a lease<br/>seals messages;<br/>cannot read back"]
+  D --> M["Mirror<br/>the same mirror for both,<br/>under one account key;<br/>one format at rest"]
+  B --> M
+  M ~~~ N["An approved request opens each<br/>sealed message, re-encrypts it under<br/>the content key and computes its<br/>tags. Encrypted chats that need the<br/>vendor's own hardware or client are<br/>carried by the desktop node only."]:::note
+  classDef note fill:none,stroke:none,color:#5f7183

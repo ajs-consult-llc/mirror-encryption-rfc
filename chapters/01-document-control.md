@@ -24,7 +24,7 @@
 
 Review runs in rounds. Round 1 runs for a month, so that reviewers have time; later rounds run for two weeks. The rounds repeat until every comment is addressed.
 
-1. **Review.** The current version is open, and anyone may comment on any part of it.
+1. **Review.** The current version is open, and anyone may comment on any part of it. Pull requests are merged continuously through the review, not held until it closes, so the text keeps changing while the round is open. Rebase your branch on the latest main before you open or update a pull request.
 2. **Editing.** No new comments are taken. The editor addresses every comment in its own thread: accepted and changed, declined with a reason, or carried into Questions for reviewers.
 3. **New version.** The revised version is published and added to the version table above, with what changed. The next review opens on it.
 

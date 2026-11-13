@@ -7,15 +7,15 @@ Every diagram in this document, written out: a description in words, for screen 
 
 ## Figure 4.1. The whole design: one account key, one kind of token, a database and a blob store
 
-*Plaintext exists only on the desktop and inside an approved request*
+*Plaintext exists only on the collector node and inside an approved request*
 
-In [4. The design on one page](07-the-design-on-one-page.md). One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
+In [4. The design on one page](07-the-design-on-one-page.md). One account key. The collector encrypts or seals messages before upload, and each reader or writer opens its own copy. The collector node reads the sources (mail, chats, calendars). It is either the desktop app, which keeps the key, encrypts each message and computes search tags, or a hosted bridge, which seals what it cannot read back. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
 
 ```mermaid
 flowchart TB
-  accTitle: Plaintext exists only on the desktop and inside an approved request
-  accDescr: One account key. The desktop encrypts messages before upload, and each reader or writer opens its own copy. The desktop app reads the sources on the desktop (mail, chats, calendars), makes and keeps the key, encrypts each message and computes search tags. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
-  S["Sources on the desktop<br/>mail, chats, calendars"] -->|reads| D["Desktop app<br/>makes and keeps the key<br/>encrypts each message<br/>computes search tags"]
+  accTitle: Plaintext exists only on the collector node and inside an approved request
+  accDescr: One account key. The collector encrypts or seals messages before upload, and each reader or writer opens its own copy. The collector node reads the sources (mail, chats, calendars). It is either the desktop app, which keeps the key, encrypts each message and computes search tags, or a hosted bridge, which seals what it cannot read back. It sends ciphertext and tags, and attachments as they are, to the server. Readers and writers (AI assistants, the web app, second devices and scripts), each with its own token, send a token and request to the server. The server finds the token's copy, opens the key per request, searches and decrypts hits, returns the results and drops the key afterwards. It stores and looks up ciphertext, search tags, token hashes and locked copies of the key in the database, and stores and reads attachments in the blob store, encrypted under the storage key, which is sent with each request and never kept. The server never stores the account key, a token or plaintext. The blob store sees each attachment in the clear while it handles a request, and keeps only ciphertext.
+  S["Sources<br/>mail, chats, calendars"] -->|reads| D["Collector node<br/>the desktop app: keeps<br/>the key, encrypts and<br/>tags; or a hosted bridge:<br/>seals what it cannot<br/>read back"]
   R["Readers and writers<br/>AI assistants, web app<br/>second devices, scripts<br/>each with its own token"]
   D -->|"ciphertext + tags,<br/>attachments as they are"| V["Server<br/>finds the token's copy<br/>opens the key per request<br/>searches, decrypts hits<br/>drops the key afterwards"]
   R -->|token and request| V
@@ -26,24 +26,45 @@ flowchart TB
   classDef note fill:none,stroke:none,color:#5f7183
 ```
 
+<a id="the-chain-of-joins"></a>
+
+## Figure 5.1. The chain of joins: who can read at each join point, and what sets each hop's guarantee
+
+*Each join decides who can read; end-to-end encryption ends at the mirror*
+
+In [5. How it works](08-how-it-works.md). The chain of joins. Sources (end-to-end encrypted chats, hosted mail, calendars, contacts and device clouds) feed the collector node. On that hop the guarantee is set by the chat's own protocol, or by the source's provider. At the collector node, with the desktop node only the user's devices can read, and with a hosted bridge the bridge can read as well. The collector feeds the mirror. On that hop the guarantee is set by this design, encryption under the user's keys. At the mirror the server reads, inside an approved request only. End-to-end encryption ends here. From the mirror, data goes to an AI reader, where the AI provider reads and its terms and retention apply, and to a delivery channel, where the user sends an output, and that service and any recipient can read.
+
+```mermaid
+flowchart LR
+  accTitle: Each join decides who can read; end-to-end encryption ends at the mirror
+  accDescr: The chain of joins. Sources (end-to-end encrypted chats, hosted mail, calendars, contacts and device clouds) feed the collector node. On that hop the guarantee is set by the chat's own protocol, or by the source's provider. At the collector node, with the desktop node only the user's devices can read, and with a hosted bridge the bridge can read as well. The collector feeds the mirror. On that hop the guarantee is set by this design, encryption under the user's keys. At the mirror the server reads, inside an approved request only. End-to-end encryption ends here. From the mirror, data goes to an AI reader, where the AI provider reads and its terms and retention apply, and to a delivery channel, where the user sends an output, and that service and any recipient can read.
+  S["Sources<br/>end-to-end encrypted<br/>chats; hosted mail,<br/>calendars, contacts,<br/>device clouds"] -->|"the chat's own protocol,<br/>or the source's provider"| C["Collector node<br/>desktop node: only<br/>the user's devices<br/>hosted bridge: the<br/>bridge as well"]
+  C -->|"this design: encryption<br/>under the user's keys"| M["Mirror<br/>the server reads,<br/>inside an approved<br/>request only"]
+  M --> A["AI reader<br/>the AI provider<br/>reads; its terms and<br/>retention apply"]
+  M --> L["Delivery channel<br/>where the user sends<br/>an output: that<br/>service and any<br/>recipient can read"]
+  M ~~~ N["End-to-end encryption<br/>ends here"]:::note
+  classDef note fill:none,stroke:none,color:#5f7183
+```
+
 <a id="where-the-account-key-lives-2-places-in-the-clear"></a>
 
-## Figure 5.1. Where the account key lives in the clear, and where only locked copies exist
+## Figure 5.2. Where the account key lives in the clear, and where only locked copies exist
 
-*The account key exists in the clear in only two places*
+*The account key exists in the clear in only three places*
 
-In [5. How it works](08-how-it-works.md). Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, and in server memory, with its two derived keys, for one approved request only. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, board and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once.
+In [5. How it works](08-how-it-works.md). Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, in server memory, with its derived keys, for one approved request only, and in an attested worker, in memory for the length of its lease, if the user unlocks one. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, web app and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. A hosted bridge holds a bridge key derived from the account key, for its lease, never the key itself. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once. With a hosted bridge the key still rests only on the user's desktop, and the bridge holds a derived key.
 
 ```mermaid
 flowchart TB
-  accTitle: The account key exists in the clear in only two places
-  accDescr: Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, and in server memory, with its two derived keys, for one approved request only. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, board and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once.
+  accTitle: The account key exists in the clear in only three places
+  accDescr: Where the account key lives, where only a locked copy lives, and where it never goes. In the clear, the key exists only in the desktop OS keystore, at rest on each approved desktop and made on the first one, in server memory, with its derived keys, for one approved request only, and in an attested worker, in memory for the length of its lease, if the user unlocks one. Only a locked copy is in the database, one copy per approved token wrapped under a key from it, and in backups, where deleted copies stay until the backup expires, up to 30 days. The AIs, web app and scripts hold a token but never the key, and the server unlocks it for them. AI providers see only the results they asked for. A hosted bridge holds a bridge key derived from the account key, for its lease, never the key itself. Logs and operator staff hold no key, no token and no plaintext. A token opens only its own copy, so deleting that copy cuts its holder off at once. With a hosted bridge the key still rests only on the user's desktop, and the bridge holds a derived key.
   subgraph never["Never holds the key"]
     direction TB
-    N1["AIs, board and scripts<br/>hold a token, never the<br/>key, the server unlocks<br/>it for them"]
+    N1["AIs, web app and scripts<br/>hold a token, never the<br/>key, the server unlocks<br/>it for them"]
     N2["AI providers<br/>see only the results<br/>they asked for"]
+    N4["Hosted bridge<br/>holds a bridge key<br/>derived from it, for its<br/>lease, never the key"]
     N3["Logs and operator staff<br/>no key, no token,<br/>no plaintext"]
-    N1 ~~~ N2 ~~~ N3
+    N1 ~~~ N2 ~~~ N4 ~~~ N3
   end
   subgraph locked["Only a locked copy"]
     direction TB
@@ -51,19 +72,40 @@ flowchart TB
     L2["Backups<br/>deleted copies stay<br/>until the backup expires,<br/>up to 30 days"]
     L1 ~~~ L2
   end
-  subgraph clear["In the clear"]
+  subgraph clear["Account key in the clear"]
     direction TB
     K1["Desktop OS keystore<br/>the key at rest, on each<br/>approved desktop, made<br/>on the first one"]
-    K2["Server memory<br/>the key and its two<br/>derived keys, for one<br/>approved request only"]
-    K1 ~~~ K2
+    K2["Server memory<br/>the key and its derived<br/>keys, for one approved<br/>request only"]
+    K3["Attested worker<br/>in memory for the length<br/>of its lease, if the user<br/>unlocks one"]
+    K1 ~~~ K2 ~~~ K3
   end
   classDef hot stroke:#c8932e,fill:#fbf3e3,color:#1f2933
-  class K1,K2 hot
+  class K1,K2,K3 hot
+```
+
+<a id="two-ways-to-collect"></a>
+
+## Figure 5.3. Two ways to collect: the desktop node and the hosted bridge write into one mirror
+
+*Two collectors, one mirror: the bridge can write but not read back*
+
+In [5. How it works](08-how-it-works.md). Two ways to collect. Both are unlocked only by the user's key and write into the same mirror. The sources (hosted mail, calendars, contacts, device clouds and encrypted chats) feed either the desktop node or the hosted bridge. The desktop node runs on the user's own machine, holds the account key, and encrypts and tags before upload. The hosted bridge runs on the service's machines, is locked until the user's device unlocks it on a lease, and seals messages it cannot read back. Both write to the mirror: the same mirror for both, under one account key, with one format at rest. An approved request opens each sealed message, re-encrypts it under the content key and computes its tags. Encrypted chats that need the vendor's own hardware or client are carried by the desktop node only.
+
+```mermaid
+flowchart LR
+  accTitle: Two collectors, one mirror: the bridge can write but not read back
+  accDescr: Two ways to collect. Both are unlocked only by the user's key and write into the same mirror. The sources (hosted mail, calendars, contacts, device clouds and encrypted chats) feed either the desktop node or the hosted bridge. The desktop node runs on the user's own machine, holds the account key, and encrypts and tags before upload. The hosted bridge runs on the service's machines, is locked until the user's device unlocks it on a lease, and seals messages it cannot read back. Both write to the mirror: the same mirror for both, under one account key, with one format at rest. An approved request opens each sealed message, re-encrypts it under the content key and computes its tags. Encrypted chats that need the vendor's own hardware or client are carried by the desktop node only.
+  S["Sources<br/>hosted mail, calendars,<br/>contacts, device clouds<br/>and encrypted chats"] --> D["Desktop node<br/>on the user's own machine<br/>holds the account key<br/>encrypts and tags<br/>before upload"]
+  S --> B["Hosted bridge<br/>on the service's machines<br/>locked until the user's<br/>device unlocks it,<br/>on a lease<br/>seals messages;<br/>cannot read back"]
+  D --> M["Mirror<br/>the same mirror for both,<br/>under one account key;<br/>one format at rest"]
+  B --> M
+  M ~~~ N["An approved request opens each<br/>sealed message, re-encrypts it under<br/>the content key and computes its<br/>tags. Encrypted chats that need the<br/>vendor's own hardware or client are<br/>carried by the desktop node only."]:::note
+  classDef note fill:none,stroke:none,color:#5f7183
 ```
 
 <a id="create-4-parties"></a>
 
-## Figure 5.2. Create: the desktop makes the account key and uploads only a locked copy
+## Figure 5.4. Create: the desktop makes the account key and uploads only a locked copy
 
 *The account key is born on the desktop, and only a locked copy reaches the server*
 
@@ -88,7 +130,7 @@ sequenceDiagram
 
 <a id="read-3-parties"></a>
 
-## Figure 5.3. Read: a token opens its copy of the account key for one request
+## Figure 5.5. Read: a token opens its copy of the account key for one request
 
 *The account key is unwrapped for one request and never written down*
 
@@ -114,7 +156,7 @@ sequenceDiagram
 
 <a id="update-4-parties"></a>
 
-## Figure 5.4. Update: a new reader or writer gets its own token and its own locked copy
+## Figure 5.6. Update: a new reader or writer gets its own token and its own locked copy
 
 *A new holder gets its own copy, made inside the user's session*
 
@@ -137,7 +179,7 @@ sequenceDiagram
 
 <a id="expire-3-parties"></a>
 
-## Figure 5.5. Expire: an expired token is refused and its copy is deleted
+## Figure 5.7. Expire: an expired token is refused and its copy is deleted
 
 *An expired token finds no copy and is refused*
 
@@ -159,7 +201,7 @@ sequenceDiagram
 
 <a id="delete-4-parties"></a>
 
-## Figure 5.6. Delete: access ends when a token's hash and its copy are deleted
+## Figure 5.8. Delete: access ends when a token's hash and its copy are deleted
 
 *Deleting copies is how access ends*
 
@@ -178,31 +220,82 @@ sequenceDiagram
   Note over U: If every holder is lost, the next<br/>desktop makes a new account key<br/>and collects again.
 ```
 
-<a id="collect-and-push-4-parties"></a>
+<a id="unlocking-the-hosted-bridge"></a>
 
-## Figure 5.7. Collect and push: messages are encrypted on the desktop before upload
+## Figure 5.9. Unlocking the hosted bridge: the user's device checks the image, then seals the bridge key under a lease
 
-*Messages are encrypted on the desktop before they leave it*
+*The bridge stays locked until the user's device has checked what it runs*
 
-In [5. How it works](08-how-it-works.md). Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
+In [5. How it works](08-how-it-works.md). Unlocking the hosted bridge. The hosted bridge starts locked: its state is ciphertext under the bridge key. On start it makes a one-time key pair and an attestation of its image. It sends the approved device an attestation binding the one-time public key to the image's measurement. The approved device checks the measurement against the published, append-only log of release images. It then sends the bridge the bridge key, sealed to the one-time public key. The unlock is a lease (proposed: 7 days). Approved devices renew it in the background. If none does, the bridge erases the bridge key and stops. After any restart the bridge is locked again until a device unlocks it.
 
 ```mermaid
 sequenceDiagram
-  accTitle: Messages are encrypted on the desktop before they leave it
-  accDescr: Collect and push. The desktop app reads a new message from a local source, such as mail, chat or calendar. It encrypts the message under the account key and computes its search tags. It sends the ciphertext and tags to the server over TLS, with its token. The server stores them and cannot read them. The message is searchable as soon as it is stored.
-  participant D as Desktop app
+  accTitle: The bridge stays locked until the user's device has checked what it runs
+  accDescr: Unlocking the hosted bridge. The hosted bridge starts locked: its state is ciphertext under the bridge key. On start it makes a one-time key pair and an attestation of its image. It sends the approved device an attestation binding the one-time public key to the image's measurement. The approved device checks the measurement against the published, append-only log of release images. It then sends the bridge the bridge key, sealed to the one-time public key. The unlock is a lease (proposed: 7 days). Approved devices renew it in the background. If none does, the bridge erases the bridge key and stops. After any restart the bridge is locked again until a device unlocks it.
+  participant D as Approved device
+  participant B as Hosted bridge
+  participant L as Release log
+  Note over B: starts locked: its state is<br/>ciphertext under the bridge key
+  Note over B: on start: make a one-time key<br/>pair and an attestation of its<br/>image
+  B->>D: attestation binding the one-time<br/>public key to the image's<br/>measurement
+  D->>L: check the measurement against the<br/>published, append-only log of<br/>release images
+  D->>B: the bridge key, sealed to the<br/>one-time public key
+  Note over D,B: The unlock is a lease (proposed<br/>7 days). Approved devices renew it<br/>in the background. If none does,<br/>the bridge erases the bridge key<br/>and stops.
+  Note over D,L: After any restart the bridge is<br/>locked again until a device<br/>unlocks it.
+```
+
+<a id="collect-and-push-4-parties"></a>
+
+## Figure 5.10. Collect and push: messages are encrypted on the collector node before upload
+
+*Messages are encrypted on the collector node before they leave it*
+
+In [5. How it works](08-how-it-works.md). Collect and push. The collector node reads a new message from a source, such as mail, chat or calendar. It encrypts the message with the keys its model holds (5.1). It sends the encrypted message to the server over TLS. The server stores it and cannot read it. The message is searchable as soon as it is stored and tagged.
+
+```mermaid
+sequenceDiagram
+  accTitle: Messages are encrypted on the collector node before they leave it
+  accDescr: Collect and push. The collector node reads a new message from a source, such as mail, chat or calendar. It encrypts the message with the keys its model holds (5.1). It sends the encrypted message to the server over TLS. The server stores it and cannot read it. The message is searchable as soon as it is stored and tagged.
+  participant C as Collector node
   participant S as Server
   participant DB as Database
-  Note over D: read a new message from a local<br/>source, mail, chat or calendar
-  Note over D: encrypt it under the account key,<br/>compute its search tags
-  D->>S: ciphertext and tags over TLS, with its token
-  S->>DB: store them, the server cannot read them
-  Note over S,DB: The message is searchable as soon<br/>as it is stored.
+  Note over C: read a new message from a<br/>source, mail, chat or calendar
+  Note over C: encrypt it with the keys its<br/>model holds (5.1)
+  C->>S: the encrypted message, over TLS
+  S->>DB: store it, the server cannot read it
+  Note over S,DB: The message is searchable as soon<br/>as it is stored and tagged.
+```
+
+<a id="writing-through-the-hosted-bridge"></a>
+
+## Figure 5.11. Writing through the hosted bridge: each message is sealed to the account's public key
+
+*The bridge seals each message to the account's public key and cannot read it back*
+
+In [5. How it works](08-how-it-works.md). Writing through a hosted bridge. The collector node, as a hosted bridge, receives a message from a chat service as a linked device. It seals the message with HPKE to the account's public key and sends the sealed message to the server, which stores it in the database. The next approved request from a reader or writer, with its token, reaches the server. Inside that request the server opens the sealed message, re-encrypts it under the content key and computes its tags. It stores it in the database in the mirror's one format. Revoking the bridge ends its lease, unlinks its device from each chat service and rotates the bridge key.
+
+```mermaid
+sequenceDiagram
+  accTitle: The bridge seals each message to the account's public key and cannot read it back
+  accDescr: Writing through a hosted bridge. The collector node, as a hosted bridge, receives a message from a chat service as a linked device. It seals the message with HPKE to the account's public key and sends the sealed message to the server, which stores it in the database. The next approved request from a reader or writer, with its token, reaches the server. Inside that request the server opens the sealed message, re-encrypts it under the content key and computes its tags. It stores it in the database in the mirror's one format. Revoking the bridge ends its lease, unlinks its device from each chat service and rotates the bridge key.
+  participant U as User
+  participant C as Collector node
+  participant R as Reader or writer
+  participant S as Server
+  participant DB as Database
+  Note over C: as a hosted bridge: receive a<br/>message from a chat service,<br/>as a linked device
+  Note over C: seal it with HPKE to the<br/>account's public key
+  C->>S: the sealed message
+  S->>DB: store it
+  R->>S: the next approved request,<br/>with its token
+  Note over S: open the sealed message,<br/>re-encrypt it under the content<br/>key, compute its tags
+  S->>DB: store it in the mirror's<br/>one format
+  Note over U,C: Revoking the bridge ends its<br/>lease, unlinks its device from<br/>each chat service and rotates<br/>the bridge key.
 ```
 
 <a id="approve-a-reader-or-writer-4-parties"></a>
 
-## Figure 5.8. Approve a reader or writer: one approval, one token, one locked copy
+## Figure 5.12. Approve a reader or writer: one approval, one token, one locked copy
 
 *Approving a reader or writer creates one token and one copy of the account key*
 
@@ -224,7 +317,7 @@ sequenceDiagram
 
 <a id="search-and-retrieve-3-parties-one-request"></a>
 
-## Figure 5.9. Search and retrieve: the account key is opened for one request only
+## Figure 5.13. Search and retrieve: the account key is opened for one request only
 
 *The account key is unlocked for one request and dropped when it ends*
 
@@ -249,7 +342,7 @@ sequenceDiagram
 
 <a id="update-4-parties-2"></a>
 
-## Figure 5.10. Update: a writer's change is encrypted on the server inside its request
+## Figure 5.14. Update: a writer's change is encrypted on the server inside its request
 
 *A writer's change is encrypted on the server and seen on the next read*
 
@@ -271,7 +364,7 @@ sequenceDiagram
 
 <a id="revoke-and-recover-4-parties"></a>
 
-## Figure 5.11. Revoke and recover: one deletion cuts a holder off, and recovery needs another approved device
+## Figure 5.15. Revoke and recover: one deletion cuts a holder off, and recovery needs another approved device
 
 *Revoking deletes a copy, and recovery needs another approved device*
 
@@ -282,7 +375,7 @@ sequenceDiagram
   accTitle: Revoking deletes a copy, and recovery needs another approved device
   accDescr: Revoke and recover. The user revokes a token, or a lost desktop, and the server deletes its hash and its copy in the database. A new desktop asks the server to join, the user approves the new desktop, and the server gives the new desktop its own token, which opens its own copy of the account key. If every holder is lost, the mirror cannot be read, and a new desktop makes a new account key and collects again from the sources.
   participant U as User
-  participant D as Desktop app
+  participant D as Collector node
   participant S as Server
   participant DB as Database
   U->>S: revoke a token, or a lost desktop
@@ -291,6 +384,25 @@ sequenceDiagram
   U->>S: approve the new desktop
   S-->>D: its own token, which opens its own copy of the account key
   Note over D,DB: If every holder is lost, the<br/>mirror cannot be read. A new<br/>desktop makes a new account key<br/>and collects again from the<br/>sources.
+```
+
+<a id="model-outputs-stay-encrypted"></a>
+
+## Figure 5.16. Model outputs: stored as encrypted writes, delivered as a pointer unless the user chooses full text
+
+*Model outputs are stored encrypted; full text leaves only by the user's choice*
+
+In [5. How it works](08-how-it-works.md). Model outputs: where they are made, how they are stored and how they are delivered. Output is made in one of three places, in order of preference: in the user's open session, in the collector node's own push, or in an attested worker on a lease. It is stored as a write, encrypted under the content key with its own tags. It records its source rows, encrypted, and its titles and labels are included. It is delivered as a pointer by default: a notification links to it, and the text opens inside an approved session. Full text goes to a channel only where the user chooses, for each delivery, as labelled plaintext to that channel. Outputs are shown without remote content, and links are shown in full or limited to an allowlist. Deleting or revoking a source deletes, or marks for regeneration, what was derived from it.
+
+```mermaid
+flowchart LR
+  accTitle: Model outputs are stored encrypted; full text leaves only by the user's choice
+  accDescr: Model outputs: where they are made, how they are stored and how they are delivered. Output is made in one of three places, in order of preference: in the user's open session, in the collector node's own push, or in an attested worker on a lease. It is stored as a write, encrypted under the content key with its own tags. It records its source rows, encrypted, and its titles and labels are included. It is delivered as a pointer by default: a notification links to it, and the text opens inside an approved session. Full text goes to a channel only where the user chooses, for each delivery, as labelled plaintext to that channel. Outputs are shown without remote content, and links are shown in full or limited to an allowlist. Deleting or revoking a source deletes, or marks for regeneration, what was derived from it.
+  W["Where output is made<br/>1. in the user's open session<br/>2. in the collector node's<br/>own push<br/>3. in an attested worker<br/>on a lease"] --> S["Stored as a write<br/>encrypted under the content<br/>key, with its own tags<br/>records its source rows,<br/>encrypted<br/>titles and labels included"]
+  S --> P["Pointer, by default<br/>a notification links to it;<br/>the text opens inside an<br/>approved session"]
+  S --> F["Full text to a channel<br/>only where the user chooses,<br/>for each delivery; labelled<br/>plaintext to that channel"]
+  S ~~~ N["Outputs are shown without remote<br/>content; links are shown in full or<br/>limited to an allowlist. Deleting or<br/>revoking a source deletes, or marks<br/>for regeneration, what was derived<br/>from it."]:::note
+  classDef note fill:none,stroke:none,color:#5f7183
 ```
 
 <a id="latency-budget-targets-at-the-95th-percentile-not-measurements"></a>

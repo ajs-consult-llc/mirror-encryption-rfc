@@ -1,0 +1,9 @@
+flowchart LR
+  accTitle: Each join decides who can read; end-to-end encryption ends at the mirror
+  accDescr: The chain of joins. Sources (end-to-end encrypted chats, hosted mail, calendars, contacts and device clouds) feed the collector node. On that hop the guarantee is set by the chat's own protocol, or by the source's provider. At the collector node, with the desktop node only the user's devices can read, and with a hosted bridge the bridge can read as well. The collector feeds the mirror. On that hop the guarantee is set by this design, encryption under the user's keys. At the mirror the server reads, inside an approved request only. End-to-end encryption ends here. From the mirror, data goes to an AI reader, where the AI provider reads and its terms and retention apply, and to a delivery channel, where the user sends an output, and that service and any recipient can read.
+  S["Sources<br/>end-to-end encrypted<br/>chats; hosted mail,<br/>calendars, contacts,<br/>device clouds"] -->|"the chat's own protocol,<br/>or the source's provider"| C["Collector node<br/>desktop node: only<br/>the user's devices<br/>hosted bridge: the<br/>bridge as well"]
+  C -->|"this design: encryption<br/>under the user's keys"| M["Mirror<br/>the server reads,<br/>inside an approved<br/>request only"]
+  M --> A["AI reader<br/>the AI provider<br/>reads; its terms and<br/>retention apply"]
+  M --> L["Delivery channel<br/>where the user sends<br/>an output: that<br/>service and any<br/>recipient can read"]
+  M ~~~ N["End-to-end encryption<br/>ends here"]:::note
+  classDef note fill:none,stroke:none,color:#5f7183

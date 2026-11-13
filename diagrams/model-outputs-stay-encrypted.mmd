@@ -1,0 +1,8 @@
+flowchart LR
+  accTitle: Model outputs are stored encrypted; full text leaves only by the user's choice
+  accDescr: Model outputs: where they are made, how they are stored and how they are delivered. Output is made in one of three places, in order of preference: in the user's open session, in the collector node's own push, or in an attested worker on a lease. It is stored as a write, encrypted under the content key with its own tags. It records its source rows, encrypted, and its titles and labels are included. It is delivered as a pointer by default: a notification links to it, and the text opens inside an approved session. Full text goes to a channel only where the user chooses, for each delivery, as labelled plaintext to that channel. Outputs are shown without remote content, and links are shown in full or limited to an allowlist. Deleting or revoking a source deletes, or marks for regeneration, what was derived from it.
+  W["Where output is made<br/>1. in the user's open session<br/>2. in the collector node's<br/>own push<br/>3. in an attested worker<br/>on a lease"] --> S["Stored as a write<br/>encrypted under the content<br/>key, with its own tags<br/>records its source rows,<br/>encrypted<br/>titles and labels included"]
+  S --> P["Pointer, by default<br/>a notification links to it;<br/>the text opens inside an<br/>approved session"]
+  S --> F["Full text to a channel<br/>only where the user chooses,<br/>for each delivery; labelled<br/>plaintext to that channel"]
+  S ~~~ N["Outputs are shown without remote<br/>content; links are shown in full or<br/>limited to an allowlist. Deleting or<br/>revoking a source deletes, or marks<br/>for regeneration, what was derived<br/>from it."]:::note
+  classDef note fill:none,stroke:none,color:#5f7183

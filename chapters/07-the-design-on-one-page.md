@@ -3,7 +3,7 @@
 There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts everything, and SHA-256 does the rest as a hash, as HMAC and as HKDF. Everything else follows from them.
 
 <!-- diagram: Figure 4.1. The whole design: one account key, one kind of token, a database and a blob store -->
-![Plaintext exists only on the desktop and inside an approved request](../figures/the-whole-design-1-key-1-kind-of-token.png)
+![Plaintext exists only on the collector node and inside an approved request](../figures/the-whole-design-1-key-1-kind-of-token.png)
 
 **Figure 4.1.** The whole design: one account key, one kind of token, a database and a blob store · [Text version](14-appendix-b-the-diagrams-as-text.md#the-whole-design-1-key-1-kind-of-token)
 <!-- /diagram -->
@@ -12,7 +12,7 @@ There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts ev
 
 > Why this is current best practice: a full-strength random key from an approved generator ([NIST SP 800-133 Rev. 2](https://csrc.nist.gov/pubs/sp/800/133/r2/final)); one key per purpose, never one key for two jobs ([NIST SP 800-57 Part 1 Rev. 5](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final), key separation); and working keys derived with HKDF ([RFC 5869](https://www.rfc-editor.org/rfc/rfc5869)), the extract-then-expand construction NIST approves in [SP 800-56C Rev. 2](https://csrc.nist.gov/pubs/sp/800/56/c/r2/final) and the one TLS 1.3 uses for all its keys ([RFC 8446](https://www.rfc-editor.org/rfc/rfc8446)).
 
-- **Encrypted at the source.** The desktop app encrypts each message with AES-256-GCM, bound to the account and the message's id, and computes its search tags with HMAC-SHA256. Only ciphertext and tags leave the desktop. Attachments are the exception: the desktop uploads them as they are, and the storage service encrypts each one under a storage key that is derived from the account key, supplied with the request and never kept (see Decisions made to simplify).
+- **Encrypted at the source.** The desktop app encrypts each message with AES-256-GCM, bound to the account and the message's id, and computes its search tags with HMAC-SHA256. Only ciphertext and tags leave the desktop. A hosted bridge, where the user runs one, seals each message to the account's public key instead and cannot read it back (5.1.2). Attachments are the exception: the desktop uploads them as they are, and the storage service encrypts each one under a storage key that is derived from the account key, supplied with the request and never kept (see Decisions made to simplify).
 
 > Why this is current best practice: AES-256-GCM is the NIST-approved authenticated encryption mode ([SP 800-38D](https://csrc.nist.gov/pubs/sp/800/38/d/final), over AES in [FIPS 197](https://csrc.nist.gov/pubs/fips/197/final)), so tampering is detected, not just hidden. Binding each ciphertext to its account and message id as associated data follows the AEAD design in [RFC 5116](https://www.rfc-editor.org/rfc/rfc5116), which stops a stored ciphertext being swapped into another row or account. HMAC-SHA256 is the approved keyed hash ([FIPS 198-1](https://csrc.nist.gov/pubs/fips/198-1/final)), and keyed tags over fragments are the classic construction for search over encrypted data ([Song, Wagner and Perrig, IEEE S&P 2000](https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf)). Its known limit, that equal fragments produce equal tags, is question 1, and GCM's nonce limit is question 2.
 
@@ -28,6 +28,6 @@ There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts ev
 
 > Why this is current best practice: revoking one holder deletes its only way to open the key through the service. Deleting every copy, as account deletion does, is cryptographic erase, a sanitization method NIST recognizes ([SP 800-88 Rev. 1](https://csrc.nist.gov/pubs/sp/800/88/r1/final)). Revoking a token server-side, effective on its next use, is what OAuth token revocation specifies ([RFC 7009](https://www.rfc-editor.org/rfc/rfc7009)). Two gaps remain: backups hold old copies for up to 30 days, and the other copies of the same key stay valid (see What it does not protect).
 
-The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token. An attested worker, if the user unlocks one, is the exception: it holds its own key for the length of its lease (5.5).
+The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token. An attested worker, if the user unlocks one, is the exception: it holds its own key for the length of its lease (5.3).
 
 **One rule for every credential.** Each credential has its own locked copy of the account key. Every hand-off opens the copy with the old credential, locks a new copy under the new one, and deletes the old. An OAuth authorization code, the web app's connect code and a renewed token are all hand-offs of this kind, so the server never needs to store a token while one is in transit. A recovery code is the same thing on paper.

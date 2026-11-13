@@ -8,4 +8,4 @@ Encryption costs the answer well under a second: the mirror's whole share is tar
 **Figure 6.1.** Latency budget: targets at the 95th percentile, not measurements · [Text version](14-appendix-b-the-diagrams-as-text.md#latency-budget-targets-at-the-95th-percentile-not-measurements)
 <!-- /diagram -->
 
-These are targets, not measurements. Before launch they are measured on a synthetic account the size of the largest real one, about 1.6 million messages. A new message is searchable once its upload completes; the target is under 2 seconds from arriving on the desktop.
+These are targets, not measurements. Before launch they are measured on a synthetic account the size of the largest real one, about 1.6 million messages. A new message is searchable once its upload completes; the target is under 2 seconds from arriving at the collector node.
