@@ -272,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="rfc-actions"><button type="button" class="rfc-btn" id="rfc-suggest">Suggest edits</button>
 <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/CONTRIBUTING.md">How suggestions are credited</a> · <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/06-system-requirements.md">Edit the Markdown on GitHub</a></div>
 </div>
-<p>The design exists to meet five requirements, and nothing in it serves anything else.</p>
+<p>The design exists to meet six requirements, and nothing in it serves anything else.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -294,8 +294,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>R2</td>
-<td>The desktop sync app collects and pushes messages in real time, encrypted from the source</td>
-<td>The app encrypts each message under a content key derived from the account key, and computes its search tags, before it uploads. The server never receives plaintext from the app. Attachments are the exception (see Decisions made to simplify).</td>
+<td>A collector node collects and pushes messages in real time, encrypted from the source</td>
+<td>The node is the user’s desktop app (5.1.1) or a hosted bridge unlocked by the user’s key (5.1.2). The desktop encrypts each message under a content key derived from the account key, and computes its search tags, before it uploads. The bridge seals each message to the account’s public key, so it cannot read the mirror back. The database never receives plaintext from either. Attachments are the exception (see Decisions made to simplify).</td>
 </tr>
 <tr class="odd">
 <td>R3</td>
@@ -311,6 +311,11 @@ ul.task-list li input[type="checkbox"] {
 <td>R5</td>
 <td>Under 10 seconds from a user’s question to the AI’s first response</td>
 <td>The mirror’s share is budgeted at 1 second at the 95th percentile. The rest belongs to the AI.</td>
+</tr>
+<tr class="even">
+<td>R6</td>
+<td>Model outputs stay encrypted back to the user</td>
+<td>Everything a model writes for the user is stored as a write under the content key, remembers its sources, and leaves the mirror in the clear only where the user chooses (5.3).</td>
 </tr>
 </tbody>
 </table>

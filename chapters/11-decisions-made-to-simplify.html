@@ -288,9 +288,9 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Every source is collected on the desktop</td>
-<td>Server-side collectors, and the public-key sealing they needed for mail that arrives while nobody is calling</td>
-<td>A source that can only be read server-side, such as a hosted inbox or a chat bot, is out of scope until it can run on the desktop</td>
+<td>Every source is collected by a node the user’s key unlocks: the desktop, or a hosted bridge</td>
+<td>Server-side collectors that run without the user’s key</td>
+<td>The hosted bridge brings back public-key sealing (HPKE) for writes it cannot read back, and it means something only with attestation and a lease (5.1.2)</td>
 </tr>
 <tr class="even">
 <td>The token is its own secret</td>
@@ -303,9 +303,9 @@ ul.task-list li input[type="checkbox"] {
 <td>Its use is recorded in the service’s own log rather than by the cloud provider’s audit log</td>
 </tr>
 <tr class="even">
-<td>Background AI work needs a reader</td>
-<td>Server-side processing with no request open. Triage or filing runs on the desktop, or inside a reader’s request.</td>
-<td>Nothing is processed while every reader is idle</td>
+<td>Background AI work needs a reader or an attested worker</td>
+<td>Server-side processing the user never unlocked. Triage, filing and briefings run on the desktop, inside a reader’s request, or in a worker the user unlocked under a lease (5.3).</td>
+<td>While no reader is active and no lease is live, nothing is processed</td>
 </tr>
 <tr class="odd">
 <td>Attachments are encrypted by the storage service, under a key derived from the account key</td>

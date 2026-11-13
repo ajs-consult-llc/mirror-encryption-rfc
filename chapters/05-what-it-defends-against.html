@@ -274,10 +274,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>The design has one goal: a copy of the stored data is useless without a credential the user approved. It does not hide data from the server while the server answers an approved request.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Who</th>
@@ -299,7 +295,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>A compromised server, or an operator who changes the server’s code</td>
-<td>No.&nbsp;It sees the account key during any approved request and could keep it.</td>
+<td>No.&nbsp;It sees the account key during any approved request and could keep it. Mitigated, not closed: the security-critical code is published, and the service is run to recognised cloud security standards (<a href="https://www.iso.org/standard/27017">ISO/IEC 27017</a>, the <a href="https://cloudsecurityalliance.org/research/cloud-controls-matrix">CSA Cloud Controls Matrix</a> and <a href="https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final">NIST SP 800-53 Rev.&nbsp;5</a>).</td>
 </tr>
 <tr class="odd">
 <td>Malware on the user’s desktop</td>

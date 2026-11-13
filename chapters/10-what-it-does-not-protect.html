@@ -272,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="rfc-actions"><button type="button" class="rfc-btn" id="rfc-suggest">Suggest edits</button>
 <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/CONTRIBUTING.md">How suggestions are credited</a> · <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/10-what-it-does-not-protect.md">Edit the Markdown on GitHub</a></div>
 </div>
-<p>This is encryption controlled by the user’s keys, not end-to-end encryption: the server decrypts inside each approved request. The limits follow.</p>
+<p>This is encryption controlled by the user’s keys, not end-to-end encryption: the server decrypts inside each approved request. By the definition in <a href="https://arxiv.org/abs/2412.20231">Knodel et al.&nbsp;(2025)</a>, a cloud machine is never an endpoint however it is keyed, so neither a hosted bridge (5.1.2) nor an attested worker (5.3) makes it end-to-end encryption (question 8). The limits follow.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -287,11 +287,11 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>The server holds the account key and the results while it answers</td>
-<td>A compromised server can capture the account key from any approved request. That one key opens the whole mirror, past and future, until the key is rotated. Proving which code the server runs (attestation) would close this; it is not in this design.</td>
+<td>A compromised server can capture the account key from any approved request. That one key opens the whole mirror, past and future, until the key is rotated. Proving which code the server runs (attestation) would close this; it is not in this design. Mitigation: the security-critical code (whatever handles keys, tokens or plaintext) is published, so anyone can check what the server is meant to do, and the service is run to the cloud security standards named in What it defends against, whose controls include least privilege, separation of duties, and reviewed, logged changes to production code. These make a compromise or a rogue change harder to carry out and easier to detect. They do not prove what the running server does.</td>
 </tr>
 <tr class="even">
-<td>AI providers see what they retrieve</td>
-<td>Their handling of results is outside this design</td>
+<td>AI providers see what they retrieve and what they write</td>
+<td>Their handling of prompts and outputs, including retention, is outside this design</td>
 </tr>
 <tr class="odd">
 <td>Search tags reveal which messages share a fragment</td>
@@ -322,8 +322,8 @@ ul.task-list li input[type="checkbox"] {
 <td>They must be kept out of logs, traces and error reports. Whatever ends TLS in front of the server sees tokens too. Mitigation: the implementation’s source code is published, and automated tests plant marker values in tokens, queries and results and fail if a marker reaches a log, a trace, an error report or stored data. Publishing the source shows what the code does; proving that the running server is that code is what attestation would add (question 7).</td>
 </tr>
 <tr class="even">
-<td>The mirror is only as fresh as the desktop</td>
-<td>While the desktop is off or asleep, nothing new is collected</td>
+<td>The mirror is only as fresh as its collector node</td>
+<td>While the collector node is off or locked, nothing new is collected</td>
 </tr>
 <tr class="odd">
 <td>Search needs a fixed fragment of three or more characters</td>
@@ -332,6 +332,26 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td>Attachments are encrypted by the storage service, not on the desktop</td>
 <td>The storage service sees each file in the clear while it handles an upload or a read. At rest, a file opens only with the storage key, which is derived from the account key inside an approved request. The bucket’s access policy stays as a second line.</td>
+</tr>
+<tr class="odd">
+<td>A hosted bridge sees what it carries</td>
+<td>While unlocked, the bridge sees every message passing through it, and so does anyone who controls its machine if attestation fails. It cannot start without the user’s device, and cannot read the mirror’s history (5.1.2).</td>
+</tr>
+<tr class="even">
+<td>A hosted bridge is a device on the user’s chat accounts</td>
+<td>The other people in a conversation agreed to the user’s devices, not to a hosted one, and are not told. Its identity at the chat service lasts until it is unlinked, and a chat service’s terms may forbid it.</td>
+</tr>
+<tr class="odd">
+<td>Attestation trusts the hardware maker</td>
+<td>The hosted bridge and the attested worker are only as sound as the confidential-computing hardware and its maker’s keys.</td>
+</tr>
+<tr class="even">
+<td>Outputs are shaped by untrusted inputs</td>
+<td>An injected instruction in an incoming message can steer what a model writes. The rendering rules limit what an output can send out (5.3); they do not stop the model being misled.</td>
+</tr>
+<tr class="odd">
+<td>Outputs sent to a channel are plaintext to that channel</td>
+<td>A mail or chat service sees any output the user chooses to send it in full.</td>
 </tr>
 </tbody>
 </table>

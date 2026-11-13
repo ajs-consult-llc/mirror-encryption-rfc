@@ -291,65 +291,90 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>5.1</td>
-<td>Where the account key lives in the clear, and where only locked copies exist</td>
-<td>5.1</td>
+<td>The chain of joins: who can read at each join point, and what sets each hop’s guarantee</td>
+<td>5</td>
 </tr>
 <tr class="odd">
 <td>5.2</td>
-<td>Create: the desktop makes the account key and uploads only a locked copy</td>
-<td>5.1.1</td>
+<td>Where the account key lives in the clear, and where only locked copies exist</td>
+<td>5.1</td>
 </tr>
 <tr class="even">
 <td>5.3</td>
-<td>Read: a token opens its copy of the account key for one request</td>
-<td>5.1.2</td>
+<td>Two ways to collect: the desktop node and the hosted bridge write into one mirror</td>
+<td>5.1</td>
 </tr>
 <tr class="odd">
 <td>5.4</td>
-<td>Update: a new reader or writer gets its own token and its own locked copy</td>
-<td>5.1.3</td>
+<td>Create: the desktop makes the account key and uploads only a locked copy</td>
+<td>5.1.1.1</td>
 </tr>
 <tr class="even">
 <td>5.5</td>
-<td>Expire: an expired token is refused and its copy is deleted</td>
-<td>5.1.4</td>
+<td>Read: a token opens its copy of the account key for one request</td>
+<td>5.1.1.2</td>
 </tr>
 <tr class="odd">
 <td>5.6</td>
-<td>Delete: access ends when a token’s hash and its copy are deleted</td>
-<td>5.1.5</td>
+<td>Update: a new reader or writer gets its own token and its own locked copy</td>
+<td>5.1.1.3</td>
 </tr>
 <tr class="even">
 <td>5.7</td>
-<td>Collect and push: messages are encrypted on the desktop before upload</td>
-<td>5.2.1</td>
+<td>Expire: an expired token is refused and its copy is deleted</td>
+<td>5.1.1.4</td>
 </tr>
 <tr class="odd">
 <td>5.8</td>
+<td>Delete: access ends when a token’s hash and its copy are deleted</td>
+<td>5.1.1.5</td>
+</tr>
+<tr class="even">
+<td>5.9</td>
+<td>Unlocking the hosted bridge: the user’s device checks the image, then seals the bridge key under a lease</td>
+<td>5.1.2.2</td>
+</tr>
+<tr class="odd">
+<td>5.10</td>
+<td>Collect and push: messages are encrypted on the collector node before upload</td>
+<td>5.2.1</td>
+</tr>
+<tr class="even">
+<td>5.11</td>
+<td>Writing through the hosted bridge: each message is sealed to the account’s public key</td>
+<td>5.2.1</td>
+</tr>
+<tr class="odd">
+<td>5.12</td>
 <td>Approve a reader or writer: one approval, one token, one locked copy</td>
 <td>5.2.2</td>
 </tr>
 <tr class="even">
-<td>5.9</td>
+<td>5.13</td>
 <td>Search and retrieve: the account key is opened for one request only</td>
 <td>5.2.3</td>
 </tr>
 <tr class="odd">
-<td>5.10</td>
+<td>5.14</td>
 <td>Update: a writer’s change is encrypted on the server inside its request</td>
 <td>5.2.4</td>
 </tr>
 <tr class="even">
-<td>5.11</td>
+<td>5.15</td>
 <td>Revoke and recover: one deletion cuts a holder off, and recovery needs another approved device</td>
 <td>5.2.5</td>
 </tr>
 <tr class="odd">
+<td>5.16</td>
+<td>Model outputs: stored as encrypted writes, delivered as a pointer unless the user chooses full text</td>
+<td>5.3</td>
+</tr>
+<tr class="even">
 <td>6.1</td>
 <td>Latency budget: targets at the 95th percentile, not measurements</td>
 <td>6</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A.1</td>
 <td>One shared database compared with one database per user</td>
 <td>Appendix A</td>

@@ -272,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="rfc-actions"><button type="button" class="rfc-btn" id="rfc-suggest">Suggest edits</button>
 <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/blob/main/CONTRIBUTING.md">How suggestions are credited</a> · <a href="https://github.com/ajs-consult-llc/mirror-encryption-rfc/edit/main/chapters/12-questions-for-reviewers.md">Edit the Markdown on GitHub</a></div>
 </div>
-<p>These seven are where review is wanted most.</p>
+<p>These nine are where review is wanted most.</p>
 <ol type="1">
 <li><strong>Search leakage.</strong> Is a keyed trigram index acceptable for this threat model, or should tag sets be padded?</li>
 <li><strong>Nonce budget.</strong> One content key encrypts every message for the account’s life with random 96-bit nonces, and NIST SP 800-38D limits that to 2³² uses per key. The largest account today holds about 1.6 million messages, far below that. Proposed answer: derive a new content key each year with HKDF from the account key and the year, so the limit applies per year and nothing extra is stored. Is that enough, or is a cipher that tolerates nonce reuse (AES-GCM-SIV, XAES-256-GCM) still worth adding?</li>
@@ -280,7 +280,9 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Token lifetimes.</strong> What expiry and renewal should each kind have: desktop, AI access and refresh, web app session, script?</li>
 <li><strong>A second desktop.</strong> Is a matching code shown on both screens enough to approve one, given the cross-device risks set out in RFC 10027? And how should the new desktop’s token reach it without the server storing it: handed to a waiting request in memory, or sealed to a key the new desktop sends?</li>
 <li><strong>Support audit.</strong> Is the service’s own log enough for support access, or is an independent audit worth a second key?</li>
-<li><strong>Attestation.</strong> Is proving which code the server runs worth adding later, to close the first limit?</li>
+<li><strong>Attestation.</strong> Is proving which code the server runs worth adding later, to close the first limit? For the hosted bridge and the attested worker it is not optional: is the unlock in 5.1.2, where the user’s device checks the image against a published log before it seals the bridge key, the right shape?</li>
+<li><strong>What a hosted endpoint is.</strong> By the definition in <a href="https://arxiv.org/abs/2412.20231">Knodel et al.&nbsp;(2025)</a>, a cloud machine is never endpoint-local, however it is keyed, so this design is not end-to-end encryption, and a hosted bridge does not make it so. The <a href="https://datatracker.ietf.org/doc/draft-ietf-mimi-arch/">MIMI architecture</a> treats a member as any client that holds the group’s keys. Is a hosted endpoint, keyed by the user, attested and on a lease, an endpoint of the user’s end-to-end encrypted systems, or a third party? Views from the MIMI working group and CFRG are especially welcome.</li>
+<li><strong>Searching what the bridge writes.</strong> The hosted bridge holds no tag key, so its messages become searchable only when the next approved request, or the desktop, tags them. Is that delay acceptable, or should the bridge hold the tag key, trading the leak in question 1 for search at once?</li>
 </ol>
 
 

@@ -88,14 +88,14 @@ ul.task-list li input[type="checkbox"] {
 <meta property="og:description" content="">
 <meta property="og:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/the-whole-design-1-key-1-kind-of-token.png">
 <meta property="og:site_name" content="Security Reference Architecture for Cloud Data Mirrors">
-<meta property="og:image:alt" content="Plaintext exists only on the desktop and inside an approved request">
+<meta property="og:image:alt" content="Plaintext exists only on the collector node and inside an approved request">
 <meta property="og:image:height" content="890">
 <meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="4. The design on one page – Security Reference Architecture for Cloud Data Mirrors">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://ajs-consult-llc.github.io/mirror-encryption-rfc/figures/the-whole-design-1-key-1-kind-of-token.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image:alt" content="Plaintext exists only on the desktop and inside an approved request">
+<meta name="twitter:image:alt" content="Plaintext exists only on the collector node and inside an approved request">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
@@ -276,7 +276,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>There is one key, one kind of token, and two algorithms: AES-256-GCM encrypts everything, and SHA-256 does the rest as a hash, as HMAC and as HKDF. Everything else follows from them.</p>
 <!-- diagram: Figure 4.1. The whole design: one account key, one kind of token, a database and a blob store -->
-<p><img src="../figures/the-whole-design-1-key-1-kind-of-token.png" class="img-fluid" alt="Plaintext exists only on the desktop and inside an approved request"></p>
+<p><img src="../figures/the-whole-design-1-key-1-kind-of-token.png" class="img-fluid" alt="Plaintext exists only on the collector node and inside an approved request"></p>
 <p><strong>Figure 4.1.</strong> The whole design: one account key, one kind of token, a database and a blob store · <a href="../chapters/14-appendix-b-the-diagrams-as-text.html#the-whole-design-1-key-1-kind-of-token">Text version</a> <!-- /diagram --></p>
 <ul>
 <li><strong>One key.</strong> On installation, the desktop sync application asks the operating system for 256 random bits, and those bits are the “account key”. The user’s OS key store holds the account key and releases it only to approved application(s). The account key never encrypts anything itself. Instead, HKDF-SHA256 turns it into two working keys, one per job: (1) a content key that encrypts each message (AES-256-GCM) and (2) a tag key that computes the search tags (HMAC-SHA256). A third, the storage key, is derived the same way for attachments. They are re-derived whenever they are needed, so nothing extra is stored, and learning one working key reveals neither the other nor the account key. Because both come from the one account key, a reader that can open its copy of the account key can both read messages and search them.</li>
@@ -285,7 +285,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Why this is current best practice: a full-strength random key from an approved generator (<a href="https://csrc.nist.gov/pubs/sp/800/133/r2/final">NIST SP 800-133 Rev.&nbsp;2</a>); one key per purpose, never one key for two jobs (<a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final">NIST SP 800-57 Part 1 Rev.&nbsp;5</a>, key separation); and working keys derived with HKDF (<a href="https://www.rfc-editor.org/rfc/rfc5869">RFC 5869</a>), the extract-then-expand construction NIST approves in <a href="https://csrc.nist.gov/pubs/sp/800/56/c/r2/final">SP 800-56C Rev.&nbsp;2</a> and the one TLS 1.3 uses for all its keys (<a href="https://www.rfc-editor.org/rfc/rfc8446">RFC 8446</a>).</p>
 </blockquote>
 <ul>
-<li><strong>Encrypted at the source.</strong> The desktop app encrypts each message with AES-256-GCM, bound to the account and the message’s id, and computes its search tags with HMAC-SHA256. Only ciphertext and tags leave the desktop. Attachments are the exception: the desktop uploads them as they are, and the storage service encrypts each one under a storage key that is derived from the account key, supplied with the request and never kept (see Decisions made to simplify).</li>
+<li><strong>Encrypted at the source.</strong> The desktop app encrypts each message with AES-256-GCM, bound to the account and the message’s id, and computes its search tags with HMAC-SHA256. Only ciphertext and tags leave the desktop. A hosted bridge, where the user runs one, seals each message to the account’s public key instead and cannot read it back (5.1.2). Attachments are the exception: the desktop uploads them as they are, and the storage service encrypts each one under a storage key that is derived from the account key, supplied with the request and never kept (see Decisions made to simplify).</li>
 </ul>
 <blockquote class="blockquote">
 <p>Why this is current best practice: AES-256-GCM is the NIST-approved authenticated encryption mode (<a href="https://csrc.nist.gov/pubs/sp/800/38/d/final">SP 800-38D</a>, over AES in <a href="https://csrc.nist.gov/pubs/fips/197/final">FIPS 197</a>), so tampering is detected, not just hidden. Binding each ciphertext to its account and message id as associated data follows the AEAD design in <a href="https://www.rfc-editor.org/rfc/rfc5116">RFC 5116</a>, which stops a stored ciphertext being swapped into another row or account. HMAC-SHA256 is the approved keyed hash (<a href="https://csrc.nist.gov/pubs/fips/198-1/final">FIPS 198-1</a>), and keyed tags over fragments are the classic construction for search over encrypted data (<a href="https://people.eecs.berkeley.edu/~dawnsong/papers/se.pdf">Song, Wagner and Perrig, IEEE S&amp;P 2000</a>). Its known limit, that equal fragments produce equal tags, is question 1, and GCM’s nonce limit is question 2.</p>
@@ -308,7 +308,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <p>Why this is current best practice: revoking one holder deletes its only way to open the key through the service. Deleting every copy, as account deletion does, is cryptographic erase, a sanitization method NIST recognizes (<a href="https://csrc.nist.gov/pubs/sp/800/88/r1/final">SP 800-88 Rev.&nbsp;1</a>). Revoking a token server-side, effective on its next use, is what OAuth token revocation specifies (<a href="https://www.rfc-editor.org/rfc/rfc7009">RFC 7009</a>). Two gaps remain: backups hold old copies for up to 30 days, and the other copies of the same key stay valid (see What it does not protect).</p>
 </blockquote>
-<p>The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token.</p>
+<p>The server never stores the account key, a token or plaintext. It holds the account key in memory only while it answers a request from an approved token. An attested worker, if the user unlocks one, is the exception: it holds its own key for the length of its lease (5.3).</p>
 <p><strong>One rule for every credential.</strong> Each credential has its own locked copy of the account key. Every hand-off opens the copy with the old credential, locks a new copy under the new one, and deletes the old. An OAuth authorization code, the web app’s connect code and a renewed token are all hand-offs of this kind, so the server never needs to store a token while one is in transit. A recovery code is the same thing on paper.</p>
 
 
